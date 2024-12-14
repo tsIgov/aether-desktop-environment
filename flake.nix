@@ -7,17 +7,26 @@
 
   outputs = { self, nixpkgs, ... }: 
   let
-    lib = nixpkgs.lib;
-    args = {
-      packages = import nixpkgs { system = builtins.currentSystem; config.allowUnfree = true; };
-    };
-
-    importModules = path: lib.map (x: import x args) (lib.filter (n: lib.strings.hasSuffix ".nix" (builtins.toString n)) (lib.filesystem.listFilesRecursive path));
-  in {
     lib = import ./utilities/lib.nix { lib = nixpkgs.lib; };
+    pkgs = lib.importNixpkgs nixpkgs;
+
+  in {
+    inherit lib;
 
     nixosModules = { 
-      system = {...}:{ imports = importModules ./modules/system; }; 
+      system =  lib.importModulesRecursivelyWithOverridenPkgs ./modules/system pkgs; 
+      user =  lib.importModulesRecursivelyWithOverridenPkgs ./modules/user pkgs; 
+    };
+
+    templates = {
+      system = {
+        path = ./templates/system;
+        description = "";
+        # welcomeText = "
+        #   # Getting Started
+        #   - markdown list item
+        # ";
+      };
     };
   };
 }

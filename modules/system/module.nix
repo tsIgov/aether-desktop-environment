@@ -1,6 +1,6 @@
-{ packages, ...}: { config, lib, ... }:
+{ config, pkgs, lib, ... }:
 {
-	environment.systemPackages = with packages; [
+	environment.systemPackages = with pkgs; [
 		htop
 	];
 }
