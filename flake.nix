@@ -10,7 +10,7 @@
     lib = import ./utilities/lib.nix { lib = nixpkgs.lib; };
     pkgs = lib.importNixpkgs nixpkgs;
 
-    attr = {
+    args = {
       inherit pkgs; 
       custom-pkgs = import ./custom-packages/default.nix { inherit pkgs; };
     };
@@ -19,8 +19,8 @@
     inherit lib;
 
     nixosModules = { 
-      system =  lib.importModulesRecursivelyWithOverridenPkgs ./modules/system attr; 
-      user =  lib.importModulesRecursivelyWithOverridenPkgs ./modules/user attr; 
+      system =  lib.createRecursiveModuleWithExtraArgs ./modules/system args; 
+      user =  lib.createRecursiveModuleWithExtraArgs ./modules/user args; 
     };
 
     templates = {
