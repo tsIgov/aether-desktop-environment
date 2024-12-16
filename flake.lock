@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "hyprland": {
+      "locked": {
+        "lastModified": 1734119587,
+        "narHash": "sha256-AKU6qqskl0yf2+JdRdD0cfxX4b9x3KKV5RqA6wijmPM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3566ab7246670a43abd2ffa913cc62dad9cdf7d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1733940404,
@@ -18,6 +34,7 @@
     },
     "root": {
       "inputs": {
+        "hyprland": "hyprland",
         "nixpkgs": "nixpkgs"
       }
     }
