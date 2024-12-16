@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
 	cfg = config.aether.system.networking;
 in
@@ -21,10 +21,13 @@ in
 	};
 
 	config = {
+		environment.systemPackages = with pkgs; [
+			networkmanagerapplet
+		];
+
 		networking.networkmanager.enable = true;
 		networking.hostName = cfg.hostname;
 
 		programs.nm-applet.enable = true;
 	};
-	#networkmanagerapplet
 }

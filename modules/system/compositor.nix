@@ -1,4 +1,4 @@
-{ hyprland-pkgs, hyprland, pkgs, ... }:
+{ hyprland-pkgs, pkgs, ... }:
 
 {
 	programs.hyprland = {
