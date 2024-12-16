@@ -3,10 +3,10 @@ let
 	importNixpkgs = nixpkgs: import nixpkgs { system = builtins.currentSystem; config.allowUnfree = true; };
 	getModulesRecursively = path: builtins.filter (n: lib.strings.hasSuffix ".nix" (builtins.toString n)) (lib.filesystem.listFilesRecursive path);
 
-	importModulesRecursivelyWithOverridenPkgs = path: pkgs: 
+	importModulesRecursivelyWithOverridenPkgs = path: attr:
 		args: 
 		let
-			newArgs = args // { inherit pkgs; };
+			newArgs = args // attr;
 			modules = getModulesRecursively path;
 		in
 		{ 

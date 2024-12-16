@@ -1,0 +1,72 @@
+format = """
+$os $directory $git_branch $git_status
+$sudo$character
+"""
+
+[directory]
+format = '[$path]($style)[$read_only]($read_only_style)'
+style = "blue bold"
+read_only = "  "
+read_only_style = "cyan"
+
+[git_branch]
+style = "purple bold"
+format = '\[[$symbol$branch]($style)\]'
+
+[git_status]
+style = "green bold"
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+[character]
+success_symbol = "[❯](bold fg:green)"
+error_symbol = "[󰅖](bold fg:red)"
+
+[sudo]
+disabled = false
+format = "[$symbol](red bold)"
+symbol = " "
+
+[os]
+disabled = false
+style = "purple"
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌"
+Illumos = "󰈸 "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "

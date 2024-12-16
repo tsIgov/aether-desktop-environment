@@ -1,0 +1,7 @@
+[Nemo Action]
+Name=Create Archive
+Comment=Create a new archive
+Exec=file-roller --add %F
+Icon-Name=archive
+Selection=any
+Extensions=dir;

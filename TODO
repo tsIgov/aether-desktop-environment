@@ -1,0 +1,61 @@
+## Software
+Image viewer
+PDF Viewer
+Audio and video player
+Kde connect
+Calculator
+Text Editor
+Paint
+Calendar
+Mail client
+Password manager
+Software development stuff
+Photography stuff
+Discord
+Slack
+
+
+## Usability
+Reconfigure Hyprland
+Configure monitors
+screen casting
+Configure hotkeys (including those for notifications) (should they be configured in a single place)
+Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
+
+Rename the anyrun, hyprland, daemons, utilities and waybar folders
+Move browser and utilites away from the desktop-environment folder
+
+Settings of currently installed stuff (browser, terminal, digital brain, anyrun, mako)
+Install utils
+Configure XDG (notes in digital brain)
+
+use hyprlock instead of swaylock?
+bluethooth (overskride)
+
+shutdown, reboot, sleep, hibernate
+
+Check storage (gnome-usage gnome-system-monitor htop gotop)
+
+
+
+
+## Appearance
+Generate gtk icons from a color. Use papirus or Flat Remix
+Generate mouse cursor from a color
+Get gtk colors from nix
+Should I theme Qt
+Configure waybar
+Wallpaper
+Recolor the GTK theme
+
+
+## Installation 
+Locale should be configured per user
+
+Remove the default values of user options?
+Add an option for hostname
+Make users imutable
+
+Home manager should not install packages related to the desktop environment
+
+Keyring?

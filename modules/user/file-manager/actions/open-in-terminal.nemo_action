@@ -1,0 +1,7 @@
+[Nemo Action]
+Name=Open in Terminal
+Comment=Open a terminal in the selected folder
+Exec=foot --working-directory=%F
+Selection=none
+Extensions=dir;
+EscapeSpaces=true

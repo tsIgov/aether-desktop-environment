@@ -1,0 +1,8 @@
+[Nemo Action]
+Name=Extract Here
+Comment=Extract the selected archive here
+Exec=file-roller --extract-here %F
+Icon-Name=archive-extract
+Selection=s
+Extensions=zip;rar;tar;gz;bz2;7z;ar;cbz;cpio;epub;iso;lzma;lz;lzo;xz;zst;
+
