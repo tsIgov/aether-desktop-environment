@@ -1,6 +1,6 @@
 { lib }:
 let
-	importNixpkgs = nixpkgs: import nixpkgs { system = builtins.currentSystem; config.allowUnfree = true; };
+	importNixpkgs = nixpkgs: import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 	getNixFilesRecursively = path: builtins.filter (n: lib.strings.hasSuffix ".nix" (builtins.toString n)) (lib.filesystem.listFilesRecursive path);
 
 	createRecursiveModuleWithExtraArgs = path: extraArgs:
