@@ -10,10 +10,6 @@
         ",preferred,auto,auto"
       ];
 
-      exec-once = [
-        "waybar &"
-      ];
-
       general = {
         layout = "master";
         no_focus_fallback = true;

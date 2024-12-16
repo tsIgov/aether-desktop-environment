@@ -61,7 +61,6 @@ Home manager should not install packages related to the desktop environment
 Keyring?
 
 Reconfigure hyprland
-	- Use the github source
 	- Better use of systemd
 	- Nvidia integration
 	- Check plugins

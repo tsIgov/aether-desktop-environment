@@ -23,5 +23,8 @@ in
 	config = {
 		networking.networkmanager.enable = true;
 		networking.hostName = cfg.hostname;
+
+		programs.nm-applet.enable = true;
 	};
+	#networkmanagerapplet
 }
