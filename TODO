@@ -53,8 +53,6 @@ Recolor the GTK theme
 Locale should be configured per user
 
 Remove the default values of user options?
-Add an option for hostname
-Make users imutable
 
 Home manager should not install packages related to the desktop environment
 
@@ -63,3 +61,6 @@ Keyring?
 Reconfigure hyprland
 	- Nvidia integration
 	- Check plugins
+
+
+Home manager is currently impure due to setting the username and the home dir through env variables
