@@ -1,11 +1,6 @@
 { pkgs, ... }:
 
 {
-	environment.systemPackages = with pkgs; [
-		polkit_gnome
-      	swaylock-effects
-	];
-
 	security.polkit.enable = true;
 
 	systemd.user.services.polkit-authentication-agent = {
@@ -21,8 +16,4 @@
 
 		wantedBy = [ "default.target" ];
 	};
-
-  	services.gnome.gnome-keyring.enable = true;
-
-	security.pam.services.swaylock = {};
 }

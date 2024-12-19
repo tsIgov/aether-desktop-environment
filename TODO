@@ -13,29 +13,31 @@ Software development stuff
 Photography stuff
 Discord
 Slack
+Spotify
 
 
 ## Usability
+Refactor user modules
+	- Home manager should not install packages related to the desktop environment
+	- Remove the default values of user options?
+	- Rename the anyrun, hyprland, daemons, utilities and waybar folders
+	- Move browser and utilites away from the desktop-environment folder
+	- Settings of currently installed stuff (browser, terminal, digital brain, anyrun, mako)
+
+
 Reconfigure Hyprland
-Configure monitors
+	- Check plugins
+	- Configure monitors
+	- Configure hotkeys (including those for notifications) (should they be configured in a single place)
+	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
+
 screen casting
-Configure hotkeys (including those for notifications) (should they be configured in a single place)
-Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
-Rename the anyrun, hyprland, daemons, utilities and waybar folders
-Move browser and utilites away from the desktop-environment folder
-
-Settings of currently installed stuff (browser, terminal, digital brain, anyrun, mako)
-Install utils
 Configure XDG (notes in digital brain)
-
 use hyprlock instead of swaylock?
 bluethooth (overskride)
-
 shutdown, reboot, sleep, hibernate
-
 Check storage (gnome-usage gnome-system-monitor htop gotop)
-
 
 
 
@@ -51,18 +53,9 @@ Recolor the GTK theme
 
 ## Installation 
 Locale should be configured per user
-
-Remove the default values of user options?
-
-Home manager should not install packages related to the desktop environment
-
 Keyring?
 
-Reconfigure hyprland
-	- Check plugins
-
+---
 
 Home manager is currently impure due to setting the username and the home dir through env variables
-
-
 environment.shellAliases is a thing
