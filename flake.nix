@@ -21,6 +21,7 @@
     inherit lib;
 
     nixosModules = { 
+      scripts =  lib.createRecursiveModuleWithExtraArgs ./modules/scripts args; 
       system =  lib.createRecursiveModuleWithExtraArgs ./modules/system args; 
       user =  lib.createRecursiveModuleWithExtraArgs ./modules/user args; 
     };
