@@ -105,7 +105,7 @@ update() {
 		exit 0;
 	fi
 
-	nix flake update $LIST --flake $FLAKE_DIR --impure
+	nix flake update $@ --flake $FLAKE_DIR --impure
 	apply
 }
 
