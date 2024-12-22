@@ -40,7 +40,8 @@ show_help() {
 		;;
 		update)
 			echo "Updates the system."
-			echo "Usage: $0 $1 [ARG]"
+			echo "Usage: $0 $1 [ARG] [INPUTS]"
+			echo "Not specifying [INPUTS] will return a list of possible inputs to update."
 			echo 
 			echo "Arguments:"
 			echo -e "-h | --help \t Shows this help message."

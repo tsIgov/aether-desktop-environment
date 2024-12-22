@@ -40,10 +40,10 @@ show_help() {
 		;;
 		update)
 			echo "Updates user packages."
-			echo "Usage: $0 $1 [ARG]"
+			echo "Usage: $0 $1 [ARG] [INPUTS]"
+			echo "Not specifying [INPUTS] will return a list of possible inputs to update."
 			echo 
 			echo "Arguments:"
-			echo -e "-l | --list \t Updates only specified groups of packages. You can get possible groups by using this without specifying anything."
 			echo -e "-h | --help \t Shows this help message."
 			exit 0;
 		;;
