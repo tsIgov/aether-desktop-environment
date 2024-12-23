@@ -10,7 +10,6 @@ Calendar
 Mail client
 Password manager
 Software development stuff
-Photography stuff
 Discord
 Slack
 Spotify
@@ -36,7 +35,6 @@ Reconfigure Hyprland
 screen casting
 
 Configure XDG (notes in digital brain)
-use hyprlock instead of swaylock?
 bluethooth (overskride)
 shutdown, reboot, sleep, hibernate
 Check storage (gnome-usage gnome-system-monitor htop gotop)
@@ -51,3 +49,4 @@ Should I theme Qt
 Configure waybar
 Wallpaper
 Recolor the GTK theme
+Configure lockscreen
