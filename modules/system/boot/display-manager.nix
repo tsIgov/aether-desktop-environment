@@ -8,7 +8,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --remember --remember-session --user-menu --time --time-format '%Y-%m-%d %H:%M:%S' --cmd Hyprland";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --remember --remember-session --user-menu --time --time-format '%Y-%m-%d %H:%M:%S'";
         user = "greeter";
       };
     };
