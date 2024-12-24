@@ -1,4 +1,4 @@
-{ hyprland-pkgs, pkgs, ... }:
+{ hyprland-pkgs, ... }:
 
 {
 	programs.hyprland = {
@@ -8,6 +8,10 @@
 		xwayland.enable = true;
 		withUWSM = true;
 	};
+
+	xdg.portal.extraPortals = [
+		hyprland-pkgs.xdg-desktop-portal-gtk
+	];
 
 	environment.sessionVariables = {
 		"NIXOS_OZONE_WL" = "1";
