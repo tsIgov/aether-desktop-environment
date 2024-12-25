@@ -16,6 +16,8 @@ Spotify
 
 
 ## Usability
+Deal with secrets
+
 Locale should be configured per user
 
 Refactor user modules
