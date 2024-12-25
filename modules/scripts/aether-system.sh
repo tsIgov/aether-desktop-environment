@@ -106,7 +106,6 @@ update() {
 	fi
 
 	nix flake update $@ --flake $FLAKE_DIR --impure
-	apply
 }
 
 
