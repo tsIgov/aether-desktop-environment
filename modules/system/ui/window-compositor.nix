@@ -9,9 +9,9 @@
 		withUWSM = true;
 	};
 
-	xdg.portal.extraPortals = [
-		hyprland-pkgs.xdg-desktop-portal-gtk
-	];
+	# xdg.portal.extraPortals = [
+	# 	hyprland-pkgs.xdg-desktop-portal-gtk
+	# ];
 
 	environment.sessionVariables = {
 		"NIXOS_OZONE_WL" = "1";

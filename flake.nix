@@ -22,19 +22,12 @@
 
     nixosModules = { 
       scripts =  lib.createRecursiveModuleWithExtraArgs ./modules/scripts args; 
-      system =  lib.createRecursiveModuleWithExtraArgs ./modules/system args; 
-      user =  lib.createRecursiveModuleWithExtraArgs ./modules/user args; 
+      aether =  lib.createRecursiveModuleWithExtraArgs ./modules/system args; 
     };
 
-    templates = {
-      system = {
-        path = ./templates/system;
-        description = "";
-        # welcomeText = "
-        #   # Getting Started
-        #   - markdown list item
-        # ";
-      };
+    homeManagerModules = {
+      aether = lib.createRecursiveModuleWithExtraArgs ./modules/home args; 
     };
+
   };
 }
