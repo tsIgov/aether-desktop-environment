@@ -17,8 +17,7 @@ Spotify
 
 ## Usability
 
-Remove scripts and shorten the rebuild and update commands (https://nixos-and-flakes.thiscute.world/best-practices/nix-path-and-flake-registry) (nix.nixPath)
-Remove channels? (nix.channel.enable)
+Wierd path to gtk-theme
 
 Deal with secrets
 Better way to deal with hardware settings (graphic card)

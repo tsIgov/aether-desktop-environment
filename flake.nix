@@ -3,31 +3,25 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    hyprland.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, hyprland, ... }: 
+  outputs = { nixpkgs, ... }: 
   let
-    lib = import ./utilities/lib.nix { lib = nixpkgs.lib; };
-    pkgs = lib.importNixpkgs nixpkgs;
+    system = "x86_64-linux";
+    pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
+    lib = nixpkgs.lib;
 
-    args = {
-      inherit pkgs;
-      custom-pkgs = import ./custom-packages/default.nix { inherit pkgs; };
-      hyprland-pkgs = lib.importNixpkgs hyprland;
-    };
+    createRecursiveModule = path:	args: 
+		let
+			newArgs = args // { inherit pkgs; };
+			modules = builtins.filter (n: lib.strings.hasSuffix ".nix" (toString n)) (lib.filesystem.listFilesRecursive path);
+		in
+		{ 
+			imports = (builtins.map (file: import file newArgs) modules); 
+		};
 
   in {
-    inherit lib;
-
-    nixosModules = { 
-      scripts =  lib.createRecursiveModuleWithExtraArgs ./modules/scripts args; 
-      aether =  lib.createRecursiveModuleWithExtraArgs ./modules/system args; 
-    };
-
-    homeManagerModules = {
-      aether = lib.createRecursiveModuleWithExtraArgs ./modules/home args; 
-    };
-
+    nixosModule = createRecursiveModule ./modules/system;  
+    homeManagerModule = createRecursiveModule ./modules/home;  
   };
 }

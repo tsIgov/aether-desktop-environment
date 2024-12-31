@@ -1,4 +1,4 @@
-{ config, custom-pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   gtk = {
@@ -6,7 +6,7 @@
 
     theme = {
       name = "Igov-GTK";
-      package = custom-pkgs.gtk-theme;
+      package = import ../../../../derivations/gtk-theme/default.nix { inherit pkgs; };
     };
 
     gtk3.extraConfig = {
