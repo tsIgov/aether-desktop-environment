@@ -16,7 +16,7 @@ Spotify
 
 
 ## Usability
-
+Is there a benefit to disabling channels? Remove inputs from specialArgs. Probably by moving the module outside and importing it manually.
 Wierd path to gtk-theme
 
 Deal with secrets
