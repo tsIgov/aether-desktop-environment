@@ -3,25 +3,18 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager = {
+			url = "github:nix-community/home-manager";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
   };
 
-  outputs = { nixpkgs, ... }: 
+  outputs = { nixpkgs, home-manager, ... }: 
   let
-    system = "x86_64-linux";
-    pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-    lib = nixpkgs.lib;
-
-    createRecursiveModule = path:	args: 
-		let
-			newArgs = args // { inherit pkgs; };
-			modules = builtins.filter (n: lib.strings.hasSuffix ".nix" (toString n)) (lib.filesystem.listFilesRecursive path);
-		in
-		{ 
-			imports = (builtins.map (file: import file newArgs) modules); 
-		};
-
-  in {
-    nixosModule = createRecursiveModule ./modules/system;  
-    homeManagerModule = createRecursiveModule ./modules/home;  
+    lib = import ./utilities/lib.nix { inherit nixpkgs; }; 
+    createSystem = import ./utilities/createSystem.nix { inherit nixpkgs home-manager lib; };
+  in 
+  {
+    inherit createSystem lib;
   };
 }
