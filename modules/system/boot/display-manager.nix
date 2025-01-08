@@ -1,16 +1,24 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
+let 
+	colorVariant = config.system.appearance.colorVariant;
+in
 {
   environment.systemPackages = with pkgs; [
-    greetd.tuigreet
+    (catppuccin-sddm.override {
+      flavor = colorVariant;
+      font  = "Inter";
+      fontSize = "12";
+      #background = "${./wallpaper.png}";
+      #loginBackground = false;
+    })
   ];
 
-  services.greetd = {
+  services.displayManager.sddm = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --remember --remember-session --user-menu --time --time-format '%Y-%m-%d %H:%M:%S'";
-        user = "greeter";
-      };
+    package = pkgs.kdePackages.sddm;
+    theme = "catppuccin-${colorVariant}";
+    wayland = {
+      enable = true;
     };
   };
 }
