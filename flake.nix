@@ -16,5 +16,12 @@
   in 
   {
     inherit createSystem lib;
+
+    systemModules = {
+      graphics = {
+        disableNvidia = import ./utilities/graphics/disableNvidia.nix;
+        nvidiaOffload = import ./utilities/graphics/nvidiaOffload.nix;
+      };
+    };
   };
 }

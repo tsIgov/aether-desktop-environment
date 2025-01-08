@@ -6,16 +6,14 @@ let
 	controllers = builtins.fromJSON (builtins.readFile controllersJSON);
 in
 {
-	hardware.graphics.enable = true;
-
-	hardware.nvidia = lib.mkIf (controllers.nvidia != "") {
+	hardware.nvidia = {
 		modesetting.enable = true;
 		powerManagement.enable = true;
 		powerManagement.finegrained = false;
-		open = false;
-		nvidiaSettings = false;
+		open = true;
+		nvidiaSettings = true;
 
-		prime =lib.mkIf (controllers.amd != "" || controllers.intel != "") {
+		prime = lib.mkIf (controllers.amd != "" || controllers.intel != "") {
 			offload = {
 				enable = true;
 				enableOffloadCmd = true;
@@ -26,9 +24,5 @@ in
 		};
 	};
 
-	services.xserver.videoDrivers = lib.mkIf (controllers.nvidia != "") ["nvidia"];
-	environment.sessionVariables = lib.mkIf (controllers.nvidia != "") {
-		"LIBVA_DRIVER_NAME" = "nvidia";
-		"__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
-	};
+	services.xserver.videoDrivers = [ "nvidia" ];
 }
