@@ -1,12 +1,9 @@
 { config, pkgs, lib, ... }:
 
+let
+  cfg = config.user;
+in
 {
-	options = with lib; with types; {
-		appearance.fontSize = mkOption { type = int; default = 12; };
-	};
-
-  config = {
-
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
@@ -19,8 +16,6 @@
 
     gtk.font = {
       name = "Inter";
-      size = config.appearance.fontSize;
+      size = cfg.appearance.fontSize;
     };
-    
-  };
 }
