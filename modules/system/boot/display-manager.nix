@@ -19,6 +19,7 @@ in
     theme = "catppuccin-${colorVariant}";
     wayland = {
       enable = true;
+      compositor = "kwin";
     };
   };
 }
