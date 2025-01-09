@@ -11,17 +11,13 @@
 
   outputs = { nixpkgs, home-manager, ... }: 
   let
+    pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
     lib = import ./utilities/lib.nix { inherit nixpkgs; }; 
-    createSystem = import ./utilities/createSystem.nix { inherit nixpkgs home-manager lib; };
   in 
   {
-    inherit createSystem lib;
+    inherit lib;
 
-    systemModules = {
-      graphics = {
-        disableNvidia = import ./utilities/graphics/disableNvidia.nix;
-        nvidiaOffload = import ./utilities/graphics/nvidiaOffload.nix;
-      };
-    };
+    systemConfig = import ./system { inherit nixpkgs pkgs lib; };
+    userConfig = import ./user { inherit home-manager pkgs lib; };
   };
 }
