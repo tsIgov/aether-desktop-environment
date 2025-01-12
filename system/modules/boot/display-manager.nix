@@ -1,25 +1,37 @@
 { pkgs, config, ... }:
 let 
-	colorVariant = config.system.appearance.colorVariant;
+	variant = config.aether.system.appearance.variant;
+	accent = config.aether.system.appearance.accent;
+	colors = (import ./../../../utilities/colors.nix).${variant};
 in
 {
   environment.systemPackages = with pkgs; [
-    (catppuccin-sddm.override {
-      flavor = colorVariant;
-      font  = "Inter";
-      fontSize = "12";
-      #background = "${./wallpaper.png}";
-      #loginBackground = false;
+    (where-is-my-sddm-theme.override {
+      themeConfig.General = {
+        backgroundFill = "#${colors.base}";
+        basicTextColor = "#${colors.subtext0}";
+        passwordCursorColor = "#${colors.${accent}}";
+        passwordInputBackground = "#${colors.base}";
+        passwordTextColor = "#${colors.${accent}}";
+        cursorBlinkAnimation = true;
+        hideCursor = true;
+      };
     })
   ];
+
+
 
   services.displayManager.sddm = {
     enable = true;
     package = pkgs.kdePackages.sddm;
-    theme = "catppuccin-${colorVariant}";
+    theme = "where_is_my_sddm_theme";
+    extraPackages = [
+      pkgs.kdePackages.qt5compat
+    ];
     wayland = {
       enable = true;
       compositor = "kwin";
     };
+    autoNumlock = true;
   };
 }
