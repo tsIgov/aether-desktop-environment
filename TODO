@@ -16,10 +16,7 @@ Spotify
 
 
 ## Usability
-Is there a benefit to disabling channels? Remove inputs from specialArgs. Probably by moving the module outside and importing it manually.
-Wierd path to gtk-theme
-
-Deal with secrets
+Move common stuff to presets
 Better way to deal with hardware settings (graphic card)
 Add micro
 Move networking from aether
@@ -48,6 +45,7 @@ Configure XDG (notes in digital brain)
 bluethooth (overskride)
 shutdown, reboot, sleep, hibernate
 Check storage (gnome-usage gnome-system-monitor htop gotop)
+wallpaper? (also for lockscreen)
 
 
 
