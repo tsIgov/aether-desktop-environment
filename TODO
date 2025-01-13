@@ -11,15 +11,16 @@ Mail client
 Password manager
 Software development stuff
 Discord
-Slack
+Slack (doesn't run without --disable-gpu)
 Spotify
 
 
 ## Usability
+Replace anyrun
 Clipboard manager (and file system?) should be inside user
 Clipboard gets cleared on app close
-Should I enable xdg-desktop-portal-gtk
-Add micro instead of nano?
+Should I enable xdg-desktop-portal-gtk (global dark theme is not recognized)
+Add micro instead of nano? (set $EDITOR)
 Better network manager gui
 Locale should be configured per user
 
@@ -39,6 +40,9 @@ shutdown, reboot, sleep, hibernate (runner?)
 Check storage (gnome-usage gnome-system-monitor htop gotop)
 wallpaper? (also for lockscreen and display manager)
 Migrate to hyprlock if wallpapers will be used
+
+
+Should the deployment script update the flake locks? Currently they are set to path instead of github.
 
 
 
