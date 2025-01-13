@@ -16,36 +16,29 @@ Spotify
 
 
 ## Usability
-Move common stuff to presets
-Better way to deal with hardware settings (graphic card)
-Add micro
-Move networking from aether
-
+Clipboard manager (and file system?) should be inside user
 Clipboard gets cleared on app close
-
+Should I enable xdg-desktop-portal-gtk
+Add micro instead of nano?
+Better network manager gui
 Locale should be configured per user
 
-Refactor user modules
-	- Home manager should not install packages related to the desktop environment
-	- Remove the default values of user options?
-	- Rename the anyrun, hyprland, daemons, utilities and waybar folders
-	- Move browser and utilites away from the desktop-environment folder
-	- Settings of currently installed stuff (browser, terminal, digital brain, anyrun, mako)
-
-
+Move common stuff to presets
 Reconfigure Hyprland
 	- Check plugins
 	- Configure monitors
 	- Configure hotkeys (including those for notifications) (should they be configured in a single place)
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
-screen casting
 
+
+
+screen casting
 Configure XDG (notes in digital brain)
-bluethooth (overskride)
-shutdown, reboot, sleep, hibernate
+shutdown, reboot, sleep, hibernate (runner?)
 Check storage (gnome-usage gnome-system-monitor htop gotop)
 wallpaper? (also for lockscreen and display manager)
+Migrate to hyprlock if wallpapers will be used
 
 
 
