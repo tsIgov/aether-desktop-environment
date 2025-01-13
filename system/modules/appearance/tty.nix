@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let 
-	variant = config.aether.system.appearance.variant;
+	variant = config.aether.appearance.variant;
 	colors = (import ./../../../utilities/colors.nix).${variant};
 in
 {

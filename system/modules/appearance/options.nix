@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-	options.aether.system.appearance = with lib; with types; {
+	options.aether.appearance = with lib; with types; {
 		variant = mkOption { type = enum [ "latte" "frappe" "macchiato" "mocha" ]; };
 		accent = mkOption { type = enum [ 
 			"rosewater" 

@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 let 
-	variant = config.aether.system.appearance.variant;
-	accent = config.aether.system.appearance.accent;
+	variant = config.aether.appearance.variant;
+	accent = config.aether.appearance.accent;
 	colors = (import ./../../../utilities/colors.nix).${variant};
 in
 {
