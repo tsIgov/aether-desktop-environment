@@ -1,4 +1,4 @@
-{ nixpkgs, pkgs, lib }: { hostName, specialArgs ? {}, modules ? [] }:
+{ nixpkgs, pkgs, utils }: { hostName, specialArgs ? {}, modules ? [] }:
 {
 	nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
 		inherit pkgs specialArgs; 
@@ -6,6 +6,6 @@
 			./system.nix
 			(import ./removeChannels.nix nixpkgs)
 			(args: { networking.hostName = hostName; })
-		] ++ (lib.getNixFilesRecursively ./modules) ++ modules; 
+		] ++ (utils.getNixFilesRecursively ./modules) ++ modules; 
 	};
 }
