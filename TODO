@@ -16,6 +16,10 @@ Spotify
 
 
 ## Usability
+Presets should be separated to user and system
+deploy should properly register presets
+lib should be part of aether instead of the presets
+
 Replace anyrun
 Clipboard manager (and file system?) should be inside user
 Clipboard gets cleared on app close
