@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
 	programs.hyprland = {
@@ -7,12 +7,12 @@
 		withUWSM = true;
 	};
 
-	# xdg.portal.extraPortals = [
-	# 	pkgs.xdg-desktop-portal-gtk
-	# ];
+	xdg.portal.extraPortals = [
+		pkgs.xdg-desktop-portal-gtk
+	];
 
 	environment.sessionVariables = {
 		"NIXOS_OZONE_WL" = "1";
-		"ELECTRON_OZONE_PLATFORM_HINT" = "auto";
+		"ELECTRON_OZONE_PLATFORM_HINT" = "wayland";
 	};
 }
