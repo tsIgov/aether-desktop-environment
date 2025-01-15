@@ -1,10 +1,13 @@
-{ home-manager, pkgs, utils }: { user, specialArgs ? {}, modules ? [] }:
+{ home-manager, pkgs, lib }: { user, specialArgs ? {}, modules ? [] }:
+let
+	specialArgsFinal = specialArgs // { inherit lib; };
+in
 {
 	homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
 			inherit pkgs; 
-			extraSpecialArgs = specialArgs;
+			extraSpecialArgs = specialArgsFinal;
 			modules = [
 				(import ./home.nix user)
-			] ++ (utils.getNixFilesRecursively ./modules) ++ modules;
+			] ++ (lib.fileUtils.getNixFilesRecursively ./modules) ++ modules;
 		};
 }

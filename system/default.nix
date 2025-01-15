@@ -1,11 +1,15 @@
-{ nixpkgs, pkgs, utils }: { hostName, specialArgs ? {}, modules ? [] }:
+{ nixpkgs, pkgs, lib }: { hostName, specialArgs ? {}, modules ? [] }:
+let
+	specialArgsFinal = specialArgs // { inherit lib; };
+in
 {
 	nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
-		inherit pkgs specialArgs; 
+		inherit pkgs;
+		specialArgs = specialArgsFinal; 
 		modules = [ 
 			./system.nix
 			(import ./removeChannels.nix nixpkgs)
 			(args: { networking.hostName = hostName; })
-		] ++ (utils.getNixFilesRecursively ./modules) ++ modules; 
+		] ++ (lib.fileUtils.getNixFilesRecursively ./modules) ++ modules; 
 	};
 }
