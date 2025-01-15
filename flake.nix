@@ -13,8 +13,6 @@
   let
     pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
     lib = nixpkgs.lib.extend (final: prev: (import ./lib final) // home-manager.lib);
-
-    utils = import ./utilities/internal.nix { inherit nixpkgs; }; 
   in 
   {
     inherit lib;

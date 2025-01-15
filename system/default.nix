@@ -10,6 +10,6 @@ in
 			./system.nix
 			(import ./removeChannels.nix nixpkgs)
 			(args: { networking.hostName = hostName; })
-		] ++ (lib.fileUtils.getNixFilesRecursively ./modules) ++ modules; 
+		] ++ (lib.moduleUtils.listModulesRecursively ./modules) ++ modules; 
 	};
 }

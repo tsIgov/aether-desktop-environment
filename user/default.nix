@@ -8,6 +8,6 @@ in
 			extraSpecialArgs = specialArgsFinal;
 			modules = [
 				(import ./home.nix user)
-			] ++ (lib.fileUtils.getNixFilesRecursively ./modules) ++ modules;
+			] ++ (lib.moduleUtils.listModulesRecursively ./modules) ++ modules;
 		};
 }

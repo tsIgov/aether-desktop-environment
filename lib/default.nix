@@ -1,4 +1,4 @@
 lib:
 {
-	fileUtils = import ./fileUtils.nix lib;
+	moduleUtils = import ./moduleUtils.nix lib;
 }
