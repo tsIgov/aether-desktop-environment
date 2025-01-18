@@ -13,9 +13,9 @@
         position = "top";
         spacing = 20;
 
-        modules-left = [ "hyprland/workspaces" "hyprland/window"];
-        modules-center = [ "clock" ];
-        modules-right = [ "hyprland/language" "backlight" "bluetooth" "battery" "network" "pulseaudio" "tray" ];
+        modules-left = [ "hyprland/window"];
+        modules-center = [ "hyprland/workspaces" ];
+        modules-right = [ "hyprland/language" "backlight" "bluetooth" "battery" "network" "pulseaudio" "clock" "custom/lock" "tray" ];
 
         "hyprland/workspaces" = {
           on-click = "activate";
@@ -59,7 +59,8 @@
         };
 
         "clock" = {
-          format = "{:%H:%M}";
+          interval = 1;
+          format = "{:%H:%M:%S}";
           format-alt = "{:%A, %B %d, %Y (%R)}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
           calendar = {
@@ -90,8 +91,9 @@
         };
 
         "backlight" = {
-          format = "{percent}% {icon}";
-          format-icons = [ "" "" ];
+          device = "intel_backlight";
+          format = "{icon}";
+          format-icons = ["" "" "" "" "" "" "" "" ""];
         };
 
         "bluetooth" = {
@@ -144,10 +146,19 @@
         };
 
         "tray" = {
-          icon-size = 20;
+          icon-size = 21;
+          spacing = 10;
+        };
+
+        "custom/lock" = {
+            tooltip = false;
+            on-click = "sh -c '(sleep 0.5s; swaylock --grace 0)' & disown";
+            format = "";
         };
       };
     };
-    style = ./style.css;
+    style = ./style2.css;
   };
+
+  home.file.".config/waybar/mocha.css".source = ./mocha.css;
 }

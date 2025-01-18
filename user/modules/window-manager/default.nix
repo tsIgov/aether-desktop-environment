@@ -61,11 +61,22 @@
         movefocus_cycles_fullscreen = true;
       };
 
+
+      windowrule = [
+        "float, Rofi"
+      ];
+
       windowrulev2 = [
         "opacity 0.0 override 0.0 override,class:^(xwaylandvideobridge)$"
         "noanim,class:^(xwaylandvideobridge)$"
         "nofocus,class:^(xwaylandvideobridge)$"
         "noinitialfocus,class:^(xwaylandvideobridge)$"
+
+       "stayfocused, class:Rofi"
+       "pin, class:Rofi"
+       "noanim, class:Rofi"
+
+
       ];
 
       workspace = [
@@ -85,9 +96,10 @@
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, D, togglefloating 
       bind = $mainMod, F, fullscreen, 1
-      bind = SUPER, SUPER_L, exec, pkill anyrun || anyrun
+      bind = SUPER, R, exec, pkill anyrun || anyrun
       bind = $mainMod, L, exec, pidof swaylock || swaylock
-      
+
+      bindr = SUPER, SUPER_L, exec, pkill rofi || rofi -show drun -normal-window
 
       # Move focus with mainMod + arrow keys
       bind = $mainMod, left, movefocus, l
