@@ -2,7 +2,6 @@
 let 
 	variant = config.aether.appearance.variant;
   accent = config.aether.appearance.accent;
-	colors = lib.colors.${variant};
 in
 {
   gtk = {
@@ -35,6 +34,12 @@ in
         gtk-application-prefer-dark-theme=1
         color-scheme=prefer-dark
       '';
+    };
+  };
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
     };
   };
 }
