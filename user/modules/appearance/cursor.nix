@@ -1,23 +1,21 @@
 { pkgs, lib, config, ... }:
+let 
+	variant = config.aether.appearance.variant;
+	accent = config.aether.appearance.accent;
 
+	cursorSize = 22;
+	cursonName = "catppuccin-${variant}-${accent}-cursors";
+	packageOutput = variant + (lib.toUpper (lib.substring 0 1 accent)) + (lib.substring 1 (builtins.stringLength accent - 1) accent);
+in
 {
-	options = with lib; with types; {
-		appearance.cursor = {
-			package = mkOption { type = package; description = "Cursor theme package"; default =  pkgs.bibata-cursors; };
-			name = mkOption { type = str; description = "The name of the cursor theme to use"; default = "Bibata-Modern-Classic"; };
-			size = mkOption {type = int; description = "Cursor size"; default = 20; };
-		};
+	gtk.cursorTheme = {
+		name = cursonName;
+		package = pkgs.catppuccin-cursors.${packageOutput};
+		size = cursorSize;
 	};
 
-	config = {
-		wayland.windowManager.hyprland.settings.exec-once = [
-			"hyprctl setcursor ${config.appearance.cursor.name} ${builtins.toString config.appearance.cursor.size}"
-		];
-
-		gtk.cursorTheme = {
-			name = config.appearance.cursor.name;
-			package = config.appearance.cursor.package;
-			size = config.appearance.cursor.size;
-		};
+	home.sessionVariables = {
+		HYPRCURSOR_THEME = cursonName;
+		HYPRCURSOR_SIZE = cursorSize;
 	};
 }
