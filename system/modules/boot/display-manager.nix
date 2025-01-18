@@ -1,8 +1,8 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 let 
 	variant = config.aether.appearance.variant;
 	accent = config.aether.appearance.accent;
-	colors = (import ./../../../utilities/colors.nix).${variant};
+	colors = lib.colors.${variant};
 in
 {
   environment.systemPackages = with pkgs; [

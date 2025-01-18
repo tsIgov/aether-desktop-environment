@@ -1,6 +1,6 @@
-{ ... }:
+{ lib, ... }:
 let
-	colors = (import ../../../utilities/colors.nix).mocha;
+	colors = lib.colors.mocha;
 in
 {
 	home.file.".local/share/rofi/themes/theme.rasi".text = ''

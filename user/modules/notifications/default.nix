@@ -1,11 +1,15 @@
-{ config, ... }:
-
+{ config, lib, ... }:
+let 
+	variant = config.aether.appearance.variant;
+  	accent = config.aether.appearance.accent;
+	colors = lib.colors.${variant};
+in
 {
 	services.mako = {
 		enable = true;
 		anchor = "top-center";
-		backgroundColor = "#${config.appearance.colors.roles.surface-container.default}";
-		borderColor = "#${config.appearance.colors.roles.primary.default}";
+		backgroundColor = "#${colors.mantle}";
+		borderColor = "#${colors.${accent}}";
 		borderRadius = 5;
 		borderSize = 1;
 		defaultTimeout = 10000;

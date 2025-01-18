@@ -1,4 +1,9 @@
-{ config, ... }:
+{ config, lib, ... }:
+let 
+	variant = config.aether.appearance.variant;
+  	accent = config.aether.appearance.accent;
+	colors = lib.colors.${variant};
+in
 {
 	wayland.windowManager.hyprland.settings = {
 		general = {
@@ -7,10 +12,10 @@
 			gaps_out = 10;
 			gaps_workspaces = 0;
 
-			"col.active_border" = "rgb(${config.appearance.colors.roles.primary.default})";
-			"col.inactive_border" = "rgb(${config.appearance.colors.roles.outline.default})";
-			"col.nogroup_border" = "rgb(${config.appearance.colors.roles.outline.default})";
-			"col.nogroup_border_active" = "rgb(${config.appearance.colors.roles.primary.default})";
+			"col.active_border" = "rgb(${colors.${accent}})";
+			"col.inactive_border" = "rgb(${colors.overlay0})";
+			"col.nogroup_border" = "rgb(${colors.overlay0})";
+			"col.nogroup_border_active" = "rgb(${colors.${accent}})";
 		};
 
 		decoration = {
@@ -38,10 +43,10 @@
 		};
 
 		group = {
-			"col.border_active" = "rgb(${config.appearance.colors.roles.secondary.default})";
-			"col.border_inactive" = "rgb(${config.appearance.colors.roles.outline.default})";
-			"col.border_locked_active" = "rgb(${config.appearance.colors.roles.tertiary.default})";
-			"col.border_locked_inactive" = "rgb(${config.appearance.colors.roles.outline.default})";
+			"col.border_active" = "rgb(${colors.${accent}})";
+			"col.border_inactive" = "rgb(${colors.overlay0})";
+			"col.border_locked_active" = "rgb(${colors.${accent}})";
+			"col.border_locked_inactive" = "rgb(${colors.overlay0})";
 
 			groupbar = {
 				gradients = false;
@@ -59,7 +64,7 @@
 			disable_hyprland_logo = true;
 			disable_splash_rendering = true;
 			force_default_wallpaper = 0;
-			background_color = "rgb(${config.appearance.colors.roles.surface.default})";
+			background_color = "rgb(${colors.base})";
 		};
 	};
 }

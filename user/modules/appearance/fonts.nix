@@ -14,8 +14,4 @@ in
       };
     };
 
-    gtk.font = {
-      name = "Inter";
-      size = cfg.appearance.fontSize;
-    };
 }

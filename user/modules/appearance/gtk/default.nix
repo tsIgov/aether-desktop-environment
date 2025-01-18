@@ -1,18 +1,26 @@
-{ config, pkgs, ... }:
-
+{ config, lib, pkgs, ... }:
+let 
+	variant = config.aether.appearance.variant;
+  accent = config.aether.appearance.accent;
+	colors = lib.colors.${variant};
+in
 {
   gtk = {
     enable = true;
 
     theme = {
-      name = "catppuccin-macchiato-mauve-standard+normal";
-      #package = import ../../../../derivations/gtk-theme/default.nix { inherit pkgs; };
+      name = "catppuccin-${variant}-${accent}-standard+normal";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ "mauve" ];
+        accents = [ accent ];
         size = "standard";
         tweaks = [ "normal" ];
-        variant = "macchiato";
+        variant = variant;
       };
+    };
+
+    font = {
+      name = "Hack Nerd Font Mono";
+      size = 12;
     };
 
     gtk3.extraConfig = {
