@@ -4,7 +4,7 @@ let
 	python = (python3.withPackages (pp: [ pp.tqdm pp.pillow ]));
 in
 
-lib.checkListOfEnum "${pname}: flavor" aetherLib.flavors [ flavor ]
+lib.checkListOfEnum "${pname}: flavor" aetherLib.appearance.validFlavors [ flavor ]
 
 stdenv.mkDerivation {
 	inherit pname;

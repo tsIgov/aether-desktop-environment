@@ -1,7 +1,7 @@
 { pkgs, config, aetherLib, ... }:
 let 
-	variant = config.aether.appearance.variant;
-	colors = aetherLib.colors.${variant};
+	flavorName = config.aether.appearance.flavor;
+	flavor = aetherLib.appearance.flavors.${flavorName};
 in
 {
 	console = {
@@ -9,9 +9,9 @@ in
 		packages = with pkgs; [
 			terminus_font
 		];
-		colors = [
-			colors.base colors.red colors.green colors.yellow colors.blue colors.pink colors.teal colors.subtext0
-			colors.surface0 colors.red colors.green colors.yellow colors.blue colors.pink colors.teal colors.subtext1
+		colors = with flavor; [
+			base red green yellow blue pink teal subtext0
+			surface0 red green yellow blue pink teal subtext1
 		];
 	};
 }
