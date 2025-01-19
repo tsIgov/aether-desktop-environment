@@ -12,12 +12,12 @@
   outputs = { nixpkgs, home-manager, ... }: 
   let
     pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
-    lib = nixpkgs.lib.extend (final: prev: (import ./lib final) // home-manager.lib);
+    aetherLib = import ./lib nixpkgs.lib;
+    aetherPkgs = import ./packages { inherit pkgs aetherLib; };
   in 
   {
-    inherit lib;
-
-    systemConfig = import ./system { inherit nixpkgs pkgs lib; };
-    userConfig = import ./user { inherit home-manager pkgs lib; };
+    lib = aetherLib;
+    systemConfig = import ./system { inherit nixpkgs pkgs aetherLib aetherPkgs; };
+    userConfig = import ./user { inherit home-manager pkgs aetherLib aetherPkgs; };
   };
 }

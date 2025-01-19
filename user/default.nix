@@ -1,6 +1,6 @@
-{ home-manager, pkgs, lib }: { user, specialArgs ? {}, modules ? [] }:
+{ home-manager, pkgs, aetherLib, aetherPkgs }: { user, specialArgs ? {}, modules ? [] }:
 let
-	specialArgsFinal = specialArgs // { inherit lib; };
+	specialArgsFinal = specialArgs // { inherit aetherLib aetherPkgs; };
 in
 {
 	homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
@@ -8,6 +8,6 @@ in
 			extraSpecialArgs = specialArgsFinal;
 			modules = [
 				(import ./home.nix user)
-			] ++ (lib.moduleUtils.listModulesRecursively ./modules) ++ modules;
+			] ++ (aetherLib.moduleUtils.listModulesRecursively ./modules) ++ modules;
 		};
 }

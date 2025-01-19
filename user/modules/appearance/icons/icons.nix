@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, aetherPkgs, ... }:
 
 {
 	options = with lib; with types; {
@@ -9,8 +9,14 @@
 	};
 
 	config = {
+		home.packages = with pkgs; [
+			(catppuccin-papirus-folders.override { flavor = "mocha"; accent = "mauve"; })
+			(aetherPkgs.recolor.override { flavor = "mocha"; })
+		];
+
+
 		gtk.iconTheme = {
-			name = config.appearance.icons.name;
+			name = "Obsidian-Purple";
 			package = config.appearance.icons.package;
 		};
 	};

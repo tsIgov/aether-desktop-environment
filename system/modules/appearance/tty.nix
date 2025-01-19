@@ -1,7 +1,7 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, aetherLib, ... }:
 let 
 	variant = config.aether.appearance.variant;
-	colors = lib.colors.${variant};
+	colors = aetherLib.colors.${variant};
 in
 {
 	console = {

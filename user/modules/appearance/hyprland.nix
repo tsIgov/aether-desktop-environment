@@ -1,8 +1,8 @@
-{ config, lib, ... }:
+{ config, aetherLib, ... }:
 let 
 	variant = config.aether.appearance.variant;
   	accent = config.aether.appearance.accent;
-	colors = lib.colors.${variant};
+	colors = aetherLib.colors.${variant};
 in
 {
 	wayland.windowManager.hyprland.settings = {

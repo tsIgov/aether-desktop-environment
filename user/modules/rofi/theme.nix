@@ -1,6 +1,6 @@
-{ lib, ... }:
+{ aetherLib, ... }:
 let
-	colors = lib.colors.mocha;
+	colors = aetherLib.colors.mocha;
 in
 {
 	home.file.".local/share/rofi/themes/theme.rasi".text = ''
