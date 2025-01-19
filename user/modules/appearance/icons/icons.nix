@@ -16,8 +16,8 @@
 
 
 		gtk.iconTheme = {
-			name = "Obsidian-Purple";
-			package = config.appearance.icons.package;
+			name = "aether-icons";
+			package = aetherPkgs.icons;
 		};
 	};
 }

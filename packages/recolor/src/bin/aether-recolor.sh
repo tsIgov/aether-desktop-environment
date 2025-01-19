@@ -58,11 +58,15 @@ checkInputs
 
 SCRIPT=$(realpath -s "$0")
 SCRIPTPATH=$(dirname "$SCRIPT")
+SRC=$(realpath $SRC)
+DEST=$(realpath $DEST)
 NAME=$(basename $DEST)
 DIR=$(dirname $DEST)
 PALETTE=$SCRIPTPATH/../palette.json
 
 cd $SCRIPTPATH/../lib
+
+mkdir -p $DIR
 
 python3 -c "
 from color_manager import utils
