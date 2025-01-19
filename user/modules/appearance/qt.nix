@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let 
-	variant = config.aether.appearance.variant;
+	flavorName = config.aether.appearance.flavor;
   accent = config.aether.appearance.accent;
 in
 {
@@ -19,12 +19,12 @@ in
       name = "kvantum";
        package = pkgs.catppuccin-kvantum.override {
          accent =  accent;
-         variant = variant;
+         variant = flavorName;
        };
    };
   };
 
   xdg.configFile."Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini {}).generate "kvantum.kvconfig" {
-    General.theme = "catppuccin-${variant}-${accent}";
+    General.theme = "catppuccin-${flavorName}-${accent}";
   };
 }

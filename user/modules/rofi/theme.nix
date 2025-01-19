@@ -1,11 +1,13 @@
-{ aetherLib, ... }:
-let
-	colors = aetherLib.colors.mocha;
+{ aetherLib, config, ... }:
+let 
+	flavorName = config.aether.appearance.flavor;
+  	accent = config.aether.appearance.accent;
+	flavor = aetherLib.appearance.flavors.${flavorName};
 in
 {
 	home.file.".local/share/rofi/themes/theme.rasi".text = ''
 		* {
-			bg-col: #${colors.base};
+			bg-col: #${flavor.base};
 			bg-col-light: #1e1e2e;
 			border-col: #1e1e2e;
 			selected-col: #1e1e2e;

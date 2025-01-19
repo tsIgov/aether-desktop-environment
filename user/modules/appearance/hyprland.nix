@@ -1,8 +1,8 @@
 { config, aetherLib, ... }:
 let 
-	variant = config.aether.appearance.variant;
+	flavorName = config.aether.appearance.flavor;
   	accent = config.aether.appearance.accent;
-	colors = aetherLib.colors.${variant};
+	flavor = aetherLib.appearance.flavors.${flavorName};
 in
 {
 	wayland.windowManager.hyprland.settings = {
@@ -12,10 +12,10 @@ in
 			gaps_out = 10;
 			gaps_workspaces = 0;
 
-			"col.active_border" = "rgb(${colors.${accent}})";
-			"col.inactive_border" = "rgb(${colors.overlay0})";
-			"col.nogroup_border" = "rgb(${colors.overlay0})";
-			"col.nogroup_border_active" = "rgb(${colors.${accent}})";
+			"col.active_border" = "rgb(${flavor.${accent}})";
+			"col.inactive_border" = "rgb(${flavor.overlay0})";
+			"col.nogroup_border" = "rgb(${flavor.overlay0})";
+			"col.nogroup_border_active" = "rgb(${flavor.${accent}})";
 		};
 
 		decoration = {
@@ -43,10 +43,10 @@ in
 		};
 
 		group = {
-			"col.border_active" = "rgb(${colors.${accent}})";
-			"col.border_inactive" = "rgb(${colors.overlay0})";
-			"col.border_locked_active" = "rgb(${colors.${accent}})";
-			"col.border_locked_inactive" = "rgb(${colors.overlay0})";
+			"col.border_active" = "rgb(${flavor.${accent}})";
+			"col.border_inactive" = "rgb(${flavor.overlay0})";
+			"col.border_locked_active" = "rgb(${flavor.${accent}})";
+			"col.border_locked_inactive" = "rgb(${flavor.overlay0})";
 
 			groupbar = {
 				gradients = false;
@@ -64,7 +64,7 @@ in
 			disable_hyprland_logo = true;
 			disable_splash_rendering = true;
 			force_default_wallpaper = 0;
-			background_color = "rgb(${colors.base})";
+			background_color = "rgb(${flavor.base})";
 		};
 	};
 }

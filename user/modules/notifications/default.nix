@@ -1,15 +1,15 @@
 { config, aetherLib, ... }:
 let 
-	variant = config.aether.appearance.variant;
+	flavorName = config.aether.appearance.flavor;
   	accent = config.aether.appearance.accent;
-	colors = aetherLib.colors.${variant};
+	flavor = aetherLib.appearance.flavors.${flavorName};
 in
 {
 	services.mako = {
 		enable = true;
 		anchor = "top-center";
-		backgroundColor = "#${colors.mantle}";
-		borderColor = "#${colors.${accent}}";
+		backgroundColor = "#${flavor.mantle}";
+		borderColor = "#${flavor.${accent}}";
 		borderRadius = 5;
 		borderSize = 1;
 		defaultTimeout = 10000;

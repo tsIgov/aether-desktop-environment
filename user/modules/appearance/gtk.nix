@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let 
-	variant = config.aether.appearance.variant;
+	flavorName = config.aether.appearance.flavor;
   accent = config.aether.appearance.accent;
 in
 {
@@ -8,12 +8,12 @@ in
     enable = true;
 
     theme = {
-      name = "catppuccin-${variant}-${accent}-standard+normal";
+      name = "catppuccin-${flavorName}-${accent}-standard+normal";
       package = pkgs.catppuccin-gtk.override {
         accents = [ accent ];
         size = "standard";
         tweaks = [ "normal" ];
-        variant = variant;
+        variant = flavorName;
       };
     };
 

@@ -1,22 +1,7 @@
-{ config, lib, aetherLib, ... }:
+{ lib, aetherLib, ... }:
 {
 	options.aether.appearance = with lib; with types; {
-		variant = mkOption { type = enum aetherLib.flavors; };
-		accent = mkOption { type = enum [ 
-			"rosewater" 
-			"flamingo" 
-			"pink" 
-			"mauve" 
-			"red" 
-			"maroon" 
-			"peach" 
-			"yellow" 
-			"green" 
-			"teal" 
-			"sky" 
-			"sapphire" 
-			"blue" 
-			"lavender" 
-		];};
+		flavor = mkOption { type = enum aetherLib.appearance.validFlavors; };
+		accent = mkOption { type = enum aetherLib.appearance.validAccents; };
 	};
 }
