@@ -5,7 +5,7 @@
 			bar.volume = {
 				label = false;
 				middleClick = "${pkgs.pulsemixer}/bin/pulsemixer --toggle-mute --id $(${pkgs.pulsemixer}/bin/pulsemixer --list-sources | grep Default | cut -d ',' -f 1 | cut -d ' ' -f 3)";
-				rightClick = "${pkgs.foot}/bin/foot ${pkgs.pulsemixer}/bin/pulsemixer";
+				rightClick = "${config.aether.defaultApps.terminal} ${pkgs.pulsemixer}/bin/pulsemixer";
 				scrollDown = "${pkgs.hyprpanel}/bin/hyprpanel 'vol -5'";
 				scrollUp = "${pkgs.hyprpanel}/bin/hyprpanel 'vol +5'";
 			};

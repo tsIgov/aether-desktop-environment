@@ -16,7 +16,6 @@ Spotify
 
 ## Usability
 Add scripts for easier switch and toggling registries
-hyprpanel has hardcoded terminal
 
 Anyrun or rofi
 Clipboard manager (and file system?) should be inside user
