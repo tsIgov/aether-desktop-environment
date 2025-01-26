@@ -1,12 +1,12 @@
 
-{ pkgs, lib, config, ... }:
+{ pkgs, aetherLib, ... }:
 {
 	programs.rofi = {
 		enable = true;
 		plugins = with pkgs; [ 
 			rofi-calc
 		];
-		font = "Hack Nerd Font Mono 12";
+		font = "${aetherLib.appearance.fonts.mono} 12";
 		location = "center";
 		xoffset = 0;
 		yoffset = 0;
@@ -28,12 +28,17 @@
 	};
 
 	# home.packages = with pkgs; [
-	# 	rofimoji
-	# 	rofi-systemd
+	# 	#rofimoji
 	# 	rofi-pulse-select
+	# 	rofi-vpn
+	# 	rofi-bluetooth-unstable
 	# ];
 
 	home.packages = with pkgs; [
 		(writeShellScriptBin "rofi-test" (builtins.readFile ./test.sh))
+
+		rofi-pulse-select
+		rofi-vpn
+		rofi-bluetooth
 	];
 }

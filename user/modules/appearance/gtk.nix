@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, aetherLib, pkgs, ... }:
 let 
 	flavorName = config.aether.appearance.flavor;
   accent = config.aether.appearance.accent;
@@ -18,7 +18,7 @@ in
     };
 
     font = {
-      name = "Hack Nerd Font Mono";
+      name = aetherLib.appearance.fonts.mono;
       size = 12;
     };
 

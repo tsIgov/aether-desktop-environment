@@ -7,9 +7,13 @@
 			url = "github:nix-community/home-manager";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+    hyprpanel = {
+      url = "github:Jas-SinghFSU/HyprPanel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, ... }: 
+  outputs = { nixpkgs, home-manager, hyprpanel, ... }: 
   let
     pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
     aetherLib = import ./lib nixpkgs.lib;
@@ -18,6 +22,6 @@
   {
     lib = aetherLib;
     systemConfig = import ./system { inherit nixpkgs pkgs aetherLib aetherPkgs; };
-    userConfig = import ./user { inherit home-manager pkgs aetherLib aetherPkgs; };
+    userConfig = import ./user { inherit home-manager pkgs aetherLib aetherPkgs hyprpanel; };
   };
 }

@@ -15,15 +15,12 @@ Spotify
 
 
 ## Usability
-Move common stuff to presets
-Presets should be enabled
 Add scripts for easier switch and toggling registries
+hyprpanel has hardcoded terminal
 
-Replace anyrun
+Anyrun or rofi
 Clipboard manager (and file system?) should be inside user
 Clipboard gets cleared on app close
-Configure waybar
-Better network manager gui
 
 Add micro instead of nano? (set $EDITOR)
 Locale should be configured per user
@@ -37,9 +34,8 @@ Reconfigure Hyprland
 
 screen casting
 Configure XDG (notes in digital brain)
-shutdown, reboot, sleep, hibernate (runner?)
 Check storage (gnome-usage gnome-system-monitor htop gotop)
-wallpaper? (also for lockscreen and display manager)
+wallpaper? (also for lockscreen)
 Migrate to hyprlock if wallpapers will be used
 Configure lockscreen
 
