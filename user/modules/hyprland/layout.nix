@@ -4,17 +4,12 @@
 	wayland.windowManager.hyprland = {
 		settings = {
 			general = {
-				layout = "dwindle";
+				layout = "master";
 			};
 			master = {
-				mfact = 0.7;
+				mfact = 0.6;
 				new_status = "slave";
 			};
-			dwindle = {
-				force_split = 2;
-				default_split_ratio = 1.1;
-			};
-
 		};
 
 	};

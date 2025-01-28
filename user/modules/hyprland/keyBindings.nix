@@ -25,7 +25,6 @@
 			bind = SUPER, 9, workspace, 9
 			bind = SUPER, 0, workspace, 10
 			
-
 			bind = SUPER SHIFT, 1, movetoworkspace, 1
 			bind = SUPER SHIFT, 2, movetoworkspace, 2
 			bind = SUPER SHIFT, 3, movetoworkspace, 3
@@ -38,13 +37,17 @@
 			bind = SUPER SHIFT, 0, movetoworkspace, 10
 
 			bindr = SUPER, SUPER_L, exec, pkill anyrun || anyrun
-			bind = SUPER, A, exec, pkill anyrun || anyrun
-			bind = SUPER, Q, exec, ${config.aether.defaultApps.terminal}
-			bind = SUPER, C, killactive, 
-			bind = SUPER, E, exec, ${config.aether.defaultApps.fileManager}
-			bind = SUPER, D, togglefloating 
-			bind = SUPER, F, fullscreen, 1
 			bind = SUPER, R, exec, pkill anyrun || anyrun
+			bind = SUPER, A, exec, pkill anyrun || anyrun
+
+			bind = SUPER, F, togglefloating 
+			bind = SUPER SHIFT, F, fullscreen, 1
+
+			bind = ALT, F4, killactive
+			bind = SUPER, C, killactive
+			 
+			bind = SUPER, Q, exec, ${config.aether.defaultApps.terminal}
+			bind = SUPER, E, exec, ${config.aether.defaultApps.fileManager}
 			bind = SUPER, L, exec, pidof swaylock || swaylock
 
 
