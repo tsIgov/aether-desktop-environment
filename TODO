@@ -12,20 +12,24 @@ Password manager
 Software development stuff
 Discord
 Spotify
+Bazecore
 
 
 ## Usability
-Add scripts for easier switch and toggling registries
+Syncthing does requres to be opened before it can be used
 
-Anyrun or rofi
-Clipboard manager (and file system?) should be inside user
+Anyrun should use the clipboard manager
 Clipboard gets cleared on app close
+
+Battery icon is empty
 
 Add micro instead of nano? (set $EDITOR)
 Locale should be configured per user
 
 Reconfigure Hyprland
-	- Check plugins
+	- Introduce variables
+	- Window open animation
+	- Clamshell
 	- Configure monitors
 	- Configure hotkeys (including those for notifications) (should they be configured in a single place)
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
@@ -44,7 +48,5 @@ Should the deployment script update the flake locks? Currently they are set to p
 
 
 ## Appearance
-Generate gtk icons from a color. Use papirus or Flat Remix
-Generate mouse cursor from a color
-theme Qt
-
+Generate gtk icons from a color
+Cursor size
