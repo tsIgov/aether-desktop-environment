@@ -1,91 +1,90 @@
-{ ... }:
+{ config, ... }:
 
 {
 
 	wayland.windowManager.hyprland = {
 		extraConfig = ''
-			# Set programs that you use
-			$terminal = foot
-			$fileManager = nemo
+			bind = SUPER, left, movefocus, l
+			bind = SUPER, right, movefocus, r
+			bind = SUPER, up, movefocus, u
+			bind = SUPER, down, movefocus, d
 
-			$mainMod = SUPER
+			bind = SUPER SHIFT, left, swapwindow, l
+			bind = SUPER SHIFT, right, swapwindow, r
+			bind = SUPER SHIFT, up, swapwindow, u
+			bind = SUPER SHIFT, down, swapwindow, d
 
-			bind = $mainMod, Q, exec, $terminal
-			bind = $mainMod, C, killactive, 
-			bind = $mainMod, E, exec, $fileManager
-			bind = $mainMod, D, togglefloating 
-			bind = $mainMod, F, fullscreen, 1
-			bind = SUPER, R, exec, pkill anyrun || anyrun
-			bind = $mainMod, L, exec, pidof swaylock || swaylock
+			bind = SUPER, 1, workspace, 1
+			bind = SUPER, 2, workspace, 2
+			bind = SUPER, 3, workspace, 3
+			bind = SUPER, 4, workspace, 4
+			bind = SUPER, 5, workspace, 5
+			bind = SUPER, 6, workspace, 6
+			bind = SUPER, 7, workspace, 7
+			bind = SUPER, 8, workspace, 8
+			bind = SUPER, 9, workspace, 9
+			bind = SUPER, 0, workspace, 10
+			
+
+			bind = SUPER SHIFT, 1, movetoworkspace, 1
+			bind = SUPER SHIFT, 2, movetoworkspace, 2
+			bind = SUPER SHIFT, 3, movetoworkspace, 3
+			bind = SUPER SHIFT, 4, movetoworkspace, 4
+			bind = SUPER SHIFT, 5, movetoworkspace, 5
+			bind = SUPER SHIFT, 6, movetoworkspace, 6
+			bind = SUPER SHIFT, 7, movetoworkspace, 7
+			bind = SUPER SHIFT, 8, movetoworkspace, 8
+			bind = SUPER SHIFT, 9, movetoworkspace, 9
+			bind = SUPER SHIFT, 0, movetoworkspace, 10
 
 			bindr = SUPER, SUPER_L, exec, pkill anyrun || anyrun
-
-			# Move focus with mainMod + arrow keys
-			bind = $mainMod, left, movefocus, l
-			bind = $mainMod, right, movefocus, r
-			bind = $mainMod, up, movefocus, u
-			bind = $mainMod, down, movefocus, d
-
-
-			# Move windows with mainMod + Shift + arrow keys
-			bind = $mainMod SHIFT, left, movewindoworgroup, l
-			bind = $mainMod SHIFT, right, movewindoworgroup, r
-			bind = $mainMod SHIFT, up, movewindoworgroup, u
-			bind = $mainMod SHIFT, down, movewindoworgroup, d
+			bind = SUPER, A, exec, pkill anyrun || anyrun
+			bind = SUPER, Q, exec, ${config.aether.defaultApps.terminal}
+			bind = SUPER, C, killactive, 
+			bind = SUPER, E, exec, ${config.aether.defaultApps.fileManager}
+			bind = SUPER, D, togglefloating 
+			bind = SUPER, F, fullscreen, 1
+			bind = SUPER, R, exec, pkill anyrun || anyrun
+			bind = SUPER, L, exec, pidof swaylock || swaylock
 
 
-			# Switch workspaces with mainMod + [0-9]
-			bind = $mainMod, 1, workspace, 1
-			bind = $mainMod, 2, workspace, 2
-			bind = $mainMod, 3, workspace, 3
-			bind = $mainMod, 4, workspace, 4
-			bind = $mainMod, 5, workspace, 5
-			bind = $mainMod, 6, workspace, 6
-			bind = $mainMod, 7, workspace, 7
-			bind = $mainMod, 8, workspace, 8
-			bind = $mainMod, 9, workspace, 9
-			bind = $mainMod, 0, workspace, 10
+			
+			bind = SUPER, V, exec, pkill clipse || foot -a clipse clipse 
+			bind = SUPER SHIFT, V, exec, clipse -clear
+			bind = SUPER SHIFT, C, exec, hyprpicker -a 
 
-			# Move active window to a workspace with mainMod + SHIFT + [0-9]
-			bind = $mainMod SHIFT, 1, movetoworkspace, 1
-			bind = $mainMod SHIFT, 2, movetoworkspace, 2
-			bind = $mainMod SHIFT, 3, movetoworkspace, 3
-			bind = $mainMod SHIFT, 4, movetoworkspace, 4
-			bind = $mainMod SHIFT, 5, movetoworkspace, 5
-			bind = $mainMod SHIFT, 6, movetoworkspace, 6
-			bind = $mainMod SHIFT, 7, movetoworkspace, 7
-			bind = $mainMod SHIFT, 8, movetoworkspace, 8
-			bind = $mainMod SHIFT, 9, movetoworkspace, 9
-			bind = $mainMod SHIFT, 0, movetoworkspace, 10
+			bind = , PRINT, exec, hyprshot -m active -m output -s -o ${config.directories.screenshot}
+			bind = SUPER, PRINT, exec, hyprshot -m active -m window -s -o ${config.directories.screenshot}
+			bind = SUPER SHIFT, PRINT, exec, hyprshot -m region -z -s -o ${config.directories.screenshot}
+
+
 
 			# Example special workspace (scratchpad)
-			bind = $mainMod, S, togglespecialworkspace, scratchpad
-			bind = $mainMod SHIFT, S, movetoworkspace, special:scratchpad
+			bind = SUPER, S, togglespecialworkspace, scratchpad
+			bind = SUPER SHIFT, S, movetoworkspace, special:scratchpad
 
 
 			# Move/resize windows with mainMod + LMB/RMB and dragging
-			bindm = $mainMod, mouse:272, movewindow
-			bindm = $mainMod, mouse:273, resizewindow
+			bindm = SUPER, mouse:272, movewindow
+			bindm = SUPER, mouse:273, resizewindow
 
-			# Resize
-			bind = $mainMod, M, submap, resize
-			submap=resize
-			binde = $mainMod, right, resizeactive, 20 0
-			binde = $mainMod, left, resizeactive, -20 0
-			binde = $mainMod, up, resizeactive, 0 -20
-			binde = $mainMod, down, resizeactive, 0 20
-			bind = $mainMod SHIFT, left, movewindow, l
-			bind = $mainMod SHIFT, right, movewindow, r
-			bind = $mainMod SHIFT, up, movewindow, u
-			bind = $mainMod SHIFT, down, movewindow, d
+
+
+			# Monitors
+			bind = SUPER, M, submap, monitors
+			submap=monitors
+
+			bind = SUPER SHIFT, left, focusmonitor, l
+			bind = SUPER SHIFT, right, focusmonitor, r
+			bind = SUPER SHIFT, up, focusmonitor, u
+			bind = SUPER SHIFT, down, focusmonitor, d
+
+			bind = SUPER SHIFT, left, movecurrentworkspacetomonitor, l
+			bind = SUPER SHIFT, right, movecurrentworkspacetomonitor, r
+			bind = SUPER SHIFT, up, movecurrentworkspacetomonitor, u
+			bind = SUPER SHIFT, down, movecurrentworkspacetomonitor, d
 			bind = , escape, submap, reset 
 			submap = reset
-
-			# Grouping
-			bind = $mainMod, tab, changegroupactive, f
-			bind = $mainMod SHIFT, tab, changegroupactive, b
-			bind = $mainMod, G, togglegroup 
-			bind = $mainMod, space, lockactivegroup, toggle
 		'';
 	};
 }
