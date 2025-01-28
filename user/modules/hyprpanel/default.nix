@@ -1,31 +1,33 @@
-{ pkgs, aetherLib, ... }:
+{ pkgs, aether, ... }:
 {
-  programs.hyprpanel = {
+	imports = [ aether.inputs.hyprpanel.homeManagerModules.hyprpanel ];
 
-    enable = true;
-    hyprland.enable = true;
-    overlay.enable = true;
-    overwrite.enable = true;
+	programs.hyprpanel = {
 
-    settings = {
-      hyprpanel = {
-        restartAgs = true;
-        restartCommand = "${pkgs.hyprpanel}/bin/hyprpanel q; ${pkgs.hyprpanel}/bin/hyprpanel";
-      };
+		enable = true;
+		hyprland.enable = true;
+		overlay.enable = true;
+		overwrite.enable = true;
 
-      scalingPriority = "gdk";
-      tear = false;
-      terminal = "$TERM";
+		settings = {
+			hyprpanel = {
+				restartAgs = true;
+				restartCommand = "${pkgs.hyprpanel}/bin/hyprpanel q; ${pkgs.hyprpanel}/bin/hyprpanel";
+			};
 
-      theme = {
-        font = {
-          name = aetherLib.appearance.fonts.mono;
-          size = "1rem";
-          weight = 600;
-        };
-        
-        tooltip.scaling = 90;
-      };
-    };
-  };
+			scalingPriority = "gdk";
+			tear = false;
+			terminal = "$TERM";
+
+			theme = {
+				font = {
+					name = aether.lib.appearance.fonts.mono;
+					size = "1rem";
+					weight = 600;
+				};
+				
+				tooltip.scaling = 90;
+			};
+		};
+	};
 }

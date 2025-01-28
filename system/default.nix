@@ -1,15 +1,15 @@
-{ nixpkgs, pkgs, aetherLib, aetherPkgs }: { hostName, specialArgs ? {}, modules ? [] }:
+{ pkgs, aether }: { hostName, specialArgs ? {}, modules ? [] }:
 let
-	specialArgsFinal = specialArgs // { inherit aetherLib aetherPkgs; };
+	specialArgsFinal = specialArgs // { inherit aether; };
 in
 {
-	nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
+	nixosConfigurations.${hostName} = aether.inputs.nixpkgs.lib.nixosSystem {
 		inherit pkgs;
 		specialArgs = specialArgsFinal; 
 		modules = [ 
 			./system.nix
-			(import ./removeChannels.nix nixpkgs)
+			(import ./removeChannels.nix aether.inputs.nixpkgs)
 			(args: { networking.hostName = hostName; })
-		] ++ (aetherLib.moduleUtils.listModulesRecursively ./modules) ++ modules; 
+		] ++ (aether.lib.moduleUtils.listModulesRecursively ./modules) ++ modules; 
 	};
 }

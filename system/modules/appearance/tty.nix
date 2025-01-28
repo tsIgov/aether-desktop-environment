@@ -1,7 +1,7 @@
-{ pkgs, config, aetherLib, ... }:
+{ pkgs, config, aether, ... }:
 let 
 	flavorName = config.aether.appearance.flavor;
-	flavor = aetherLib.appearance.flavors.${flavorName};
+	flavor = aether.lib.appearance.flavors.${flavorName};
 in
 {
 	console = {

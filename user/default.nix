@@ -1,14 +1,13 @@
-{ home-manager, pkgs, aetherLib, aetherPkgs, hyprpanel }: { user, specialArgs ? {}, modules ? [] }:
+{ aether, pkgs }: { user, specialArgs ? {}, modules ? [] }:
 let
-	specialArgsFinal = specialArgs // { inherit aetherLib aetherPkgs; };
+	specialArgsFinal = specialArgs // { inherit aether; };
 in
 {
-	homeConfigurations.${user} = home-manager.lib.homeManagerConfiguration {
+	homeConfigurations.${user} = aether.inputs.home-manager.lib.homeManagerConfiguration {
 			inherit pkgs; 
 			extraSpecialArgs = specialArgsFinal;
 			modules = [
 				(import ./home.nix user)
-				hyprpanel.homeManagerModules.hyprpanel
-			] ++ (aetherLib.moduleUtils.listModulesRecursively ./modules) ++ modules;
+			] ++ (aether.lib.moduleUtils.listModulesRecursively ./modules) ++ modules;
 		};
 }

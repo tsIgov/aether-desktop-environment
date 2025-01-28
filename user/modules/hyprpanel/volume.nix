@@ -1,4 +1,4 @@
-{ pkgs, config, aetherLib, ... }:
+{ pkgs, config, ... }:
 {
 	programs.hyprpanel = {
 		settings = {

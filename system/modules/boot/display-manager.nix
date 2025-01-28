@@ -1,8 +1,8 @@
-{ pkgs, config, aetherLib, ... }:
+{ pkgs, config, aether, ... }:
 let 
 	flavorName = config.aether.appearance.flavor;
 	accent = config.aether.appearance.accent;
-	flavor = aetherLib.appearance.flavors.${flavorName};
+	flavor = aether.lib.appearance.flavors.${flavorName};
 in
 {
   environment.systemPackages = with pkgs; [

@@ -1,4 +1,4 @@
-{ config, aetherLib, ... }:
+{ config, aether, ... }:
 
 let
   cfg = config.user;
@@ -7,10 +7,10 @@ in
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ aetherLib.appearance.fonts.regular ];
-				sansSerif = [ aetherLib.appearance.fonts.regular ];
-				monospace = [ aetherLib.appearance.fonts.mono ];
-				emoji = [ aetherLib.appearance.fonts.emoji ];
+        serif = [ aether.lib.appearance.fonts.regular ];
+				sansSerif = [ aether.lib.appearance.fonts.regular ];
+				monospace = [ aether.lib.appearance.fonts.mono ];
+				emoji = [ aether.lib.appearance.fonts.emoji ];
       };
     };
 

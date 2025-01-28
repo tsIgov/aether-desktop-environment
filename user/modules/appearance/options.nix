@@ -1,7 +1,7 @@
-{ lib, aetherLib, ... }:
+{ lib, aether, ... }:
 {
 	options.aether.appearance = with lib; with types; {
-		flavor = mkOption { type = enum aetherLib.appearance.validFlavors; };
-		accent = mkOption { type = enum aetherLib.appearance.validAccents; };
+		flavor = mkOption { type = enum aether.lib.appearance.validFlavors; };
+		accent = mkOption { type = enum aether.lib.appearance.validAccents; };
 	};
 }

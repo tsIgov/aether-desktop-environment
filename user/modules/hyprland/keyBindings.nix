@@ -18,7 +18,7 @@
 			bind = SUPER, R, exec, pkill anyrun || anyrun
 			bind = $mainMod, L, exec, pidof swaylock || swaylock
 
-			bindr = SUPER, SUPER_L, exec, pkill rofi || rofi -show drun -normal-window
+			bindr = SUPER, SUPER_L, exec, pkill anyrun || anyrun
 
 			# Move focus with mainMod + arrow keys
 			bind = $mainMod, left, movefocus, l
