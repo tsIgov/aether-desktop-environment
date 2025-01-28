@@ -27,6 +27,7 @@ Add micro instead of nano? (set $EDITOR)
 Locale should be configured per user
 
 Reconfigure Hyprland
+	- Don't open new window at master
 	- Introduce variables
 	- Window open animation
 	- Clamshell
@@ -34,6 +35,7 @@ Reconfigure Hyprland
 	- Configure hotkeys (including those for notifications) (should they be configured in a single place)
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
+Migrate to kitty
 
 screen casting
 Configure XDG (notes in digital brain)
