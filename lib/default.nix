@@ -1,4 +1,5 @@
 lib:
 {
-	moduleUtils = import ./moduleUtils.nix lib;
+	appearance = import ./appearance;
+	moduleUtils = import ./moduleUtils { inherit lib; };
 }

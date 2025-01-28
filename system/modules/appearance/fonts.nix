@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, aether, ... }:
 
 {
     fonts = {
@@ -10,10 +10,10 @@
 		fontconfig = {
 			enable = true;
 			defaultFonts = {
-				serif = [ "Inter" ];
-				sansSerif = [ "Inter" ];
-				monospace = [ "Hack Nerd Font Mono" ];
-				emoji = [ "Noto Emoji" ];
+				serif = [ aether.lib.appearance.fonts.regular ];
+				sansSerif = [ aether.lib.appearance.fonts.regular ];
+				monospace = [ aether.lib.appearance.fonts.mono ];
+				emoji = [ aether.lib.appearance.fonts.emoji ];
 			};
 		};
 	};
