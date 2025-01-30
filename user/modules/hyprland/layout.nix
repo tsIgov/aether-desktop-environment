@@ -7,7 +7,7 @@
 				layout = "master";
 			};
 			master = {
-				mfact = 0.6;
+				mfact = 0.7;
 				new_status = "slave";
 			};
 		};
