@@ -1,32 +1,12 @@
 { config }:
 let 
 	flavors = import ./flavors.nix;
-
-	complimentary = {
-		rosewater = "flamingo";
-		flamingo = "rosewater";
-		pink = "mauve";
-		mauve = "pink";
-		red = "maroon";
-		maroon = "red";
-		peach = "yellow";
-		yellow = "peach";
-		green = "teal";
-		teal = "green";
-		sky = "sapphire";
-		sapphire = "sky";
-		blue = "lavender";
-		lavender = "blue";
-	};
-
 	flavorName = config.aether.appearance.flavor;
 	flavor = flavors.${flavorName};
   	accentName = config.aether.appearance.accent;
-	complimentaryName = complimentary.${accentName};
 in
 {
 	accent = flavor.${accentName};
-	complimentary = flavor.${complimentaryName};
 
 	rosewater = flavor.rosewater;
 	flamingo = flavor.flamingo;

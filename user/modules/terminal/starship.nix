@@ -32,12 +32,12 @@ in
 
 			git_branch = {
 				symbol = "";
-				style = "fg:#${palette.complimentary} bg:#${palette.surface0}";
+				style = "fg:#${palette.green} bg:#${palette.surface0}";
 				format = "[ $symbol $branch ]($style)";
 			};
 
 			git_status = {
-				style = "fg:#${palette.complimentary} bg:#${palette.surface0}";
+				style = "fg:#${palette.maroon} bg:#${palette.surface0}";
 				format = "[$all_status$ahead_behind]($style)";
 			};
 

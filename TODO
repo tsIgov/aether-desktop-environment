@@ -30,6 +30,7 @@ Reconfigure Hyprland
 	- Introduce variables
 	- Clamshell
 	- Configure monitors
+	- Configure keyboard layouts
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
 screen casting

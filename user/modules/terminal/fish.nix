@@ -10,13 +10,13 @@ in
 			set fish_color_autosuggestion      	${palette.surface2}
 			set fish_color_command             	${palette.accent}
 			set fish_color_comment             	${palette.surface2}
-			set fish_color_end                 	${palette.sapphire}
+			set fish_color_end                 	${palette.sky}
 			set fish_color_error               	${palette.red}
-			set fish_color_escape              	${palette.sapphire}
+			set fish_color_escape              	${palette.pink}
 			set fish_color_keyword				${palette.accent}
-			set fish_color_operator				${palette.sapphire}
-			set fish_color_option            	${palette.sapphire}
-			set fish_color_param              	${palette.complimentary}
+			set fish_color_operator				${palette.sky}
+			set fish_color_option            	${palette.yellow}
+			set fish_color_param              	${palette.blue}
 			set fish_color_quote               	${palette.green}
 			set fish_color_redirection         	${palette.sapphire}
 
