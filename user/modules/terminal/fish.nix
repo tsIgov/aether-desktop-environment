@@ -10,15 +10,15 @@ in
 			set fish_color_autosuggestion      	${palette.surface2}
 			set fish_color_command             	${palette.accent}
 			set fish_color_comment             	${palette.surface2}
-			set fish_color_end                 	${palette.teal}
+			set fish_color_end                 	${palette.sapphire}
 			set fish_color_error               	${palette.red}
-			set fish_color_escape              	${palette.teal}
+			set fish_color_escape              	${palette.sapphire}
 			set fish_color_keyword				${palette.accent}
-			set fish_color_operator				${palette.teal}
-			set fish_color_option            	${palette.teal}
+			set fish_color_operator				${palette.sapphire}
+			set fish_color_option            	${palette.sapphire}
 			set fish_color_param              	${palette.complimentary}
 			set fish_color_quote               	${palette.green}
-			set fish_color_redirection         	${palette.teal}
+			set fish_color_redirection         	${palette.sapphire}
 
 			set -x LS_COLORS "di=01;35:ln=34:pi=36:so=36:do=36:bd=33:cd=33:or=31:mi=31:ex=01;32:"
 		'';

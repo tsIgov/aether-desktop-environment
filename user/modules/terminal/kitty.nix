@@ -14,6 +14,7 @@ in
 			shell = "fish";
 			strip_trailing_spaces = "smart";
 			window_padding_width = 25;
+			confirm_os_window_close = 0;
 
 			foreground ="#${palette.text}";
 			background = "#${palette.base}";
