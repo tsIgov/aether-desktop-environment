@@ -1,8 +1,6 @@
 { config, aether, ... }:
 let 
-	flavorName = config.aether.appearance.flavor;
-	flavor = aether.lib.appearance.flavors.${flavorName};
-  	accent = config.aether.appearance.accent;
+	palette = aether.lib.appearance.getPalette { inherit config; };
 in
 {
 	programs.kitty = {
@@ -10,75 +8,66 @@ in
 		font = {
 			name = aether.lib.appearance.fonts.mono;
 			size = 11;
-
 		};
+
 		settings = {
 			shell = "fish";
 			strip_trailing_spaces = "smart";
 			window_padding_width = 25;
 
-			foreground ="#${flavor.text}";
-			background = "#${flavor.base}";
-			selection_foreground = "#${flavor.base}";
-			selection_background = "#${flavor.${accent}}";
+			foreground ="#${palette.text}";
+			background = "#${palette.base}";
+			selection_foreground = "#${palette.base}";
+			selection_background = "#${palette.accent}";
 
-			cursor = "#f5e0dc";
-			cursor_text_color = "#1e1e2e";
+			cursor = "#${palette.accent}";
+			cursor_text_color = "#${palette.crust}";
 
-			url_color = "#f5e0dc";
+			url_color = "#${palette.blue}";
 			url_style = "straight";
 
-			active_border_color = "#b4befe";
-			inactive_border_color = "#6c7086";
-			bell_border_color = "#f9e2af";
-
-			active_tab_foreground = "#11111b";
-			active_tab_background = "#cba6f7";
-			inactive_tab_foreground = "#cdd6f4";
-			inactive_tab_background = "#181825";
-			tab_bar_background = "#11111b";
-
-			mark1_foreground = "#1e1e2e";
-			mark1_background = "#b4befe";
-			mark2_foreground = "#1e1e2e";
-			mark2_background = "#cba6f7";
-			mark3_foreground = "#1e1e2e";
-			mark3_background = "#74c7ec";
+			mark1_foreground = "#${palette.crust}";
+			mark1_background = "#${palette.lavender}";
+			mark2_foreground = "#${palette.crust}";
+			mark2_background = "#${palette.mauve}";
+			mark3_foreground = "#${palette.crust}";
+			mark3_background = "#${palette.sapphire}";
 
 			# The 16 terminal colors
 
 			# black
-			color0 = "#45475a";
-			color8 = "#585b70";
+			color0 = "#${palette.surface1}";
+			color8 = "#${palette.surface2}";
 
 			# red
-			color1 = "#f38ba8";
-			color9 = "#f38ba8";
+			color1 = "#${palette.red}";
+			color9 = "#${palette.red}";
 
 			# green
-			color2 = "#a6e3a1";
-			color10 = "#a6e3a1";
+			color2 = "#${palette.green}";
+			color10 = "#${palette.green}";
 
 			# yellow
-			color3 = "#f9e2af";
-			color11 = "#f9e2af";
+			color3 = "#${palette.yellow}";
+			color11 = "#${palette.yellow}";
 
 			# blue
-			color4 = "#89b4fa";
-			color12 = "#89b4fa";
+			color4 = "#${palette.blue}";
+			color12 = "#${palette.blue}";
 
 			# magenta
-			color5 = "#f5c2e7";
-			color13 = "#f5c2e7";
+			color5 = "#${palette.mauve}";
+			color13 = "#${palette.mauve}";
 
 			# cyan
-			color6 = "#94e2d5";
-			color14 = "#94e2d5";
+			color6 = "#${palette.sky}";
+			color14 = "#${palette.sky}";
 
 			# white
-			color7 = "#bac2de";
-			color15 = "#a6adc8";
+			color7 = "#${palette.subtext1}";
+			color15 = "#${palette.subtext0}";
 		};
+		
 		keybindings = {
 			"clear_all_shortcuts" = "yes";
 

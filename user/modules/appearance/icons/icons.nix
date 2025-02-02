@@ -11,7 +11,7 @@
 	config = {
 		home.packages = [
 			(pkgs.catppuccin-papirus-folders.override { flavor = "mocha"; accent = "mauve"; })
-			(aether.pkgs.recolor.override { flavor = "mocha"; })
+			(aether.pkgs.recolor.override { palette = aether.lib.appearance.getPalette { inherit config; }; })
 		];
 
 

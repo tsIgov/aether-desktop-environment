@@ -1,7 +1,6 @@
 { aether, config, pkgs, ... }:
 let 
-	flavorName = config.aether.appearance.flavor;
-	flavor = aether.lib.appearance.flavors.${flavorName};
+	palette = aether.lib.appearance.getPalette { inherit config; };
 in
 {
 	imports = [aether.inputs.anyrun.homeManagerModules.default];
@@ -34,17 +33,17 @@ in
 
 		extraCss = ''
 		#window {
-			background-color: alpha(#${flavor.base}, 0.3);
+			background-color: alpha(#${palette.base}, 0.3);
 		}
 
 		box#main {
 			border-radius: 10px;
-			background-color: #${flavor.mantle};
-			border: 1px solid #${flavor.overlay0};
+			background-color: #${palette.mantle};
+			border: 1px solid #${palette.overlay0};
 		}
 
 		list#main {
-			background-color: #${flavor.mantle};
+			background-color: #${palette.mantle};
 			border-radius: 10px;
 		}
 

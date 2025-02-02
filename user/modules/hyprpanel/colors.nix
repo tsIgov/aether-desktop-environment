@@ -1,116 +1,114 @@
 { pkgs, config, aether, ... }:
 let 
-	flavorName = config.aether.appearance.flavor;
-	flavor = aether.lib.appearance.flavors.${flavorName};
-  	accent = config.aether.appearance.accent;
+	palette = aether.lib.appearance.getPalette { inherit config; };
 in
 {
 	programs.hyprpanel = {
 		override.theme = {
 			bar = {
 				menus = {
-					border.color =  "#${flavor.surface0}";
+					border.color =  "#${palette.surface0}";
 					tooltip = {
-						text =  "#${flavor.subtext1}";
-						background =  "#${flavor.mantle}";
+						text =  "#${palette.subtext1}";
+						background =  "#${palette.mantle}";
 					};
 					dropdownmenu = {
-						divider =  "#${flavor.base}";
-						text =  "#${flavor.text}";
-						background =  "#${flavor.mantle}";
+						divider =  "#${palette.base}";
+						text =  "#${palette.text}";
+						background =  "#${palette.mantle}";
 					};
 					slider = {
-						puck =  "#${flavor.surface2}";
-						backgroundhover =  "#${flavor.surface1}";
-						background =  "#${flavor.surface0}";
-						primary =  "#${flavor.${accent}}";
+						puck =  "#${palette.surface2}";
+						backgroundhover =  "#${palette.surface1}";
+						background =  "#${palette.surface0}";
+						primary =  "#${palette.accent}";
 					};
 					progressbar = {
-						background =  "#${flavor.surface0}";
-						foreground =  "#${flavor.${accent}}";
+						background =  "#${palette.surface0}";
+						foreground =  "#${palette.accent}";
 					};
 					iconbuttons = {
-						active =  "#${flavor.${accent}}";
-						passive =  "#${flavor.text}";
+						active =  "#${palette.accent}";
+						passive =  "#${palette.text}";
 					};
 					buttons = {
-						text =  "#${flavor.mantle}";
-						disabled =  "#${flavor.surface0}";
-						active =  "#${flavor.${accent}}";
-						default =  "#${flavor.${accent}}";
+						text =  "#${palette.mantle}";
+						disabled =  "#${palette.surface0}";
+						active =  "#${palette.accent}";
+						default =  "#${palette.accent}";
 					};
 					check_radio_button = {
-						active =  "#${flavor.${accent}}";
-						background =  "#${flavor.surface0}";
+						active =  "#${palette.accent}";
+						background =  "#${palette.surface0}";
 					};
 					switch = {
-						puck =  "#${flavor.surface1}";
-						disabled =  "#${flavor.surface0}";
-						enabled =  "#${flavor.${accent}}";
+						puck =  "#${palette.surface1}";
+						disabled =  "#${palette.surface0}";
+						enabled =  "#${palette.accent}";
 					};
 					icons = {
-						active =  "#${flavor.${accent}}";
-						passive =  "#${flavor.text}";
+						active =  "#${palette.accent}";
+						passive =  "#${palette.text}";
 					};
 					listitems = {
-						active =  "#${flavor.${accent}}";
-						passive =  "#${flavor.text}";
+						active =  "#${palette.accent}";
+						passive =  "#${palette.text}";
 					};
 					popover = {
-						border =  "#${flavor.mantle}";
-						background =  "#${flavor.mantle}";
-						text =  "#${flavor.text}";
+						border =  "#${palette.mantle}";
+						background =  "#${palette.mantle}";
+						text =  "#${palette.text}";
 					};
-					label =  "#${flavor.text}";
-					feinttext =  "#${flavor.subtext0}";
-					dimtext =  "#${flavor.subtext1}";
-					text =  "#${flavor.text}";
-					cards =  "#${flavor.base}";
-					background =  "#${flavor.mantle}";
+					label =  "#${palette.text}";
+					feinttext =  "#${palette.subtext0}";
+					dimtext =  "#${palette.subtext1}";
+					text =  "#${palette.text}";
+					cards =  "#${palette.base}";
+					background =  "#${palette.mantle}";
 				};
 
 				buttons = {
 					style =  "default";
 					workspaces = {
-						numbered_active_underline_color =  "#${flavor.${accent}}";
-						hover =  "#${flavor.${accent}}";
-						active =  "#${flavor.${accent}}";
-						occupied =  "#${flavor.${accent}}";
-						available =  "#${flavor.subtext0}";
-						background =  "#${flavor.mantle}";
+						numbered_active_underline_color =  "#${palette.accent}";
+						hover =  "#${palette.accent}";
+						active =  "#${palette.accent}";
+						occupied =  "#${palette.accent}";
+						available =  "#${palette.subtext0}";
+						background =  "#${palette.mantle}";
 					};
-					icon =  "#${flavor.${accent}}";
-					text =  "#${flavor.text}";
-					hover =  "#${flavor.surface1}";
-					icon_background =  "#${flavor.mantle}";
-					background =  "#${flavor.mantle}";
-					borderColor =  "#${flavor.surface0}";
+					icon =  "#${palette.accent}";
+					text =  "#${palette.text}";
+					hover =  "#${palette.surface1}";
+					icon_background =  "#${palette.mantle}";
+					background =  "#${palette.mantle}";
+					borderColor =  "#${palette.surface0}";
 				};
-				background =  "#${flavor.mantle}";
-				border.color =  "#${flavor.surface0}";
+				background =  "#${palette.mantle}";
+				border.color =  "#${palette.surface0}";
 			};
 
 			osd = {
-				label =  "#${flavor.text}";
-				icon =  "#${flavor.${accent}}";
-				bar_overflow_color =  "#${flavor.red}";
-				bar_empty_color =  "#${flavor.surface0}";
-				bar_color =  "#${flavor.${accent}}";
-				border.color =  "#${flavor.surface0}";
-				icon_container =  "#${flavor.mantle}";
-				bar_container =  "#${flavor.mantle}";
+				label =  "#${palette.text}";
+				icon =  "#${palette.accent}";
+				bar_overflow_color =  "#${palette.red}";
+				bar_empty_color =  "#${palette.surface0}";
+				bar_color =  "#${palette.accent}";
+				border.color =  "#${palette.surface0}";
+				icon_container =  "#${palette.mantle}";
+				bar_container =  "#${palette.mantle}";
 			};
 			notification = {
-				close_button.label =  "#${flavor.surface2}";
-				close_button.background =  "#${flavor.surface0}";
-				labelicon =  "#${flavor.${accent}}";
-				text =  "#${flavor.text}";
-				time =  "#${flavor.subtext0}";
-				border =  "#${flavor.surface0}";
-				label =  "#${flavor.${accent}}";
-				actions.text =  "#${flavor.mantle}";
-				actions.background =  "#${flavor.${accent}}";
-				background =  "#${flavor.base}";
+				close_button.label =  "#${palette.surface2}";
+				close_button.background =  "#${palette.surface0}";
+				labelicon =  "#${palette.accent}";
+				text =  "#${palette.text}";
+				time =  "#${palette.subtext0}";
+				border =  "#${palette.surface0}";
+				label =  "#${palette.accent}";
+				actions.text =  "#${palette.mantle}";
+				actions.background =  "#${palette.accent}";
+				background =  "#${palette.base}";
 			};
 		};
 	};

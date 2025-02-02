@@ -1,7 +1,6 @@
 { pkgs, config, aether, ... }:
 let 
-	flavorName = config.aether.appearance.flavor;
-	flavor = aether.lib.appearance.flavors.${flavorName};
+	palette = aether.lib.appearance.getPalette { inherit config; };
 in
 {
 	console = {
@@ -9,7 +8,7 @@ in
 		packages = with pkgs; [
 			terminus_font
 		];
-		colors = with flavor; [
+		colors = with palette; [
 			base red green yellow blue pink teal subtext0
 			surface0 red green yellow blue pink teal subtext1
 		];

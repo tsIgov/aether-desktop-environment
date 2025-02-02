@@ -1,18 +1,16 @@
 { pkgs, config, aether, ... }:
 let 
-	flavorName = config.aether.appearance.flavor;
-	accent = config.aether.appearance.accent;
-	flavor = aether.lib.appearance.flavors.${flavorName};
+	palette = aether.lib.appearance.getPalette { inherit config; };
 in
 {
   environment.systemPackages = with pkgs; [
     (where-is-my-sddm-theme.override {
       themeConfig.General = {
-        backgroundFill = "#${flavor.base}";
-        basicTextColor = "#${flavor.subtext0}";
-        passwordCursorColor = "#${flavor.${accent}}";
-        passwordInputBackground = "#${flavor.base}";
-        passwordTextColor = "#${flavor.${accent}}";
+        backgroundFill = "#${palette.base}";
+        basicTextColor = "#${palette.subtext0}";
+        passwordCursorColor = "#${palette.accent}";
+        passwordInputBackground = "#${palette.base}";
+        passwordTextColor = "#${palette.accent}";
         cursorBlinkAnimation = true;
         hideCursor = true;
       };
