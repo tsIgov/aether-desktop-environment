@@ -9,7 +9,7 @@ in
 		modules = [ 
 			./system.nix
 			(import ./removeChannels.nix aether.inputs.nixpkgs)
-			(args: { networking.hostName = hostName; })
+			(import ./networking.nix hostName)
 		] ++ (aether.lib.moduleUtils.listModulesRecursively ./modules) ++ modules; 
 	};
 }
