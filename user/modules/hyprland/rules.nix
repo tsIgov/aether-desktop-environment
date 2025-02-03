@@ -10,6 +10,10 @@
 				"noanim,class:^(xwaylandvideobridge)$"
 				"nofocus,class:^(xwaylandvideobridge)$"
 				"noinitialfocus,class:^(xwaylandvideobridge)$"
+
+				# Clipboard manager
+				"float,class:(clipse)"
+				"size 700 80%,class:(clipse)"
 			];
 
 			workspace = [

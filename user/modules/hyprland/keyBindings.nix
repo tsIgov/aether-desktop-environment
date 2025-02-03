@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, aether, pkgs, ... }:
 
 {
 
@@ -56,7 +56,7 @@
 			bind = ALT, F4, killactive
 			bind = SUPER, C, killactive
 
-			bind = SUPER, V, exec, pkill clipse || foot -a clipse clipse 
+			bind = SUPER, V, exec, pkill clipse || ${config.aether.defaultApps.terminal} --class clipse clipse 
 			bind = SUPER SHIFT, V, exec, clipse -clear
 			bind = SUPER SHIFT, C, exec, hyprpicker -a 
 
