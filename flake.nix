@@ -21,6 +21,7 @@
 	let
 		pkgs = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 		aetherLib = import ./lib inputs.nixpkgs.lib;
+		internal = import ./internal aetherLib;
 
 		aether = {
 			lib = aetherLib;
@@ -30,7 +31,7 @@
 	in 
 	{
 		lib = aetherLib;
-		systemConfig = import ./system { inherit aether pkgs; };
+		systemConfig = import ./system.nix { inherit aether pkgs internal; };
 		userConfig = import ./user { inherit aether pkgs; };
 	};
 }
