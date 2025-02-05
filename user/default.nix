@@ -1,4 +1,4 @@
-{ aether, pkgs }: { user, specialArgs ? {}, modules ? [] }:
+{ aether, pkgs, internal }: { user, specialArgs ? {}, modules ? [] }:
 let
 	specialArgsFinal = specialArgs // { inherit aether; };
 in
@@ -8,6 +8,7 @@ in
 			extraSpecialArgs = specialArgsFinal;
 			modules = [
 				(import ./home.nix user)
-			] ++ (aether.lib.moduleUtils.listModulesRecursively ./modules) ++ modules;
+			] ++ (aether.lib.moduleUtils.listModulesRecursively ./modules) ++ modules ++ 
+			(internal.getModules ../modules "home");
 		};
 }

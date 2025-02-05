@@ -36,6 +36,7 @@ Should the deployment script update the flake locks? Currently they are set to p
 
 
 ## Appearance
+Set dark mode properly based on flavor
 Generate gtk icons from a color
 Cursor size
 Property for font size

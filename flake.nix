@@ -32,6 +32,6 @@
 	{
 		lib = aetherLib;
 		systemConfig = import ./system.nix { inherit aether pkgs internal; };
-		userConfig = import ./user { inherit aether pkgs; };
+		userConfig = import ./user { inherit aether pkgs internal; };
 	};
 }

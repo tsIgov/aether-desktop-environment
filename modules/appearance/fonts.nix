@@ -1,5 +1,6 @@
 {
-	system = { pkgs, aether, ... }:
+
+	system = { pkgs, config, ... }:
 	{
 	    fonts = {
 			packages = with pkgs; [
@@ -10,12 +11,26 @@
 			fontconfig = {
 				enable = true;
 				defaultFonts = {
-					serif = [ aether.lib.appearance.fonts.regular ];
-					sansSerif = [ aether.lib.appearance.fonts.regular ];
-					monospace = [ aether.lib.appearance.fonts.mono ];
-					emoji = [ aether.lib.appearance.fonts.emoji ];
+					serif = [ config.aether.appearance.fonts.regular ];
+					sansSerif = [ config.aether.appearance.fonts.regular ];
+					monospace = [ config.aether.appearance.fonts.mono ];
+					emoji = [ config.aether.appearance.fonts.emoji ];
 				};
 			};
 		};
 	};
+
+	home = { config, ... }:
+	{
+		fonts.fontconfig = {
+			enable = true;
+			defaultFonts = {
+				serif = [ config.aether.appearance.fonts.regular ];
+				sansSerif = [ config.aether.appearance.fonts.regular ];
+				monospace = [ config.aether.appearance.fonts.mono ];
+				emoji = [ config.aether.appearance.fonts.emoji ];
+			};
+		};
+	};
+
 }

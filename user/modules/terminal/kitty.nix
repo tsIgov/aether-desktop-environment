@@ -6,8 +6,8 @@ in
 	programs.kitty = {
 		enable = true;
 		font = {
-			name = aether.lib.appearance.fonts.mono;
-			size = 11;
+			name = config.aether.appearance.fonts.mono;
+			size = config.aether.appearance.fonts.size;
 		};
 
 		settings = {

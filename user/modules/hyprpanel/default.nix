@@ -1,4 +1,4 @@
-{ pkgs, aether, ... }:
+{ pkgs, aether, config, ... }:
 {
 	imports = [ aether.inputs.hyprpanel.homeManagerModules.hyprpanel ];
 
@@ -21,7 +21,7 @@
 
 			theme = {
 				font = {
-					name = aether.lib.appearance.fonts.mono;
+					name = config.aether.appearance.fonts.mono;
 					size = "1rem";
 					weight = 600;
 				};
