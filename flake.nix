@@ -17,7 +17,7 @@
 		};
 	};
 
-	outputs = inputs: 
+	outputs = inputs:
 	let
 		pkgs = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 		aetherLib = import ./lib inputs.nixpkgs.lib;
@@ -28,10 +28,10 @@
 			pkgs = import ./packages { inherit pkgs aetherLib; };
 			inputs = inputs;
 		};
-	in 
+	in
 	{
 		lib = aetherLib;
 		systemConfig = import ./system.nix { inherit aether pkgs internal; };
-		userConfig = import ./user { inherit aether pkgs internal; };
+		userConfig = import ./home.nix { inherit aether pkgs internal; };
 	};
 }
