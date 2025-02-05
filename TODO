@@ -20,6 +20,8 @@ Syncthing does requres to be opened before it can be used
 Battery icon is empty
 Add micro instead of nano? (set $EDITOR)
 
+Change polkit with the one from hyprland
+
 Reconfigure Hyprland
 	- Clamshell
 	- Configure monitors
