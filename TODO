@@ -16,6 +16,8 @@ Bazecore
 
 
 ## Usability
+System presets should be part of aether
+
 Syncthing does requres to be opened before it can be used
 Battery icon is empty
 Add micro instead of nano? (set $EDITOR)
