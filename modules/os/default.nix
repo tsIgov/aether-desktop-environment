@@ -1,8 +1,5 @@
 {
 	system = { pkgs, aether, ... }:
-	let
-    	nixpkgs = aether.inputs.nixpkgs;
-	in
 	{
 		system.stateVersion = "24.11";
 		nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -11,11 +8,7 @@
 			home-manager
 		];
 
-		nix.channel.enable = false;
-		nix.registry.nixpkgs.flake = nixpkgs;
-		environment.etc."nix/inputs/nixpkgs".source = "${nixpkgs}";
-		# https://github.com/NixOS/nix/issues/9574
-		nix.settings.nix-path = nixpkgs.lib.mkForce "nixpkgs=/etc/nix/inputs/nixpkgs";
+		programs.nix-ld.enable = true; # Allows dynamic linking
 	};
 
 	home = { username, ... }:
