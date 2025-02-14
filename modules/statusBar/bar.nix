@@ -51,7 +51,7 @@
 						location = "full";
 						width = "0.1em";
 					};
-					border_radius = "1rem";
+					border_radius = "0.2rem";
 
 					buttons = {
 						background_hover_opacity = 70;

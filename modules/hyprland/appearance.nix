@@ -6,7 +6,7 @@
 	{
 		wayland.windowManager.hyprland.settings = {
 			general = {
-				border_size = 2;
+				border_size = 1;
 				gaps_in = 5;
 				gaps_out = 10;
 				gaps_workspaces = 0;
@@ -18,7 +18,7 @@
 			};
 
 			decoration = {
-				rounding = 10;
+				rounding = 2;
 				blur.enabled = false;
 				shadow.enabled = false;
 			};

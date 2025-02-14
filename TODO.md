@@ -30,6 +30,8 @@ Reconfigure Hyprland
 	- Locale should be configured per user
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
+Dynamic display configuration
+
 screen casting
 Configure XDG (notes in digital brain)
 	- file manager
