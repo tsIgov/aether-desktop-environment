@@ -36,8 +36,8 @@
 				bind = SUPER SHIFT, 9, movetoworkspace, 9
 				bind = SUPER SHIFT, 0, movetoworkspace, 10
 
-				#bindr = SUPER, SUPER_L, exec, pkill anyrun || anyrun
-				bind = SUPER, Q, exec, pkill anyrun || anyrun
+				#bindr = SUPER, SUPER_L, exec, walker
+				bind = SUPER, Q, exec, walker
 				bind = SUPER, W, exec, ${config.aether.defaultApps.terminal}
 				bind = SUPER, E, exec, ${config.aether.defaultApps.fileManager}
 
@@ -60,11 +60,10 @@
 				bind = SUPER SHIFT, V, exec, clipse -clear
 				bind = SUPER SHIFT, C, exec, hyprpicker -a
 
-				bind = , PRINT, exec, hyprshot -m active -m output -s -o ${config.aether.directories.screenshot}
-				bind = SUPER, PRINT, exec, hyprshot -m active -m window -s -o ${config.aether.directories.screenshot}
-				bind = SUPER SHIFT, PRINT, exec, hyprshot -m region -z -s -o ${config.aether.directories.screenshot}
+				bind = , PRINT, exec, walker -m screenshot
 
 				bind = SUPER, L, exec, pidof swaylock || swaylock
+				bind = CTRL ALT, Delete, exec, walker -m power
 
 				# Move/resize windows with mainMod + LMB/RMB and dragging
 				bindm = SUPER, mouse:272, movewindow

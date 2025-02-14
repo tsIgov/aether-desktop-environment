@@ -19,8 +19,8 @@
 				};
 
 				theme.bar.buttons.modules = {
-				kbLayout.spacing = "0";
-				submap.spacing = "0";
+					kbLayout.spacing = "0";
+					submap.spacing = "0";
 				};
 			};
 		};

@@ -5,7 +5,6 @@
 			settings = {
 				bar.battery = {
 					label = false;
-					rightClick = "menu:powerdropdown";
 				};
 
 				menus.power = {

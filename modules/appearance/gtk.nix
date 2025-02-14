@@ -1,7 +1,7 @@
 {
 
 	home = { config, pkgs, ... }:
-	let 
+	let
 		flavorName = config.aether.appearance.colors.flavor;
 		accent = config.aether.appearance.colors.accent;
 	in
@@ -43,7 +43,8 @@
 			"org/gnome/desktop/interface" = {
 				color-scheme = "prefer-dark";
 			};
+			"org.gtk.Settings.Debug" = {enable-inspector-keybinding = true; };
 		};
 	};
-	
+
 }

@@ -16,9 +16,9 @@ Bazecore
 
 
 ## Usability
-System presets should be part of aether
-Battery icon is empty
-Add hotkey for powermenu
+add screenshot to clipboard
+
+Battery icon shows on desktop
 Add micro instead of nano? (set $EDITOR)
 
 Change polkit with the one from hyprland
@@ -28,7 +28,6 @@ Reconfigure Hyprland
 	- Configure monitors
 	- Configure keyboard layouts
 	- Locale should be configured per user
-	- Configure mouse sensitivity
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
 screen casting
@@ -38,9 +37,18 @@ Configure XDG (notes in digital brain)
 Move printer drivers outside of aether?
 
 
+## Problems
+Walker doesn't show entries on first run
+Network devices are missing on cold boot
+Quickly logging in through SDDM causes it to freeze
+Keystore doesn't unlock on login
+Hibernate and logout not working
+
+
 ## Appearance
 Set dark mode properly based on flavor
 Generate gtk icons from a color
+Set proper icons for walker
 Cursor size
 Property for font size
 
