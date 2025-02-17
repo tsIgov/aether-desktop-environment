@@ -28,6 +28,7 @@ Reconfigure Hyprland
 	- Configure monitors
 	- Configure keyboard layouts
 	- Locale should be configured per user
+	- Bind media keys
 	- Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
 Dynamic display configuration
