@@ -35,6 +35,10 @@
 				};
 			};
 
+			localization = {
+				timezone = mkOption { type = str; default = "auto"; };
+			};
+
 			virtualization = {
 				docker.enable = mkOption { type = bool; default = false; };
 			};
@@ -75,7 +79,19 @@
 				};
 			};
 
-			defaultApps = with lib; with types; {
+			localization = {
+				default = mkOption { type = str; default = "en_US.UTF-8"; };
+				addressFormat = mkOption { type = nullOr str; default = null; };
+				measurementsFormat = mkOption { type = nullOr str; default = null; };
+				moneyFormat = mkOption { type = nullOr str; default = null; };
+				namesFormat = mkOption { type = nullOr str; default = null; };
+				numericFormat = mkOption { type = nullOr str; default = null; };
+				paperFormat = mkOption { type = nullOr str; default = null; };
+				telephoneFormat = mkOption { type = nullOr str; default = null; };
+				timeFormat = mkOption { type = nullOr str; default = null; };
+			};
+
+			defaultApps = {
 				terminal = mkOption { type = pathInStore; default = "${pkgs.kitty}/bin/kitty"; };
 				fileManager = mkOption { type = pathInStore; default = "${pkgs.nemo}/bin/nemo"; };
 			};
