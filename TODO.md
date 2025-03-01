@@ -10,12 +10,10 @@ Calendar
 Mail client
 Password manager
 Discord
-Spotify
 Bazecore
 
 
 ## Usability
-Bind media keys
 Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 
 Clamshell
@@ -33,6 +31,7 @@ Change polkit with the one from hyprland
 Add micro instead of nano? (set $EDITOR)
 Battery icon shows on desktop
 add screenshot to clipboard + annotation?
+Better tray
 
 ## Problems
 Walker doesn't show entries on first run
