@@ -11,9 +11,11 @@
 	home = { pkgs, ... }:
 	{
 		home.packages = with pkgs; [
-			gedit
-    		hyprpicker
-			hyprshot
+			gedit # text editor
+    		hyprpicker # color picker
+			hyprshot # screenshot utility
+			celluloid # multimedia player
+			evince # pdf viewer
 		];
 	};
 

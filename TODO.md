@@ -1,7 +1,5 @@
 ## Software
 Image viewer
-PDF Viewer
-Audio and video player
 Kde connect
 Calculator
 Text Editor
