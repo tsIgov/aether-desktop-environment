@@ -30,7 +30,7 @@
 				};
 
 				misc = {
-					disable_autoreload = true;
+					disable_autoreload = false;
 
 					focus_on_activate = true;
 					mouse_move_focuses_monitor = false;

@@ -84,10 +84,10 @@
 				bind = SUPER, M, submap, monitors
 				submap=monitors
 
-				bind = SUPER SHIFT, left, focusmonitor, l
-				bind = SUPER SHIFT, right, focusmonitor, r
-				bind = SUPER SHIFT, up, focusmonitor, u
-				bind = SUPER SHIFT, down, focusmonitor, d
+				bind = SUPER, left, focusmonitor, l
+				bind = SUPER, right, focusmonitor, r
+				bind = SUPER, up, focusmonitor, u
+				bind = SUPER, down, focusmonitor, d
 
 				bind = SUPER SHIFT, left, movecurrentworkspacetomonitor, l
 				bind = SUPER SHIFT, right, movecurrentworkspacetomonitor, r
