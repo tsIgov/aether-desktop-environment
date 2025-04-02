@@ -28,6 +28,7 @@ Add micro instead of nano? (set $EDITOR)
 Battery icon shows on desktop
 add screenshot to clipboard + annotation?
 Better tray
+Kitty grab
 
 ## Problems
 
