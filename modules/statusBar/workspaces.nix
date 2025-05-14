@@ -16,13 +16,13 @@
 					reverse_scroll = true;
 					scroll_speed = 1;
 					showAllActive = false;
-					showApplicationIcons = true;
+					showApplicationIcons = false;
 					showWsIcons = true;
-					show_icons = false;
+					show_icons = true;
 					show_numbered = false;
 					spacing = 1;
 					workspaceMask = false;
-					workspaces = 10;
+					workspaces = 5;
 				};
 
 				theme.bar.buttons.workspaces = {

@@ -34,6 +34,7 @@
 					"border, 1, 7, default"
 					"fade, 1, 7, myBezier"
 					"workspaces, 1, 10, myBezier, fade"
+					"specialWorkspace, 1, 10, myBezier, fade"
 				];
 			};
 

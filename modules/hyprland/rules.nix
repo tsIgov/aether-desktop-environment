@@ -14,12 +14,12 @@
 					# Clipboard manager
 					"float,class:(clipse)"
 					"size 700 80%,class:(clipse)"
+
+					"plugin:scroller:columnwidth onethird, class:(kitty)"
 				];
 
 				workspace = [
-					"special:a, gapsout:100"
-					"special:s, gapsout:100, on-created-empty:${config.aether.defaultApps.terminal}"
-					"special:d, gapsout:100, on-created-empty:${config.aether.defaultApps.fileManager}"
+					"special:quick, gapsout:100"
 				];
 			};
 
