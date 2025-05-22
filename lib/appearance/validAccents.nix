@@ -13,4 +13,4 @@
     "sky"
     "teal"
     "yellow"
-  ]
+]

@@ -1,6 +1,6 @@
 {
 	home = { config, aether, ... }:
-	let 
+	let
 		palette = aether.lib.appearance.getPalette { inherit config; };
 	in
 	{
@@ -38,8 +38,8 @@
 				# The 16 terminal colors
 
 				# black
-				color0 = "#${palette.surface1}";
-				color8 = "#${palette.surface2}";
+				color0 = "#${palette.base}";
+				color8 = "#${palette.surface1}";
 
 				# red
 				color1 = "#${palette.red}";
@@ -69,7 +69,7 @@
 				color7 = "#${palette.subtext1}";
 				color15 = "#${palette.subtext0}";
 			};
-			
+
 			keybindings = {
 				"clear_all_shortcuts" = "yes";
 

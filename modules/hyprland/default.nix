@@ -1,6 +1,11 @@
 {
 	system = { pkgs, ... }:
 	{
+		environment.systemPackages = with pkgs; [
+			pyprland
+		];
+
+
 		programs.hyprland = {
 			enable = true;
 			xwayland.enable = true;
@@ -52,6 +57,10 @@
 					window_direction_monitor_fallback = true;
 				};
 			};
+
+			extraConfig = ''
+				exec-once = pypr
+			'';
 		};
 	};
 }
