@@ -6,7 +6,7 @@
 		];
 	};
 
-	home = { ... }:
+	home = { lib, ... }:
 	{
 		home.file = {
 			".local/share/nemo/actions/create-archive.nemo_action".source = ./actions/create-archive.nemo_action;
@@ -18,9 +18,12 @@
 			settings = {
 				"org/nemo" = {
 					"compact-view/all-columns-have-same-width" = false;
+					"compact-view/default-zoom-level" = "large";
 
 					"icon-view/captions" = ["none" "size" "date_modified"];
 					"icon-view/labels-beside-icons" = false;
+					"icon-view/default-zoom-level" = "largest";
+
 
 					"list-view/default-column-order" = ["name" "size" "type" "detailed_type" "date_modified" "date_created_with_time" "date_accessed" "date_created" "group" "where" "mime_type" "date_modified_with_time" "octal_permissions" "owner" "permissions"];
 					"list-view/default-visible-columns" = ["name" "size" "detailed_type" "date_modified"];
@@ -29,7 +32,7 @@
 					"plugins/disabled-actions" = ["90_new-launcher.nemo_action" "change-background.nemo_action" "set-as-background.nemo_action" "add-desklets.nemo_action" "add-desklets.nemo_action" "set-as-background.nemo_action" "change-background.nemo_action" "90_new-launcher.nemo_action" "set-resolution.nemo_action" "set-resolution.nemo_action" "mount-archive.nemo_action" "mount-archive.nemo_action"];
 
 
-					"preferences/default-folder-viewer" = "icon-view";
+					"preferences/default-folder-viewer" = "compact-view";
 					"preferences/default-sort-order" = "name";
 					"preferences/detect-content" = false;
 					"preferences/inherit-folder-viewer" = true;
@@ -48,6 +51,7 @@
 					"preferences/show-up-icon-toolbar" = true;
 					"preferences/sort-favorites-first" = false;
 					"preferences/start-with-dual-pane" = false;
+					"preferences/thumbnail-limit" = lib.hm.gvariant.mkUint64(4294967295);
 
 					"preferences/menu-config/background-menu-open-as-root" = true;
 					"preferences/menu-config/background-menu-open-in-terminal" = false;

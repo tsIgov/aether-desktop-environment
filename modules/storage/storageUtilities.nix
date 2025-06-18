@@ -6,6 +6,8 @@
 		environment.systemPackages = with pkgs; [
 			gvfs
 			gnome-disk-utility
+			ffmpegthumbnailer
+			webp-pixbuf-loader
 		];
 	};
 
