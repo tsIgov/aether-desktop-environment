@@ -1,5 +1,4 @@
 ## Software
-
 Kde connect
 Calculator
 Text Editor
@@ -11,12 +10,10 @@ Discord
 Bazecore
 
 ## Usability
-
 Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
 screen casting
 Configure XDG (notes in digital brain) - file manager
 Move printer drivers outside of aether?
-Quick workspace per workspace
 
 ## Optional
 
@@ -26,7 +23,6 @@ add screenshot to clipboard + annotation?
 Kitty grab
 
 ## Problems
-
 Walker doesn't show entries on first run
 Network devices are missing on cold boot
 Quickly logging in through SDDM causes it to freeze

@@ -30,8 +30,8 @@
 				bind = SUPER SHIFT, 4, movetoworkspace, 4
 				bind = SUPER SHIFT, 5, movetoworkspace, 5
 
-				bind = SUPER, Q, togglespecialworkspace, quick
-				bind = SUPER SHIFT, Q, movetoworkspace, special:quick
+				bind = SUPER, Q, exec, sh $HOME/.config/hypr/scripts/quick.sh
+				bind = SUPER SHIFT, Q, exec, sh $HOME/.config/hypr/scripts/move.sh
 
 
 				# Monitors

@@ -24,9 +24,9 @@
 
 	home = { pkgs, ... }:
 	{
-		  wayland.windowManager.hyprland.plugins = [
-				pkgs.hyprlandPlugins.hyprscroller
-			];
+		wayland.windowManager.hyprland.plugins = [
+			pkgs.hyprlandPlugins.hyprscroller
+		];
 
 		wayland.windowManager.hyprland = {
 			enable = true;
@@ -62,5 +62,7 @@
 				exec-once = pypr
 			'';
 		};
+
+		home.file.".config/hypr/scripts".source = ./scripts;
 	};
 }
