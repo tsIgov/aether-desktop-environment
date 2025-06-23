@@ -1,0 +1,108 @@
+@import "colors.css";
+
+* {
+	font-family: Hack Nerd Font Propo;
+	font-size: inherit;
+	font-weight: 900;
+	margin:0;
+	padding:0;
+}
+
+#waybar {
+	background-color: @mantle;
+	color: @text;
+	border: 2px solid @surface0;
+	font-size: 14px;
+	border-radius: 3px;
+}
+
+#waybar > box {
+  margin: 7px 12px;
+}
+
+.warning {
+	color: @yellow;
+}
+
+.critical {
+	color: @red;
+}
+
+.normal {
+	color: @text
+}
+
+#workspaces {
+	background: @surface0;
+	padding-left: 6px;
+}
+
+#workspaces button {
+	color: @text;
+	padding-right: 4px;
+}
+
+#workspaces button.active {
+	color: @mauve;
+}
+
+#workspaces button:hover {
+	color: @mauve;
+	box-shadow: none;
+}
+
+#window {
+	background: none;
+}
+
+
+#custom-distro,
+#custom-temperature,
+#custom-cpu,
+#custom-disk,
+#custom-memory,
+#clock.time,
+#clock.cal,
+#network,
+#bluetooth,
+#pulseaudio,
+#pulseaudio#source,
+#custom-notifications,
+#battery,
+#backlight,
+#power-profiles-daemon,
+#language,
+#submap,
+#tray {
+	background: @surface0;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+#clock.time,
+#clock.cal {
+	font-size: 12px;
+}
+
+#custom-center-cl ,
+#custom-center-cr,
+#custom-center-l1l,
+#custom-center-l1r,
+#custom-center-l2l,
+#custom-center-l2r,
+#custom-center-r1l,
+#custom-center-r1r,
+#custom-center-r2l,
+#custom-center-r2r,
+#custom-right-1l,
+#custom-right-1r,
+#custom-right-2l,
+#custom-right-2r,
+#custom-right-3l,
+#custom-right-3r,
+#custom-right-4l,
+#custom-right-4r  {
+	color:@surface0;
+	background: @mantle;;
+	font-size: 20px;
+}

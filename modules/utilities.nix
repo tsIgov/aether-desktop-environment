@@ -5,6 +5,7 @@
 			pciutils
 			gotop
 			playerctl
+			sysstat
 			nwg-displays # monitor layout tool
 		];
 	};
