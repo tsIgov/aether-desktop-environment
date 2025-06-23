@@ -36,6 +36,8 @@ Lid state not correct on start or reload
 
 ## Appearance
 Better styling for waybar (colors are not from the theme right now)
+Better styling for swaync (colors are not from the theme right now)
+Remove latte?
 Set dark mode properly based on flavor
 Generate gtk icons from a color
 Set proper icons for walker

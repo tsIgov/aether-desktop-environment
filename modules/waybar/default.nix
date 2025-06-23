@@ -253,17 +253,24 @@
 						tooltip = false;
 					};
 					"custom/notifications" = {
-						# exec = "echo \"{\\\"alt\\\ = \\\"$(makoctl mode)\\\"}\"";
-						# on-click = "~/.scripts/waybar_mako_cycle.sh";
-						# signal = 11;
-						format = "{icon}";
-						format-icons = {
-							default = "󰂚";
-							dnd = "󰂛";
-							unmuted = "󰂞";
+						"tooltip" = false;
+						"format" = "{icon}";
+						"format-icons" = {
+							"notification" = "󰂚<span foreground='red'><sup></sup></span>";
+							"none" = "󰂚";
+							"dnd-notification" = "󰂛<span foreground='red'><sup></sup></span>";
+							"dnd-none" = "󰂛";
+							"inhibited-notification" = "󰂚<span foreground='red'><sup></sup></span>";
+							"inhibited-none" = "󰂚";
+							"dnd-inhibited-notification" = "󰂛<span foreground='red'><sup></sup></span>";
+							"dnd-inhibited-none" = "󰂛";
 						};
-						# return-type = "json";
-						tooltip = "false";
+						"return-type" = "json";
+						"exec-if" = "which swaync-client";
+						"exec" = "swaync-client -swb";
+						"on-click" = "swaync-client -t -sw";
+						"on-click-right" = "swaync-client -d -sw";
+						"escape" = true;
 					};
 
 
