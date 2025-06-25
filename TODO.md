@@ -31,12 +31,22 @@ Hibernate and logout not working
 Lid state not correct on start or reload
 
 ## Appearance
+Finish rofi
+	- Keyboard shortcuts
+	- Colors are hardcoded
+	- pulseaudio is on a weird place
+	- Network manager has two columns
+	- Calculator message
+	- Calculator should be called with modi?
+	- screenshot
+	- powermenu
+	- clipboard
+	- remove walker
 Better styling for waybar (colors are not from the theme right now)
-Better styling for swaync (colors are not from the theme right now)
+Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
 Remove latte?
 Set dark mode properly based on flavor
 Generate gtk icons from a color
-Set proper icons for walker
 
 Not all accent colors have the proper terminal colors
 

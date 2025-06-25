@@ -65,7 +65,7 @@
 				bind = SUPER, F, scroller:toggleoverview
 				bind = SUPER SHIFT, F, scroller:fitsize, all
 
-				bind = SUPER, N, exec, walker
+				bind = SUPER, N, exec, pkill rofi || rofi -show
 				bind = SUPER, T, exec, ${config.aether.defaultApps.terminal}
 				bind = SUPER, E, exec, ${config.aether.defaultApps.fileManager}
 

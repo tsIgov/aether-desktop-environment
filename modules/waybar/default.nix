@@ -169,7 +169,7 @@
 						tooltip-format-wifi = "ESSID: {essid}\nFrequency: {frequency} GHz\nStrength: {signalStrength}%\nIP: {ipaddr}\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}";
 						tooltip-format-disconnected = "Disconnected";
 
-						on-click = "pypr toggle term";
+						on-click = "rofi-network-manager";
 						on-click-middle = "rfkill toggle wifi";
 					};
 					bluetooth = {
@@ -188,7 +188,7 @@
 						tooltip-format-enumerate-connected = "{device_alias}";
 						tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_battery_percentage}%";
 
-						on-click = "overskride";
+						on-click = "rofi-bluetooth";
 						on-click-right = "rfkill toggle bluetooth";
 					};
 
@@ -232,7 +232,7 @@
 						format-muted = "󰖁";
 						format-icons = [ "" "" "" ];
 
-						on-click = "pypr toggle term";
+						on-click = "rofi-pulse-select sink";
 						on-click-middle = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
 						on-scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +2%";
 						on-scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -2%";
@@ -245,7 +245,7 @@
 						format-source = "󰍬";
 						format-source-muted = "󰍭";
 
-						on-click = "pypr toggle term";
+						on-click = "rofi-pulse-select source";
 						on-click-middle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 						on-scroll-up = "pactl set-source-volume @DEFAULT_SOURCE@ +2%";
 						on-scroll-down = "pactl set-source-volume @DEFAULT_SOURCE@ -2%";

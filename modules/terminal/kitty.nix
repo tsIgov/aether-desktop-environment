@@ -16,6 +16,7 @@
 				strip_trailing_spaces = "smart";
 				window_padding_width = 25;
 				confirm_os_window_close = 0;
+				enable_audio_bell = "no";
 
 				foreground ="#${palette.text}";
 				background = "#${palette.base}";
