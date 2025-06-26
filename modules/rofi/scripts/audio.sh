@@ -42,7 +42,7 @@ function select_target {
 
     local type=$1
 
-    list=$(ponymix -t "$type" list | formatlist | grep -v "^Monitor of")
+    list=$(ponymix -t "$type" list | formatlist | grep -v "^Monitor of" || true)
     default=$(ponymix defaults | formatlist)
 
     # line number of default in list (note: row starts at 0)
