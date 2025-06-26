@@ -232,7 +232,7 @@
 						format-muted = "󰖁";
 						format-icons = [ "" "" "" ];
 
-						on-click = "rofi-pulse-select sink";
+						on-click = "sh $HOME/.config/rofi/scripts/audio.sh sink";
 						on-click-middle = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
 						on-scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +2%";
 						on-scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -2%";
@@ -245,7 +245,7 @@
 						format-source = "󰍬";
 						format-source-muted = "󰍭";
 
-						on-click = "rofi-pulse-select source";
+						on-click = "sh $HOME/.config/rofi/scripts/audio.sh source";
 						on-click-middle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 						on-scroll-up = "pactl set-source-volume @DEFAULT_SOURCE@ +2%";
 						on-scroll-down = "pactl set-source-volume @DEFAULT_SOURCE@ -2%";

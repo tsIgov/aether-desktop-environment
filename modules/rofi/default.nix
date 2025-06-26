@@ -4,7 +4,6 @@
 		environment.systemPackages = with pkgs; [
 			rofi-power-menu
 			rofi-screenshot
-			rofi-pulse-select
 			rofi-network-manager
 			rofi-bluetooth
 		];
@@ -24,5 +23,6 @@
 
 		home.file.".config/rofi/theme.rasi".source = ./theme.rasi;
 		home.file.".config/rofi/colors.rasi".source = ./colors.rasi;
+		home.file.".config/rofi/scripts".source = ./scripts;
 	};
 }

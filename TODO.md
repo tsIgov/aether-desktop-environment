@@ -34,7 +34,6 @@ Lid state not correct on start or reload
 Finish rofi
 	- Keyboard shortcuts
 	- Colors are hardcoded
-	- pulseaudio is on a weird place
 	- Network manager has two columns
 	- Calculator message
 	- Calculator should be called with modi?

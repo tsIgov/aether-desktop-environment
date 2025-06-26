@@ -12,6 +12,7 @@
     environment.systemPackages = with pkgs; [
         pulsemixer
 		pulseaudio
+		ponymix
     ];
   };
 }
