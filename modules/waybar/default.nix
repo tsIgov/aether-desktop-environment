@@ -250,7 +250,7 @@
 						on-scroll-up = "pactl set-source-volume @DEFAULT_SOURCE@ +2%";
 						on-scroll-down = "pactl set-source-volume @DEFAULT_SOURCE@ -2%";
 
-						tooltip = false;
+						tooltip = true;
 					};
 					"custom/notifications" = {
 						"tooltip" = false;
