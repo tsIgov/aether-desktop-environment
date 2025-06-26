@@ -42,6 +42,7 @@ Finish rofi
 	- clipboard
 	- remove walker
 Better styling for waybar (colors are not from the theme right now)
+	- mic tooltip is wrong
 Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
 Remove latte?
 Set dark mode properly based on flavor

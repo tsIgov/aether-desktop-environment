@@ -46,7 +46,7 @@ function select_target {
     default=$(ponymix defaults | formatlist)
 
     # line number of default in list (note: row starts at 0)
-    default_row=$(echo "$list" | grep -nr "$default" - | cut -f1 -d: | awk '{print $0-1}')
+    default_row=$(echo "$list" | (grep -nr "$default" - || true) | cut -f1 -d: | awk '{print $0-1}')
 
 	if [ "$type" == "sink" ]; then
 		prompt="speaker"
