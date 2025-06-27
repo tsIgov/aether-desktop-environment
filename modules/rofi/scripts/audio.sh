@@ -57,7 +57,7 @@ function select_target {
 	fi
 
     echo "$list" \
-        | rofi -dmenu -i -p "$prompt" -selected-row "$default_row" \
+        | rofi -dmenu -i -p "$prompt" -selected-row "$default_row" -no-show-icons \
         | grep -oP '\(\K\d+(?=\))'
 }
 

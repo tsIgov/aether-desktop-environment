@@ -32,9 +32,10 @@ Lid state not correct on start or reload
 
 ## Appearance
 Finish rofi
+	- Is there a way for notify-send to set a source of the message
 	- Keyboard shortcuts
 	- Colors are hardcoded
-	- Network manager has two columns
+	- bluetooth
 	- Calculator message
 	- Calculator should be called with modi?
 	- screenshot

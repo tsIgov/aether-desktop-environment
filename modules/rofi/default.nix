@@ -4,7 +4,6 @@
 		environment.systemPackages = with pkgs; [
 			rofi-power-menu
 			rofi-screenshot
-			rofi-network-manager
 			rofi-bluetooth
 		];
 	};
