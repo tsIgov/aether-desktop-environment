@@ -4,10 +4,6 @@
 
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
-
-				bind = SUPER, J,exec,pypr toggle term
-				bind = SUPER, K, exec, pypr toggle_special quick
-
 				bind = SUPER, d, movefocus, r
 				bind = SUPER, a, movefocus, l
 				bind = SUPER, w, movefocus, u
