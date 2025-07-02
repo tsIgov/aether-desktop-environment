@@ -7,6 +7,7 @@
 			playerctl
 			sysstat
 			nwg-displays # monitor layout tool
+			jq
 		];
 	};
 

@@ -8,7 +8,7 @@
 		];
 	};
 
-	home = { pkgs, ... }:
+	home = { pkgs, config, ... }:
 	{
 		programs.rofi = {
 			enable = true;
@@ -17,6 +17,23 @@
 				rofi-calc
 				rofi-top
 			];
+			extraConfig = {
+				"// calc" = config.lib.formats.rasi.mkLiteral ''
+
+				calc {
+					no-bold: false;
+					terse: true;
+					no-history: true;
+					no-persist-history: true;
+					automatic-save-to-history: true;
+					calc-command-history: true;
+					calc-error-color: "@red";
+					calc-command: "echo -n '{result}' | wl-copy";
+					hint-result: "";
+					hint-welcome: "";
+				}
+				// '';
+			};
 			theme = ".config/rofi/theme.rasi";
 		};
 

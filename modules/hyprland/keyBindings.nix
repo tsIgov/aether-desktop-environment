@@ -9,16 +9,16 @@
 				bind = SUPER, w, movefocus, u
 				bind = SUPER, s, movefocus, d
 
-				bind = SUPER SHIFT, a, movewindow, l
-				bind = SUPER SHIFT, d, movewindow, r
-				bind = SUPER SHIFT, w, movewindow, u
-				bind = SUPER SHIFT, s, movewindow, d
+				bind = SUPER SHIFT, a, movewindoworgroup, l
+				bind = SUPER SHIFT, d, movewindoworgroup, r
+				bind = SUPER SHIFT, w, movewindoworgroup, u
+				bind = SUPER SHIFT, s, movewindoworgroup, d
 
-				bind = SUPER, 1, workspace, 1
-				bind = SUPER, 2, workspace, 2
-				bind = SUPER, 3, workspace, 3
-				bind = SUPER, 4, workspace, 4
-				bind = SUPER, 5, workspace, 5
+				bind = SUPER, 1, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 1
+				bind = SUPER, 2, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 2
+				bind = SUPER, 3, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 3
+				bind = SUPER, 4, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 4
+				bind = SUPER, 5, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 5
 
 				bind = SUPER SHIFT, 1, movetoworkspace, 1
 				bind = SUPER SHIFT, 2, movetoworkspace, 2
@@ -26,8 +26,8 @@
 				bind = SUPER SHIFT, 4, movetoworkspace, 4
 				bind = SUPER SHIFT, 5, movetoworkspace, 5
 
-				bind = SUPER, Q, exec, sh $HOME/.config/hypr/scripts/quick.sh
-				bind = SUPER SHIFT, Q, exec, sh $HOME/.config/hypr/scripts/move.sh
+				bind = SUPER, Q, exec, sh $HOME/.config/hypr/scripts/quick-toggle.sh
+				bind = SUPER SHIFT, Q, exec, sh $HOME/.config/hypr/scripts/quick-move.sh
 
 
 				# Monitors
@@ -48,18 +48,21 @@
 				# Resizing
 				bind = SUPER, r, submap, resize
 				submap = resize
-				bind = SUPER, d, scroller:cyclewidth, next
-				bind = SUPER, a, scroller:cyclewidth, prev
-				bind = SUPER, s, scroller:cycleheight, next
-				bind = SUPER, w, scroller:cycleheight, prev
+				bind = SUPER, d, exec, sh $HOME/.config/hypr/scripts/resize.sh r
+				bind = SUPER, a, exec, sh $HOME/.config/hypr/scripts/resize.sh l
+				bind = SUPER, s, exec, sh $HOME/.config/hypr/scripts/resize.sh d
+				bind = SUPER, w, exec, sh $HOME/.config/hypr/scripts/resize.sh u
 				bind = , escape, submap, reset
 				submap = reset
 
-				bind = SUPER, g, scroller:admitwindow,
-				bind = SUPER SHIFT, g, scroller:expelwindow,
+				bind = SUPER, g, exec, sh $HOME/.config/hypr/scripts/group.sh
+				bind = SUPER SHIFT, g, exec, sh $HOME/.config/hypr/scripts/master.sh
 
-				bind = SUPER, F, scroller:toggleoverview
-				bind = SUPER SHIFT, F, scroller:fitsize, all
+				bind = SUPER, tab, changegroupactive, f
+				bind = SUPER SHIFT, tab, changegroupactive, b
+
+				bind = SUPER, F, togglefloating
+				bind = SUPER SHIFT, F, fullscreen, 1
 
 				bind = SUPER, N, exec, pkill rofi || rofi -show
 				bind = SUPER, T, exec, ${config.aether.defaultApps.terminal}
@@ -88,8 +91,8 @@
 
 
 				# Move/resize windows with mainMod + LMB/RMB and dragging
-				# bindm = SUPER, mouse:272, movewindow
-				# bindm = SUPER, mouse:273, resizewindow
+				bindm = SUPER, mouse:272, movewindow
+				bindm = SUPER, mouse:273, resizewindow
 
 				bindle=, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ -l 1.0
 				bindle=, XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-

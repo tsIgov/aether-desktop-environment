@@ -15,6 +15,8 @@ screen casting
 Configure XDG (notes in digital brain) - file manager
 Move printer drivers outside of aether?
 
+`bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
+
 ## Optional
 
 Change polkit with the one from hyprland
@@ -32,12 +34,10 @@ Lid state not correct on start or reload
 
 ## Appearance
 Finish rofi
-	- Is there a way for notify-send to set a source of the message
+	- set app name and tranciency to the notify-send calls
 	- Keyboard shortcuts
 	- Colors are hardcoded
-	- bluetooth
-	- Calculator message
-	- Calculator should be called with modi?
+	- Calculator should be updated and configured
 	- screenshot
 	- powermenu
 	- clipboard

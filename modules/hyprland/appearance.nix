@@ -38,6 +38,25 @@
 				];
 			};
 
+			group = {
+				"col.border_active" = "rgb(${palette.green})";
+				"col.border_inactive" = "rgb(${palette.yellow})";
+				"col.border_locked_active" = "rgb(${palette.accent})";
+				"col.border_locked_inactive" = "rgb(${palette.overlay0})";
+
+				groupbar = {
+					enabled = true;
+					render_titles = false;
+					height = 1;
+					keep_upper_gap = false;
+
+					"col.active" = "rgb(${palette.green})";
+					"col.inactive" = "rgb(${palette.overlay0})";
+					"col.locked_active" = "rgb(${palette.accent})";
+					"col.locked_inactive" = "rgb(${palette.overlay0})";
+				};
+			};
+
 			misc = {
 				disable_hyprland_logo = true;
 				disable_splash_rendering = true;

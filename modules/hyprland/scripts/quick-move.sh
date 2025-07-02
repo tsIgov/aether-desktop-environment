@@ -1,6 +1,6 @@
 #!/bin/sh
 
-workspace=$(hyprctl activewindow | grep "workspace:" | awk '{print $3}' | cut -c2- | rev | cut -c2- | rev)
+workspace=$(hyprctl activewindow -j | jq -r ".workspace.name")
 
 if [[ $workspace == *"quick"* ]]; then
 	destination=$(echo $workspace | awk -F '-' '{print $2}')
