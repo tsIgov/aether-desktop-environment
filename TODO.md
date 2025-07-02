@@ -37,7 +37,7 @@ Finish rofi
 	- set app name and tranciency to the notify-send calls
 	- Keyboard shortcuts
 	- Colors are hardcoded
-	- Calculator should be updated and configured
+	- rofi-calc should be configured
 	- screenshot
 	- powermenu
 	- clipboard
