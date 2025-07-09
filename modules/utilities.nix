@@ -6,8 +6,9 @@
 			gotop
 			playerctl
 			sysstat
-			nwg-displays # monitor layout tool
+			wdisplays # monitor layout tool
 			jq
+			socat
 		];
 	};
 
