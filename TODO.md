@@ -15,6 +15,7 @@ screen casting
 Configure XDG (notes in digital brain) - file manager
 Move printer drivers outside of aether?
 easily call GC
+Record screen
 
 `bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
 
@@ -35,8 +36,6 @@ Lid state not correct on start or reload
 
 ## Appearance
 Disable tab changing by scroll
-Configure monitor profiles with Nix
-Return from monitor profile fallback
 Swaylock breaks on monitor switch
 
 Finish rofi

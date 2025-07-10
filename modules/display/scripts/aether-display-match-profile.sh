@@ -27,7 +27,6 @@ currentMonitorsCount=$(echo $currentMonitors | wc -w)
 
 # Parse each profile
 while read -r profile; do
-    profileName=$(jq -r '.name' <<< "$profile")
     profileMonitorsCount=$(jq '.monitors | length' <<< "$profile")
 
 	# Can't be matched as the profile has different number of monitors
@@ -77,12 +76,12 @@ while read -r profile; do
 	fi
 
 	# The profile matched
-	matchedProfileName="$profileName"
+	profileMatched="true"
 	break
 
 done < <(jq -c '.[]' "$profiles")
 
-if [[ -z $matchedProfileName ]]; then
+if [[ $profileMatched != "true" ]]; then
 	configValues="monitor = , preferred, auto, auto"
 fi
 
