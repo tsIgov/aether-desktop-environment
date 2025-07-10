@@ -16,7 +16,6 @@
 					"size 700 80%,class:(clipse)"
 
 					"plugin:scroller:columnwidth onethird, class:(kitty)"
-					"stayfocused, class:(Rofi)"
 				];
 
 				workspace = [

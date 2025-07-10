@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -euo pipefail
+rofiCmd=(rofi -dmenu -i -no-show-icons -theme-str 'window { location: north; anchor: north; width: 400px; }')
 
 function usage {
     echo "Usage:"
@@ -57,7 +58,7 @@ function select_target {
 	fi
 
     echo "$list" \
-        | rofi -dmenu -i -p "$prompt" -selected-row "$default_row" -no-show-icons \
+        | "${rofiCmd[@]}" -p "$prompt" -selected-row "$default_row" \
         | grep -oP '\(\K\d+(?=\))'
 }
 
@@ -96,5 +97,4 @@ function main {
 
     move_all_streams "$type"
 }
-
 main "$@"

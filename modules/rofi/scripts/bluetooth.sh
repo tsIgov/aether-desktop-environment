@@ -214,7 +214,7 @@ device_menu() {
     options="$connected\n$paired\n$trusted\n$divider\n$goback"
 
     # Open rofi menu, read chosen option
-    chosen="$(echo -e "$options" | $rofi_command "$device_name")"
+    chosen="$(echo -e "$options" | "${rofi_command[@]}" "$device_name")"
 
     # Match chosen option to command
     case "$chosen" in
@@ -259,7 +259,7 @@ show_menu() {
     fi
 
     # Open rofi menu, read chosen option
-    chosen="$(echo -e "$options" | $rofi_command "Bluetooth")"
+    chosen="$(echo -e "$options" | "${rofi_command[@]}" "Bluetooth")"
 
     # Match chosen option to command
     case "$chosen" in
@@ -286,5 +286,5 @@ show_menu() {
     esac
 }
 
-rofi_command="rofi -dmenu -i -no-show-icons -p"
+rofi_command=(rofi -dmenu -i -no-show-icons -theme-str 'window { location: north east; anchor: north east; width: 400px; x-offset: -10; }' -p)
 show_menu

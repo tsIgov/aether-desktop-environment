@@ -40,9 +40,7 @@ Swaylock breaks on monitor switch
 
 Finish rofi
 	- set app name and tranciency to the notify-send calls
-	- Keyboard shortcuts
 	- Colors are hardcoded
-	- rofi-calc should be configured
 	- screenshot
 	- powermenu
 	- clipboard

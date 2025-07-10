@@ -42,7 +42,7 @@ manage_wifi() {
 
     formatted_list=$(printf "%s" "$formatted_list" | rev | cut -c3- | rev)
 
-    local chosen_network=$(echo -e "$formatted_list" | rofi -dmenu -i -p "Wi-Fi SSID" -no-show-icons)
+    local chosen_network=$(echo -e "$formatted_list" | "${rofi_command[@]}" "Wi-Fi SSID")
     local ssid_index=-1
     for i in "${!formatted_ssids[@]}"; do
         if [[ "${formatted_ssids[$i]}" == "$chosen_network" ]]; then
@@ -64,7 +64,7 @@ manage_wifi() {
             action="󰸋  Connect"
         fi
 
-        action=$(echo -e "$action\n  Forget" | rofi -dmenu -i -p "Action" -no-show-icons)
+        action=$(echo -e "$action\n  Forget" | "${rofi_command[@]}" "Action")
         case $action in
             "󰸋  Connect")
                 local success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
@@ -72,7 +72,7 @@ manage_wifi() {
                 if [[ $(echo "$saved_connections" | grep -Fx "$chosen_id") ]]; then
                     nmcli connection up id "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
                 else
-                    local wifi_password=$(rofi -dmenu -p "Password" -password -no-show-icons)
+                    local wifi_password=$("${rofi_command[@]}" "Password" -password)
                     nmcli device wifi connect "$chosen_id" password "$wifi_password" | grep "successfully" && notify-send "Connection Established" "$success_message"
                 fi
                 ;;
@@ -107,7 +107,7 @@ manage_ethernet() {
     done
 	eth_list=$(echo $eth_list | rev | cut -c3- | rev)
 
-    local chosen_device=$(echo -e "$eth_list" | rofi -dmenu -i -p "Select Ethernet Device" -no-show-icons)
+    local chosen_device=$(echo -e "$eth_list" | "${rofi_command[@]}" "Select Ethernet Device")
 
     if [ -z "$chosen_device" ]; then
         return
@@ -140,7 +140,7 @@ main_menu() {
         manage_wifi_btn=""
     fi
 
-    local chosen_option=$(echo -e "$wifi_toggle$manage_wifi_btn\n󰈀  Manage Ethernet" | rofi -dmenu -i -p "  Network Management" -no-show-icons)
+    local chosen_option=$(echo -e "$wifi_toggle$manage_wifi_btn\n󰈀  Manage Ethernet" | "${rofi_command[@]}" "  Network Management")
     case $chosen_option in
         "$wifi_toggle")
             nmcli radio wifi $wifi_toggle_command
@@ -154,4 +154,5 @@ main_menu() {
     esac
 }
 
+rofi_command=(rofi -dmenu -i -no-show-icons -theme-str 'window { location: north east; anchor: north east; width: 400px; x-offset: -10; }' -p)
 main_menu "$@"
