@@ -33,6 +33,7 @@ Quickly logging in through SDDM causes it to freeze
 Keystore doesn't unlock on login
 Hibernate and logout not working
 Lid state not correct on start or reload
+Screenshot of a window take a screenshot of all windows on the workspace
 
 ## Appearance
 Disable tab changing by scroll
@@ -43,7 +44,6 @@ Add secondary, warning and error colors
 Finish rofi
 	- set app name and tranciency to the notify-send calls
 	- Colors are hardcoded
-	- screenshot
 	- powermenu
 	- clipboard
 	- remove walker

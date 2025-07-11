@@ -96,9 +96,6 @@
 				fileManager = mkOption { type = pathInStore; default = "${pkgs.nemo}/bin/nemo"; };
 			};
 
-			directories = {
-				screenshot = mkOption { type = str; default = "~/Screenshots"; };
-			};
 		};
 	};
 

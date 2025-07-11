@@ -155,21 +155,6 @@
 			"show_icon_when_single":  true,
 			"switcher_only":  false,
 			"entries": [
-				{
-					"exec": "hyprshot -m output -s -o ${config.aether.directories.screenshot}",
-					"icon": "system-shutdown",
-					"label": "Screen"
-				},
-				{
-					"exec": "hyprshot -m window -s -o ${config.aether.directories.screenshot}",
-					"icon": "system-reboot",
-					"label": "Window"
-				},
-				{
-					"exec": "hyprshot -m region -s -o ${config.aether.directories.screenshot}",
-					"icon": "system-log-out",
-					"label": "Region"
-				}
 			]
 		}
 	],

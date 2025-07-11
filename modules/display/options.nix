@@ -17,7 +17,7 @@
 									enabled = mkOption { type = bool; default = true; description = "Whether or not the monitor should be enabled when this profile is active."; };
 									name = mkOption { type = str; description = "A regex to match the name of the monitor."; example = "DP-[1-9]"; };
 									resolution = mkOption { type = str; default = "preferred"; description = "The resolution of the monitor in Hyprland format. See https://wiki.hypr.land/Configuring/Monitors/"; example = "1920x1080@144"; };
-									position = mkOption { type = str; default = "preferred"; description = "The position of the monitor in Hyprland format. See https://wiki.hypr.land/Configuring/Monitors/"; example = "1920x0"; };
+									position = mkOption { type = str; default = "auto"; description = "The position of the monitor in Hyprland format. See https://wiki.hypr.land/Configuring/Monitors/"; example = "1920x0"; };
 									scale = mkOption { type = str; default = "auto"; description = "The scale of the monitor in Hyprland format. See https://wiki.hypr.land/Configuring/Monitors/"; example = "1"; };
 									extraArgs = mkOption { type = str; default = ""; description = "Unformatted arguments that will be added at the end of the monitor rule. See https://wiki.hypr.land/Configuring/Monitors/"; example = "mirror, DP-2"; };
 								};

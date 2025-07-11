@@ -70,7 +70,6 @@
 
 				bind = ALT, F4, killactive
 				bind = SUPER, C, killactive
-				bind = , PRINT, exec, walker -m screenshot
 				bind = SUPER, L, exec, pidof swaylock || swaylock
 				bind = CTRL ALT, Delete, exec, walker -m power
 
