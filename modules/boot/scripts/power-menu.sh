@@ -1,7 +1,7 @@
 #! /bin/sh
 rofi_command=(rofi -dmenu -i -no-show-icons -p)
 
-chosenOption=$(echo -e "  Shutdown\n  Reboot\n⏾  Suspend\n󰜗  Hibernate" | "${rofi_command[@]}" "Power Menu")
+chosenOption=$(echo -e "  Shutdown\n  Reboot\n󰍃  Logout\n⏾  Suspend\n󰜗  Hibernate" | "${rofi_command[@]}" "Power Menu")
 
 case $chosenOption in
 	"  Shutdown")
@@ -9,6 +9,9 @@ case $chosenOption in
 		;;
 	"  Reboot")
 		systemctl reboot
+		;;
+	"󰍃  Logout")
+		hyprctl dispatch exit
 		;;
 	"⏾  Suspend")
 		systemctl suspend

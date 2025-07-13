@@ -27,12 +27,9 @@ add screenshot to clipboard + annotation?
 Kitty grab
 
 ## Problems
-Walker doesn't show entries on first run
 Network devices are missing on cold boot
 Quickly logging in through SDDM causes it to freeze
 Keystore doesn't unlock on login
-Hibernate and logout not working
-Lid state not correct on start or reload
 Screenshot of a window take a screenshot of all windows on the workspace
 
 ## Appearance
@@ -53,7 +50,3 @@ Set dark mode properly based on flavor
 Generate gtk icons from a color
 
 Not all accent colors have the proper terminal colors
-
-wallpaper? (also for lockscreen)
-Migrate to hyprlock if wallpapers will be used
-Configure lockscreen
