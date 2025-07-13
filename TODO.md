@@ -44,9 +44,7 @@ Add secondary, warning and error colors
 Finish rofi
 	- set app name and tranciency to the notify-send calls
 	- Colors are hardcoded
-	- powermenu
 	- clipboard
-	- remove walker
 Better styling for waybar (colors are not from the theme right now)
 	- mic tooltip is wrong
 Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)

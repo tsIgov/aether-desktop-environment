@@ -71,7 +71,6 @@
 				bind = ALT, F4, killactive
 				bind = SUPER, C, killactive
 				bind = SUPER, L, exec, pidof swaylock || swaylock
-				bind = CTRL ALT, Delete, exec, walker -m power
 
 				bind = SUPER, V, exec, pkill clipse || kitty --class clipse clipse
 				bind = SUPER SHIFT, V, exec, clipse -clear
