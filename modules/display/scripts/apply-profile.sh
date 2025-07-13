@@ -1,4 +1,6 @@
-profiles="$HOME/.config/aether/display-profiles.json"
+#!/bin/sh
+
+profiles="$HOME/.config/aether/display/profiles.json"
 outputFile="$HOME/.config/hypr/monitors.conf"
 
 getMonitorConfig() {

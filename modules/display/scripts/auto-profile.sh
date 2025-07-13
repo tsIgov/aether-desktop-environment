@@ -1,3 +1,5 @@
+#!/bin/sh
+
 handle() {
 	case $1 in
 		"monitoraddedv2>>"*) ;&
@@ -7,12 +9,12 @@ handle() {
 
 			if [[ $monitorId -ne -1 ]]; then
 				echo $1
-				aether-display-match-profile
+				/etc/aether/display/scripts/apply-profile.sh
 			fi
 		;;
 	esac
 }
 
-aether-display-match-profile
+/etc/aether/display/scripts/apply-profile.sh
 
 socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do handle "$line"; done
