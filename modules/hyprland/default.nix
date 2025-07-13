@@ -47,6 +47,11 @@
 					movefocus_cycles_fullscreen = true;
 					window_direction_monitor_fallback = true;
 				};
+
+				ecosystem = {
+					no_update_news = true;
+					no_donation_nag = true;
+				};
 			};
 		};
 
