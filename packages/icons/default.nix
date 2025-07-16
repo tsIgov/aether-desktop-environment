@@ -1,25 +1,27 @@
-{ 
-	stdenv, 
+{
+	stdenv,
 	lib,
 	catppuccin-papirus-folders,
 
-	aetherLib, 
-	recolor, 
-	flavor ? "mocha", 
-	accent ? "mauve" 
+	aetherLib,
+	recolor,
+	flavor ? "mocha",
+	accent ? "mauve"
 }:
 let
+	name = "aether-icons-${flavor}-${accent}";
 	pname = "aether-icons";
+	version = "1.0";
 in
 
 lib.checkListOfEnum "${pname}: flavor" aetherLib.appearance.validFlavors [ flavor ]
 lib.checkListOfEnum "${pname}: accent" aetherLib.appearance.validAccents [ accent ]
 
 stdenv.mkDerivation {
-	inherit pname;
-	version = "1.0";
+	inherit name pname version;
 
-	src = (catppuccin-papirus-folders.override { inherit flavor accent; });
+
+	src = (catppuccin-papirus-folders.override { inherit flavor accent; }).overrideAttrs (oldAttrs: { dontFixup = true; });
 
 	buildInputs = [ recolor ];
 
@@ -31,4 +33,6 @@ stdenv.mkDerivation {
 		mkdir -p $out/share/icons
 		cp -r $TMPDIR/output $out/share/icons/aether-icons
 	'';
+
+	dontFixup = true;
 }

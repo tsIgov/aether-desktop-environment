@@ -3,7 +3,9 @@
 	home = { config, pkgs, ... }:
 	let
 		flavorName = config.aether.appearance.colors.flavor;
+		colorScheme = if flavorName == "latte" then "light" else "dark";
 		accent = config.aether.appearance.colors.accent;
+
 	in
 	{
 		gtk = {
@@ -23,25 +25,11 @@
 				name = config.aether.appearance.fonts.mono;
 				size = config.aether.appearance.fonts.size;
 			};
-
-			gtk3.extraConfig = {
-				Settings = ''
-					gtk-application-prefer-dark-theme=1
-					color-scheme=prefer-dark
-				'';
-			};
-
-			gtk4.extraConfig = {
-				Settings = ''
-					gtk-application-prefer-dark-theme=1
-					color-scheme=prefer-dark
-				'';
-			};
 		};
 
 		dconf.settings = {
 			"org/gnome/desktop/interface" = {
-				color-scheme = "prefer-dark";
+				color-scheme = "prefer-${colorScheme}";
 			};
 			"org.gtk.Settings.Debug" = {enable-inspector-keybinding = true; };
 		};

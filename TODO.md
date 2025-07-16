@@ -16,6 +16,7 @@ Configure XDG (notes in digital brain) - file manager
 Move printer drivers outside of aether?
 easily call GC
 Record screen
+Reconfigure Firefox
 
 `bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
 
@@ -45,8 +46,5 @@ Finish rofi
 Better styling for waybar (colors are not from the theme right now)
 	- mic tooltip is wrong
 Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
-Remove latte?
-Set dark mode properly based on flavor
-Generate gtk icons from a color
 
 Not all accent colors have the proper terminal colors

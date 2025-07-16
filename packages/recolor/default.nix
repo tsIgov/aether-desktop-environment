@@ -1,26 +1,30 @@
 { stdenv, makeWrapper, lib, aetherLib, python3, flavor ? "mocha", ... }:
 let
+	name = "aether-recolor-${flavor}";
 	pname = "aether-recolor";
-	python = (python3.withPackages (pp: [ pp.tqdm pp.pillow ]));
+	version = "1.0";
 
+	python = (python3.withPackages (pp: [ pp.tqdm pp.pillow ]));
 	createPlalette = import ./createPalette.nix aetherLib flavor;
 in
 
 lib.checkListOfEnum "${pname}: flavor" aetherLib.appearance.validFlavors [ flavor ]
 
 stdenv.mkDerivation {
-	inherit pname;
-	version = "1.0";
+	inherit name pname version;
 
-	srcs = [ 
+	srcs = [
 		./src/basic_colormath.tar.gz
 		./src/color_manager.tar.gz
 		./src/bin
 	];
 	sourceRoot = ".";
 
-	nativeBuildInputs = [ 
+	buildInputs = [
 		python
+	];
+
+	nativeBuildInputs = [
 		makeWrapper
 	];
 
@@ -35,7 +39,7 @@ stdenv.mkDerivation {
 		cp -r basic_colormath $out/lib
 		cp -r color_manager $out/lib
 		cp palette.json $out/palette.json
-		
+
 		cp bin/aether-recolor.sh $out/bin/aether-recolor
 		chmod +x $out/bin/aether-recolor
 		wrapProgram $out/bin/aether-recolor \
