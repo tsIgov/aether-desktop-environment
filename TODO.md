@@ -37,7 +37,6 @@ Screenshot of a window take a screenshot of all windows on the workspace
 Disable tab changing by scroll
 Swaylock breaks on monitor switch
 
-Add secondary, warning and error colors
 
 Finish rofi
 	- set app name and tranciency to the notify-send calls
@@ -47,4 +46,5 @@ Better styling for waybar (colors are not from the theme right now)
 	- mic tooltip is wrong
 Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
 
+Add secondary, warning and error colors
 Not all accent colors have the proper terminal colors
