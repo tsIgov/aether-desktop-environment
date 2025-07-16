@@ -31,6 +31,13 @@
 				emoji = [ config.aether.appearance.fonts.emoji ];
 			};
 		};
+
+		gtk = {
+			font = {
+				name = config.aether.appearance.fonts.mono;
+				size = config.aether.appearance.fonts.size;
+			};
+		};
 	};
 
 }

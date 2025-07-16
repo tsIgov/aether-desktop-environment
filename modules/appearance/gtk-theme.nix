@@ -5,7 +5,6 @@
 		flavorName = config.aether.appearance.colors.flavor;
 		colorScheme = if flavorName == "latte" then "light" else "dark";
 		accent = config.aether.appearance.colors.accent;
-
 	in
 	{
 		gtk = {
@@ -19,11 +18,6 @@
 					tweaks = [ "normal" ];
 					variant = flavorName;
 				};
-			};
-
-			font = {
-				name = config.aether.appearance.fonts.mono;
-				size = config.aether.appearance.fonts.size;
 			};
 		};
 
