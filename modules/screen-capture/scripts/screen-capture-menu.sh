@@ -1,3 +1,4 @@
+#! /bin/sh
 rofi_command=(rofi -dmenu -i -no-show-icons -kb-custom-1 "Shift+Return,Shift+KP_Enter" -p)
 
 chosenOption=$(echo -e "󰍹  Screen\n  Window\n󰩬  Region" | "${rofi_command[@]}" "Screen Capture")

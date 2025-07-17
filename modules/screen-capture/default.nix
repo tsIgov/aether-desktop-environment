@@ -1,12 +1,10 @@
 {
 	system = { pkgs, ... }:
-	let
-		script = builtins.readFile ./scripts/aether-screen-capture-menu.sh;
-	in
 	{
+		environment.etc."aether/screen-capture/scripts".source = ./scripts;
+
 		environment.systemPackages = with pkgs; [
 			hyprshot
-			(writeShellScriptBin "aether-screen-capture-menu" script)
 		];
 	};
 
@@ -14,7 +12,7 @@
 	{
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
-				bind = , PRINT, exec, aether-screen-capture-menu
+				bind = , PRINT, exec, sh /etc/aether/screen-capture/scripts/screen-capture-menu.sh
 			'';
 		};
 	};

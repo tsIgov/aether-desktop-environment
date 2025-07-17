@@ -50,7 +50,6 @@ Better styling for swaync (colors are not from the theme right now) (overlaps wi
 ## Refactor
  - hyprland
  - os
- - screen-capture
  - security
  - storage
  - virtualization
