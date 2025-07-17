@@ -8,6 +8,7 @@
 
 		environment.systemPackages = with pkgs; [
 			wdisplays # monitor layout tool
+			brightnessctl # controls display brightness
 			(pkgs.writeShellScriptBin "aether-display-auto-profile" script)
 		];
 	};

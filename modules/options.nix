@@ -10,8 +10,6 @@
 			};
 
 			hardware = {
-				laptop = mkOption { type = bool; default = true; };
-
 				nvidia = with lib; with types; {
 					enable = mkOption { type = bool; default = false; };
 					drivers = mkOption { type = enum [ "nvidia" "nvidia-proprietary" "nouveau" "disabled" ]; default = "nvidia"; };

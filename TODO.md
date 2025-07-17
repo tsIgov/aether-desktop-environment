@@ -18,6 +18,7 @@ easily call GC
 Record screen
 Reconfigure Firefox
 
+Disable tab changing by scroll
 `bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
 
 ## Optional
@@ -32,10 +33,9 @@ Network devices are missing on cold boot
 Quickly logging in through SDDM causes it to freeze
 Keystore doesn't unlock on login
 Screenshot of a window take a screenshot of all windows on the workspace
+Swaylock breaks on monitor switch
 
 ## Appearance
-Disable tab changing by scroll
-Swaylock breaks on monitor switch
 
 
 Finish rofi
