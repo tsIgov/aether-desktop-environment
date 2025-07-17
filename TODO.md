@@ -46,3 +46,15 @@ Better styling for waybar (colors are not from the theme right now)
 	- mic tooltip is wrong
 Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
 
+
+## Refactor
+ - hyprland
+ - os
+ - screen-capture
+ - security
+ - storage
+ - virtualization
+ - clipboard-manager
+ - locale
+ - networking
+ - utilities
