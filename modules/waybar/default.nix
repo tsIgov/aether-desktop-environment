@@ -188,7 +188,7 @@
 						tooltip-format-enumerate-connected = "{device_alias}";
 						tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_battery_percentage}%";
 
-						on-click = "sh $HOME/.config/rofi/scripts/bluetooth.sh";
+						on-click = "sh /etc/aether/bluetooth/scripts/bluetooth-menu.sh";
 						on-click-right = "rfkill toggle bluetooth";
 					};
 

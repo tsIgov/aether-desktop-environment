@@ -1,6 +1,8 @@
 {
 	system = { pkgs, ... }:
 	{
+		environment.etc."aether/bluetooth/scripts".source = ./scripts;
+
 		hardware.bluetooth = {
 			enable = true;
 			powerOnBoot = true;
