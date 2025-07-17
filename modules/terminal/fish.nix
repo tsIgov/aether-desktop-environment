@@ -20,12 +20,12 @@
 
 		palette = aether.lib.appearance.getPalette { inherit config; };
 
-		accentColor = config.aether.appearance.colors.accent;
+		primaryColor = config.aether.appearance.colors.primary;
 		secondaryColor = config.aether.appearance.colors.secondary;
 		tertiaryColor = config.aether.appearance.colors.tertiary;
 		errorColor = config.aether.appearance.colors.error;
 
-		accentCode = codeMap.${accentColor};
+		primaryCode = codeMap.${primaryColor};
 		secondaryCode = codeMap.${secondaryColor};
 		tertiaryCode = codeMap.${tertiaryColor};
 		errorCode = codeMap.${errorColor};
@@ -37,19 +37,19 @@
 			interactiveShellInit = ''
 				set fish_greeting
 				set fish_color_autosuggestion      	${palette.surface2}
-				set fish_color_command             	${palette.accent}
+				set fish_color_command             	${palette.primary}
 				set fish_color_comment             	${palette.surface2}
-				set fish_color_end                 	${palette.accent}
+				set fish_color_end                 	${palette.primary}
 				set fish_color_error               	${palette.error}
 				set fish_color_escape              	${palette.tertiary}
-				set fish_color_keyword				${palette.accent}
+				set fish_color_keyword				${palette.primary}
 				set fish_color_operator				${palette.tertiary}
 				set fish_color_option            	${palette.tertiary}
 				set fish_color_param              	${palette.secondary}
 				set fish_color_quote               	${palette.tertiary}
 				set fish_color_redirection         	${palette.tertiary}
 
-				set -x LS_COLORS "di=01;${accentCode}:tw=01;${accentCode}:ow=01;${accentCode}:ln=03;${secondaryCode}:pi=${tertiaryCode}:so=${tertiaryCode}:do=${tertiaryCode}:bd=${tertiaryCode}:cd=${tertiaryCode}:or=${errorCode}:mi=${errorCode}:ex=01;${secondaryCode}:"
+				set -x LS_COLORS "di=01;${primaryCode}:tw=01;${primaryCode}:ow=01;${primaryCode}:ln=03;${secondaryCode}:pi=${tertiaryCode}:so=${tertiaryCode}:do=${tertiaryCode}:bd=${tertiaryCode}:cd=${tertiaryCode}:or=${errorCode}:mi=${errorCode}:ex=01;${secondaryCode}:"
 			'';
 		};
 	};

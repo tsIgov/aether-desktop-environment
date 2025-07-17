@@ -27,7 +27,7 @@
 				};
 
 				directory = {
-					style = "bold fg:#${palette.accent} bg:#${palette.surface0}";
+					style = "bold fg:#${palette.primary} bg:#${palette.surface0}";
 					format = "[ $path ]($style)";
 					truncation_length = 3;
 					truncation_symbol = "…/";
@@ -45,7 +45,7 @@
 				};
 
 				character = {
-					success_symbol = "[❯](bold fg:#${palette.accent})";
+					success_symbol = "[❯](bold fg:#${palette.primary})";
 					error_symbol = "[󰅖](bold fg:#${palette.error})";
 				};
 			};

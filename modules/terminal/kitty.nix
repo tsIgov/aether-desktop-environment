@@ -21,16 +21,16 @@
 				foreground ="#${palette.text}";
 				background = "#${palette.base}";
 				selection_foreground = "#${palette.base}";
-				selection_background = "#${palette.accent}";
+				selection_background = "#${palette.primary}";
 
-				cursor = "#${palette.accent}";
+				cursor = "#${palette.primary}";
 				cursor_text_color = "#${palette.crust}";
 
 				url_color = "#${palette.secondary}";
 				url_style = "straight";
 
 				mark1_foreground = "#${palette.crust}";
-				mark1_background = "#${palette.accent}";
+				mark1_background = "#${palette.primary}";
 				mark2_foreground = "#${palette.crust}";
 				mark2_background = "#${palette.secondary}";
 				mark3_foreground = "#${palette.crust}";

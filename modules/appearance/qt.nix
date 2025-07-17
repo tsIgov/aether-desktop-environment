@@ -1,8 +1,8 @@
 {
 	home = { config, pkgs, ... }:
-	let 
+	let
 		flavorName = config.aether.appearance.colors.flavor;
-		accent = config.aether.appearance.colors.accent;
+		accent = config.aether.appearance.colors.primary;
 	in
 	{
 		home.packages = with pkgs; [

@@ -57,30 +57,30 @@
 			".config/clipse/custom_theme.json".text = ''
 				{
 					"useCustomTheme": true,
-					"TitleFore": "#${palette.accent}",
+					"TitleFore": "#${palette.primary}",
 					"TitleInfo": "#${palette.subtext0}",
 					"NormalTitle": "#${palette.text}",
 					"DimmedTitle": "#${palette.subtext0}",
-					"SelectedTitle": "#${palette.accent}",
+					"SelectedTitle": "#${palette.primary}",
 					"NormalDesc": "#${palette.surface2}",
 					"DimmedDesc": "#${palette.surface2}",
 					"SelectedDesc": "#${palette.surface2}",
 					"StatusMsg": "#${palette.green}",
 					"PinIndicatorColor": "#${palette.green}",
-					"SelectedBorder": "#${palette.accent}",
-					"SelectedDescBorder": "#${palette.accent}",
+					"SelectedBorder": "#${palette.primary}",
+					"SelectedDescBorder": "#${palette.primary}",
 					"FilteredMatch": "#${palette.text}",
-					"FilterPrompt": "#${palette.accent}",
+					"FilterPrompt": "#${palette.primary}",
 					"FilterInfo": "#${palette.green}",
 					"FilterText": "#${palette.text}",
-					"FilterCursor": "#${palette.accent}",
-					"HelpKey": "#${palette.accent}",
+					"FilterCursor": "#${palette.primary}",
+					"HelpKey": "#${palette.primary}",
 					"HelpDesc": "#${palette.subtext0}",
-					"PageActiveDot": "#${palette.accent}",
+					"PageActiveDot": "#${palette.primary}",
 					"PageInactiveDot": "#${palette.surface2}",
-					"DividerDot": "#${palette.accent}",
+					"DividerDot": "#${palette.primary}",
 					"PreviewedText": "#${palette.text}",
-					"PreviewBorder": "#${palette.accent}"
+					"PreviewBorder": "#${palette.primary}"
 				}
 			'';
 		};

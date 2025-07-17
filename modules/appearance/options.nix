@@ -24,7 +24,7 @@
 			appearance = {
 				colors = {
 					flavor = mkOption { type = enum aether.lib.appearance.validFlavors; default = "mocha"; };
-					accent = mkOption { type = enum aether.lib.appearance.validAccents; default = "mauve"; };
+					primary = mkOption { type = enum aether.lib.appearance.validAccents; default = "mauve"; };
 					secondary = mkOption { type = enum aether.lib.appearance.validAccents; default = "green"; };
 					tertiary = mkOption { type = enum aether.lib.appearance.validAccents; default = "peach"; };
 					error = mkOption { type = enum aether.lib.appearance.validAccents; default = "red"; };

@@ -3,9 +3,9 @@
 	{
 		gtk.iconTheme = {
 			name = "aether-icons";
-			package = aether.pkgs.icons.override { 
+			package = aether.pkgs.icons.override {
 				flavor = config.aether.appearance.colors.flavor;
-				accent = config.aether.appearance.colors.accent;
+				accent = config.aether.appearance.colors.primary;
 			};
 		};
 	};

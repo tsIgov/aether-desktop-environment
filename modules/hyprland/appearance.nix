@@ -11,10 +11,10 @@
 				gaps_out = 10;
 				gaps_workspaces = 0;
 
-				"col.active_border" = "rgb(${palette.accent})";
+				"col.active_border" = "rgb(${palette.primary})";
 				"col.inactive_border" = "rgb(${palette.overlay0})";
 				"col.nogroup_border" = "rgb(${palette.overlay0})";
-				"col.nogroup_border_active" = "rgb(${palette.accent})";
+				"col.nogroup_border_active" = "rgb(${palette.primary})";
 			};
 
 			decoration = {
@@ -41,7 +41,7 @@
 			group = {
 				"col.border_active" = "rgb(${palette.green})";
 				"col.border_inactive" = "rgb(${palette.yellow})";
-				"col.border_locked_active" = "rgb(${palette.accent})";
+				"col.border_locked_active" = "rgb(${palette.primary})";
 				"col.border_locked_inactive" = "rgb(${palette.overlay0})";
 
 				groupbar = {
@@ -52,7 +52,7 @@
 
 					"col.active" = "rgb(${palette.green})";
 					"col.inactive" = "rgb(${palette.overlay0})";
-					"col.locked_active" = "rgb(${palette.accent})";
+					"col.locked_active" = "rgb(${palette.primary})";
 					"col.locked_inactive" = "rgb(${palette.overlay0})";
 				};
 			};

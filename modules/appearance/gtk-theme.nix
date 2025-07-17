@@ -4,7 +4,7 @@
 	let
 		flavorName = config.aether.appearance.colors.flavor;
 		colorScheme = if flavorName == "latte" then "light" else "dark";
-		accent = config.aether.appearance.colors.accent;
+		accent = config.aether.appearance.colors.primary;
 	in
 	{
 		gtk = {

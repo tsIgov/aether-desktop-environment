@@ -18,7 +18,7 @@
 			lavender = "brightblue";
 		};
 
-		accentName = config.aether.appearance.colors.accent;
+		accentName = config.aether.appearance.colors.primary;
 		terminalAccent = colorMap.${accentName};
 	in
 	{

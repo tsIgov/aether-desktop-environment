@@ -1,7 +1,7 @@
 {
 	system = { pkgs, config, aether, ... }:
-	let 
-		palette = aether.lib.appearance.getPalette { inherit config; };
+	let
+		palette = aether.lib.appearance.getSystemPalette { inherit config; };
 	in
 	{
 		environment.systemPackages = with pkgs; [

@@ -1,7 +1,7 @@
 { config }:
 let
 	flavorName = config.aether.appearance.colors.flavor;
-  	accentName = config.aether.appearance.colors.accent;
+  	primaryName = config.aether.appearance.colors.primary;
   	secondaryName = config.aether.appearance.colors.secondary;
   	tertiaryName = config.aether.appearance.colors.tertiary;
   	errorName = config.aether.appearance.colors.error;
@@ -9,7 +9,7 @@ let
 	flavor = (import ./flavors.nix).${flavorName};
 in
 with flavor; {
-	accent = flavor.${accentName};
+	primary = flavor.${primaryName};
 	secondary = flavor.${secondaryName};
 	tertiary = flavor.${tertiaryName};
 	error = flavor.${errorName};
