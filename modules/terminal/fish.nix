@@ -1,7 +1,35 @@
 {
 	home = { config, aether, ... }:
-	let 
+	let
+		codeMap = {
+			rosewater = "37";
+			flamingo = "97";
+			pink = "95";
+			mauve = "35";
+			red = "31";
+			maroon = "91";
+			peach = "93";
+			yellow = "33";
+			green = "32";
+			teal = "92";
+			sky = "36";
+			sapphire = "96";
+			blue = "34";
+			lavender = "94";
+		};
+
 		palette = aether.lib.appearance.getPalette { inherit config; };
+
+		accentColor = config.aether.appearance.colors.accent;
+		secondaryColor = config.aether.appearance.colors.secondary;
+		tertiaryColor = config.aether.appearance.colors.tertiary;
+		errorColor = config.aether.appearance.colors.error;
+
+		accentCode = codeMap.${accentColor};
+		secondaryCode = codeMap.${secondaryColor};
+		tertiaryCode = codeMap.${tertiaryColor};
+		errorCode = codeMap.${errorColor};
+
 	in
 	{
 		programs.fish = {
@@ -11,17 +39,17 @@
 				set fish_color_autosuggestion      	${palette.surface2}
 				set fish_color_command             	${palette.accent}
 				set fish_color_comment             	${palette.surface2}
-				set fish_color_end                 	${palette.sky}
-				set fish_color_error               	${palette.red}
-				set fish_color_escape              	${palette.pink}
+				set fish_color_end                 	${palette.accent}
+				set fish_color_error               	${palette.error}
+				set fish_color_escape              	${palette.tertiary}
 				set fish_color_keyword				${palette.accent}
-				set fish_color_operator				${palette.sky}
-				set fish_color_option            	${palette.yellow}
-				set fish_color_param              	${palette.blue}
-				set fish_color_quote               	${palette.green}
-				set fish_color_redirection         	${palette.sapphire}
+				set fish_color_operator				${palette.tertiary}
+				set fish_color_option            	${palette.tertiary}
+				set fish_color_param              	${palette.secondary}
+				set fish_color_quote               	${palette.tertiary}
+				set fish_color_redirection         	${palette.tertiary}
 
-				set -x LS_COLORS "di=01;35:ln=34:pi=36:so=36:do=36:bd=33:cd=33:or=31:mi=31:ex=01;32:"
+				set -x LS_COLORS "di=01;${accentCode}:tw=01;${accentCode}:ow=01;${accentCode}:ln=03;${secondaryCode}:pi=${tertiaryCode}:so=${tertiaryCode}:do=${tertiaryCode}:bd=${tertiaryCode}:cd=${tertiaryCode}:or=${errorCode}:mi=${errorCode}:ex=01;${secondaryCode}:"
 			'';
 		};
 	};
@@ -59,22 +87,63 @@
 # ec  ENDCODE, END                Non-filename text
 # *.extension                     Every file using this extension e.g. *.jpg
 
-# effects
-# -------
-# 00  Default colour
-# 01  Bold
-# 04  Underlined
-# 05  Flashing text
-# 07  Reversetd
-# 08  Concealed
+# ECMA-48 Select Graphic Rendition
 
-# colours                         backgrounds
-# -------                         -----------
-# 30  Black                       40      Black background
-# 31  Red                         41      Red background
-# 32  Green                       42      Green background
-# 33  Orange                      43      Orange background
-# 34  Blue                        44      Blue background
-# 35  Purple                      45      Purple background
-# 36  Cyan                        46      Cyan background
-# 37  Grey                        47      Grey background
+# The   ECMA-48  SGR  sequence  ESC  [  parameters  m  sets  display
+# attributes.  Several attributes can be set in the  same  sequence,
+# separated  by  semicolons.  An empty parameter (between semicolons
+# or string initiator or terminator) is interpreted as a zero.
+# param      result
+# 0          reset all attributes to their defaults
+# 1          set bold
+# 2          set half-bright (simulated with color on a color display)
+# 3          set italic (since Linux 2.6.22; simulated with color on a color display)
+# 4          set underscore (simulated with color on a color display) (the colors
+# 			used to simulate dim or underline are set using ESC ] ...)
+# 5          set blink
+# 7          set reverse video
+# 10         reset selected mapping, display control flag, and toggle meta flag
+# 			(ECMA-48 says "primary font").
+# 11         select null mapping, set display control flag, reset toggle meta flag
+# 			(ECMA-48 says "first alternate font").
+# 12         select null mapping, set display control flag, set toggle meta flag
+# 			(ECMA-48 says "second alternate font").  The toggle meta flag causes the
+# 			high bit of a byte to be toggled before the mapping table translation is
+# 			done.
+# 21         set underline; before Linux 4.17, this value set normal intensity (as is
+# 			done in many other terminals)
+# 22         set normal intensity
+# 23         italic off (since Linux 2.6.22)
+# 24         underline off
+# 25         blink off
+# 27         reverse video off
+# 30         set black foreground
+# 31         set red foreground
+# 32         set green foreground
+# 33         set brown foreground
+# 34         set blue foreground
+# 35         set magenta foreground
+# 36         set cyan foreground
+# 37         set white foreground
+# 38         256/24-bit foreground color follows, shoehorned into 16 basic colors
+# 			(before Linux 3.16: set underscore on, set default foreground color)
+# 39         set default foreground color (before Linux 3.16: set underscore off, set
+# 			default foreground color)
+# 40         set black background
+# 41         set red background
+# 42         set green background
+# 43         set brown background
+# 44         set blue background
+# 45         set magenta background
+# 46         set cyan background
+# 47         set white background
+# 48         256/24-bit background color follows, shoehorned into 8 basic colors
+# 49         set default background color
+# 90..97     set foreground to bright versions of 30..37
+# 100..107   set background, same as 40..47 (bright not supported)
+
+# Commands 38 and 48 require further arguments:
+# ;5;x       256 color: values 0..15 are IBGR  (black,  red,  green,
+# 			...  white),  16..231  a  6x6x6  color cube, 232..255 a
+# 			grayscale ramp
+# ;2;r;g;b   24-bit color, r/g/b components are in the range 0..255

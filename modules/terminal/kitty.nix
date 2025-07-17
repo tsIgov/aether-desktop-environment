@@ -26,15 +26,15 @@
 				cursor = "#${palette.accent}";
 				cursor_text_color = "#${palette.crust}";
 
-				url_color = "#${palette.blue}";
+				url_color = "#${palette.secondary}";
 				url_style = "straight";
 
 				mark1_foreground = "#${palette.crust}";
-				mark1_background = "#${palette.lavender}";
+				mark1_background = "#${palette.accent}";
 				mark2_foreground = "#${palette.crust}";
-				mark2_background = "#${palette.mauve}";
+				mark2_background = "#${palette.secondary}";
 				mark3_foreground = "#${palette.crust}";
-				mark3_background = "#${palette.sapphire}";
+				mark3_background = "#${palette.tertiary}";
 
 				# The 16 terminal colors
 
@@ -44,31 +44,31 @@
 
 				# red
 				color1 = "#${palette.red}";
-				color9 = "#${palette.red}";
+				color9 = "#${palette.maroon}";
 
 				# green
 				color2 = "#${palette.green}";
-				color10 = "#${palette.green}";
+				color10 = "#${palette.teal}";
 
 				# yellow
 				color3 = "#${palette.yellow}";
-				color11 = "#${palette.yellow}";
+				color11 = "#${palette.peach}";
 
 				# blue
 				color4 = "#${palette.blue}";
-				color12 = "#${palette.blue}";
+				color12 = "#${palette.lavender}";
 
 				# magenta
 				color5 = "#${palette.mauve}";
-				color13 = "#${palette.mauve}";
+				color13 = "#${palette.pink}";
 
 				# cyan
 				color6 = "#${palette.sky}";
-				color14 = "#${palette.sky}";
+				color14 = "#${palette.sapphire}";
 
 				# white
-				color7 = "#${palette.subtext1}";
-				color15 = "#${palette.subtext0}";
+				color7 = "#${palette.rosewater}";
+				color15 = "#${palette.flamingo}";
 			};
 
 			keybindings = {

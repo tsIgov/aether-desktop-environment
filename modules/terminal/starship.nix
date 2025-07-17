@@ -1,6 +1,6 @@
 {
 	home = { lib, config, aether, ... }:
-	let 
+	let
 		palette = aether.lib.appearance.getPalette { inherit config; };
 	in
 	{
@@ -9,42 +9,44 @@
 			settings = {
 				format = lib.concatStrings [
 					"$shell"
-					"[](fg:#${palette.surface2} bg:#${palette.surface1})"
+					"[](fg:#${palette.surface0} bg:#${palette.base})"
+					"[](fg:#${palette.surface0} bg:#${palette.base})"
 					"$directory"
-					"[](fg:#${palette.surface1} bg:#${palette.surface0})"
+					"[](fg:#${palette.surface0} bg:#${palette.base})"
+					"[](fg:#${palette.surface0} bg:#${palette.base})"
 					"$git_branch"
 					"$git_status"
-					"[ ](fg:#${palette.surface0})"
+					"[](fg:#${palette.surface0})"
 					"\n$character"
 				];
-				
+
 				shell = {
-					style = "bold bg:#${palette.surface2} fg:#cdd6f4";
+					style = "bold bg:#${palette.surface0} fg:#${palette.text}";
 					format = "[ $indicator ]($style)";
 					disabled = false;
 				};
 
 				directory = {
-					style = "bold fg:#${palette.accent} bg:#${palette.surface1}";
-					format = "[ $path]($style)";
+					style = "bold fg:#${palette.accent} bg:#${palette.surface0}";
+					format = "[ $path ]($style)";
 					truncation_length = 3;
 					truncation_symbol = "…/";
 				};
 
 				git_branch = {
 					symbol = "";
-					style = "fg:#${palette.green} bg:#${palette.surface0}";
+					style = "fg:#${palette.secondary} bg:#${palette.surface0}";
 					format = "[ $symbol $branch ]($style)";
 				};
 
 				git_status = {
-					style = "fg:#${palette.maroon} bg:#${palette.surface0}";
-					format = "[$all_status$ahead_behind]($style)";
+					style = "fg:#${palette.tertiary} bg:#${palette.surface0}";
+					format = "[$all_status$ahead_behind ]($style)";
 				};
 
 				character = {
 					success_symbol = "[❯](bold fg:#${palette.accent})";
-					error_symbol = "[󰅖](bold fg:#f38ba8)";
+					error_symbol = "[󰅖](bold fg:#${palette.error})";
 				};
 			};
 		};

@@ -13,14 +13,14 @@ parseArguments() {
 	for arg in "$@"
 	do
 		case "$arg" in
-		-h|--help)   
+		-h|--help)
 			showHelp
 			exit 0
 		;;
 		-*)
 			echo "Invalid argument: $arg"
 			exit 1
-		;; 
+		;;
 		*)
 			if [[ $DEST ]]; then
 				echo "Too many arguments."

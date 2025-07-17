@@ -46,5 +46,3 @@ Better styling for waybar (colors are not from the theme right now)
 	- mic tooltip is wrong
 Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
 
-Add secondary, warning and error colors
-Not all accent colors have the proper terminal colors

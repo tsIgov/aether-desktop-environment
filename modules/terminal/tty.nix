@@ -1,6 +1,6 @@
 {
 	system = { pkgs, config, aether, ... }:
-	let 
+	let
 		palette = aether.lib.appearance.getPalette { inherit config; };
 	in
 	{
@@ -10,8 +10,8 @@
 				terminus_font
 			];
 			colors = with palette; [
-				base red green yellow blue pink teal subtext0
-				surface0 red green yellow blue pink teal subtext1
+				base red green yellow blue mauve sky subtext0
+				surface0 maroon teal peach lavender pink sapphire subtext1
 			];
 		};
 	};
