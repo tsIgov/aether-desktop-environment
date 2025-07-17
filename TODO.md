@@ -58,3 +58,7 @@ Better styling for swaync (colors are not from the theme right now) (overlaps wi
  - locale
  - networking
  - utilities
+
+ - waybar
+ - rofi
+ - notifications
