@@ -18,7 +18,6 @@ easily call GC
 Record screen
 Reconfigure Firefox
 
-Disable tab changing by scroll
 `bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
 Packages should not follow aether
 

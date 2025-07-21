@@ -49,6 +49,7 @@
 					render_titles = false;
 					height = 1;
 					keep_upper_gap = false;
+					scrolling = false;
 
 					"col.active" = "rgb(${palette.green})";
 					"col.inactive" = "rgb(${palette.overlay0})";
