@@ -11,21 +11,7 @@
 
 	outputs = inputs:
 	let
-		overlays = [
-			(final: prev: {
-				rofi-calc = prev.rofi-calc.overrideAttrs (old: {
-					version = "2.4.0";
-					src = prev.fetchFromGitHub {
-						owner = "svenstaro";
-						repo = "rofi-calc";
-						rev = "v2.4.0";
-						sha256 = "sha256:iTLi76GinRASawPSWAqmxSwLZPGvHesarHNoqO4m4dM=";
-					};
-				});
-			})
-		];
-
-		pkgs = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; inherit overlays; };
+		pkgs = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 		aetherLib = import ./lib inputs.nixpkgs.lib;
 		internal = import ./internal aetherLib;
 
