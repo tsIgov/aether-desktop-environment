@@ -169,7 +169,7 @@
 						tooltip-format-wifi = "ESSID: {essid}\nFrequency: {frequency} GHz\nStrength: {signalStrength}%\nIP: {ipaddr}\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}";
 						tooltip-format-disconnected = "Disconnected";
 
-						on-click = "sh $HOME/.config/rofi/scripts/network.sh";
+						on-click = "sh /etc/aether/network/scripts/network-menu.sh";
 						on-click-middle = "rfkill toggle wifi";
 					};
 					bluetooth = {

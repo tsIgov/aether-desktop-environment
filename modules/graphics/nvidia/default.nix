@@ -1,7 +1,7 @@
 {
 	system = { config, lib, pkgs, ... }:
 	let
-		cfg = config.aether.hardware.nvidia;
+		cfg = config.aether.graphics.nvidia;
 		driverName = if cfg.drivers == "nouveau" then "nouveau" else "nvidia";
 		openDriver = (cfg.drivers == "nvidia");
 	in

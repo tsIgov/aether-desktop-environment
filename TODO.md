@@ -20,6 +20,7 @@ Reconfigure Firefox
 
 Disable tab changing by scroll
 `bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
+Packages should not follow aether
 
 ## Optional
 
@@ -49,13 +50,6 @@ Better styling for swaync (colors are not from the theme right now) (overlaps wi
 
 ## Refactor
  - hyprland
- - os
- - security
- - storage
- - virtualization
- - clipboard-manager
- - locale
- - networking
  - utilities
 
  - waybar

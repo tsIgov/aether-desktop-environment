@@ -9,24 +9,6 @@
 				daysOld = mkOption { type = ints.positive; default = 7; description = "Delete all inactive generations older than the specified amount of days."; };
 			};
 
-			hardware = {
-				nvidia = with lib; with types; {
-					enable = mkOption { type = bool; default = false; };
-					drivers = mkOption { type = enum [ "nvidia" "nvidia-proprietary" "nouveau" "disabled" ]; default = "nvidia"; };
-					prime = {
-						enable = mkOption { type = bool; default = false; };
-						type = mkOption { type = enum [ "offload" "sync" "reverseSync" ]; default = "offload"; };
-					};
-				};
-			};
-
-			localization = {
-				timezone = mkOption { type = str; default = "auto"; };
-			};
-
-			virtualization = {
-				docker.enable = mkOption { type = bool; default = false; };
-			};
 		};
 	};
 
@@ -48,18 +30,6 @@
 						});
 					};
 				};
-			};
-
-			localization = {
-				default = mkOption { type = str; default = "en_US.UTF-8"; };
-				addressFormat = mkOption { type = nullOr str; default = null; };
-				measurementsFormat = mkOption { type = nullOr str; default = null; };
-				moneyFormat = mkOption { type = nullOr str; default = null; };
-				namesFormat = mkOption { type = nullOr str; default = null; };
-				numericFormat = mkOption { type = nullOr str; default = null; };
-				paperFormat = mkOption { type = nullOr str; default = null; };
-				telephoneFormat = mkOption { type = nullOr str; default = null; };
-				timeFormat = mkOption { type = nullOr str; default = null; };
 			};
 
 			defaultApps = {

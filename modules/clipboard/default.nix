@@ -1,15 +1,18 @@
 {
+	system = { pkgs, ... }:
+	{
+		environment.systemPackages = with pkgs; [
+			clipse
+			wl-clipboard
+			wl-clip-persist
+		];
+	};
+
 	home = { pkgs, config, aether, ... }:
 	let
 		palette = aether.lib.appearance.getPalette { inherit config; };
 	in
 	{
-		home.packages = with pkgs; [
-			clipse
-			wl-clipboard
-			wl-clip-persist
-		];
-
 		wayland.windowManager.hyprland.settings.exec-once = [
 			"${pkgs.clipse}/bin/clipse -listen"
 			"${pkgs.wl-clip-persist}/bin/wl-clip-persist --clipboard regular"
@@ -65,13 +68,13 @@
 					"NormalDesc": "#${palette.surface2}",
 					"DimmedDesc": "#${palette.surface2}",
 					"SelectedDesc": "#${palette.surface2}",
-					"StatusMsg": "#${palette.green}",
-					"PinIndicatorColor": "#${palette.green}",
+					"StatusMsg": "#${palette.secondary}",
+					"PinIndicatorColor": "#${palette.secondary}",
 					"SelectedBorder": "#${palette.primary}",
 					"SelectedDescBorder": "#${palette.primary}",
 					"FilteredMatch": "#${palette.text}",
 					"FilterPrompt": "#${palette.primary}",
-					"FilterInfo": "#${palette.green}",
+					"FilterInfo": "#${palette.secondary}",
 					"FilterText": "#${palette.text}",
 					"FilterCursor": "#${palette.primary}",
 					"HelpKey": "#${palette.primary}",

@@ -12,9 +12,10 @@
 		};
 
 		environment.systemPackages = with pkgs; [
-			pulsemixer
-			pulseaudio
-			ponymix
+			pulseaudio # Sound server
+			pulsemixer # TUI for pulseaudio
+			ponymix # CLI for pulseaudio volume control
+			playerctl # CLI for controlling media players
 		];
 	};
 }

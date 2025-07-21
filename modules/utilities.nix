@@ -1,16 +1,4 @@
 {
-	system = { pkgs, ... }:
-	{
-		environment.systemPackages = with pkgs; [
-			pciutils
-			gotop
-			playerctl
-			sysstat
-			jq
-			socat
-		];
-	};
-
 	home = { pkgs, ... }:
 	{
 		home.packages = with pkgs; [
