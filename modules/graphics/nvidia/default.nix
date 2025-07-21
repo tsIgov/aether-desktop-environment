@@ -19,8 +19,8 @@
 
 				prime = lib.mkIf (cfg.prime.enable) (
 					let
-						script = builtins.readFile ./getGraphicsControllers.sh;
-						controllersJSON = pkgs.runCommand "getGraphicsControllers" { nativeBuildInputs = [ pkgs.pciutils ]; } script;
+						script = builtins.readFile ./get-graphics-controllers.sh;
+						controllersJSON = pkgs.runCommand "get-graphics-controllers" { nativeBuildInputs = [ pkgs.pciutils ]; } script;
 						controllers = builtins.fromJSON (builtins.readFile controllersJSON);
 					in
 					{

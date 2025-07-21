@@ -1,7 +1,7 @@
 {
 	system = { lib, config, pkgs, ... }:
 	let
-		cfg = config.aether.garbageCollection;
+		cfg = config.aether.storage.garbage-collection;
 	in
 	{
 		config = lib.mkIf cfg.enable {
