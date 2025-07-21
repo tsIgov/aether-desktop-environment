@@ -5,7 +5,7 @@ chosenOption=$(echo -e "  Shutdown\n  Reboot\n󰍃  Logout\n⏾  Suspend\n
 
 case $chosenOption in
 	"  Shutdown")
-		systemctl shutdown 0
+		systemctl poweroff
 		;;
 	"  Reboot")
 		systemctl reboot
