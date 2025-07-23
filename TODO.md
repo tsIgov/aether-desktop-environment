@@ -45,3 +45,12 @@ Swaylock breaks on monitor switch
 	- colors are hardcoded
 	- configure font
 	- hotkeys
+
+
+gotop has weird text color
+screen sharing
+
+hypridle
+hyprlock
+hyprpaper
+hyprpolkitagent
