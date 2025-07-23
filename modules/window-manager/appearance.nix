@@ -39,8 +39,8 @@
 			};
 
 			group = {
-				"col.border_active" = "rgb(${palette.green})";
-				"col.border_inactive" = "rgb(${palette.yellow})";
+				"col.border_active" = "rgb(${palette.secondary})";
+				"col.border_inactive" = "rgb(${palette.tertiary})";
 				"col.border_locked_active" = "rgb(${palette.primary})";
 				"col.border_locked_inactive" = "rgb(${palette.overlay0})";
 
@@ -49,9 +49,8 @@
 					render_titles = false;
 					height = 1;
 					keep_upper_gap = false;
-					scrolling = false;
 
-					"col.active" = "rgb(${palette.green})";
+					"col.active" = "rgb(${palette.secondary})";
 					"col.inactive" = "rgb(${palette.overlay0})";
 					"col.locked_active" = "rgb(${palette.primary})";
 					"col.locked_inactive" = "rgb(${palette.overlay0})";

@@ -1,5 +1,5 @@
 {
-	home = { config, aether, pkgs, ... }:
+	home = { ... }:
 	{
 
 		wayland.windowManager.hyprland = {
@@ -42,6 +42,8 @@
 				bind = SUPER SHIFT, w, movecurrentworkspacetomonitor, u
 				bind = SUPER SHIFT, s, movecurrentworkspacetomonitor, d
 				bind = , escape, submap, reset
+				bind = , catchall, submap, monitors
+				bind = SUPER, catchall, submap, monitors
 				submap = reset
 
 
@@ -53,55 +55,26 @@
 				bind = SUPER, s, exec, sh $HOME/.config/hypr/scripts/resize.sh d
 				bind = SUPER, w, exec, sh $HOME/.config/hypr/scripts/resize.sh u
 				bind = , escape, submap, reset
+				bind = , catchall, submap, resize
+				bind = SUPER, catchall, submap, resize
 				submap = reset
-
-				bind = SUPER, g, exec, sh $HOME/.config/hypr/scripts/group.sh
-				bind = SUPER SHIFT, g, exec, sh $HOME/.config/hypr/scripts/master.sh
-
-				bind = SUPER, tab, changegroupactive, f
-				bind = SUPER SHIFT, tab, changegroupactive, b
-
-				bind = SUPER, F, togglefloating
-				bind = SUPER SHIFT, F, fullscreen, 1
-
-				bind = SUPER, N, exec, pkill rofi || rofi -show
-				bind = SUPER, T, exec, ${config.aether.defaultApps.terminal}
-				bind = SUPER, E, exec, ${config.aether.defaultApps.fileManager}
-
-				bind = ALT, F4, killactive
-				bind = SUPER, C, killactive
-				bind = SUPER, L, exec, pidof swaylock || swaylock
-
-				bind = SUPER, V, exec, pkill clipse || kitty --class clipse clipse
-				bind = SUPER SHIFT, V, exec, clipse -clear
-				bind = SUPER SHIFT, C, exec, hyprpicker -a
-
-
-
-
-
-
-
-
-
-
-
-
 
 				# Move/resize windows with mainMod + LMB/RMB and dragging
 				bindm = SUPER, mouse:272, movewindow
 				bindm = SUPER, mouse:273, resizewindow
 
-				bindle=, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ -l 1.0
-				bindle=, XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-
-				bindle=, XF86MonBrightnessUp, exec, brightnessctl s +1
-				bindle=, XF86MonBrightnessDown, exec, brightnessctl s -1
-				bindle=, XF86Search, exec, walker
-				bindl=, XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-				bindl=, XF86AudioPlay, exec, playerctl play-pause
-				bindl=, XF86AudioStop, exec, playerctl stop
-				bindl=, XF86AudioNext, exec, playerctl next
-				bindl=, XF86AudioPrev, exec, playerctl previous
+				# Grouping
+				bind = SUPER, g, exec, sh $HOME/.config/hypr/scripts/group.sh
+				bind = SUPER SHIFT, g, exec, sh $HOME/.config/hypr/scripts/master.sh
+				bind = SUPER, tab, changegroupactive, f
+				bind = SUPER SHIFT, tab, changegroupactive, b
+
+
+				bind = SUPER, F, togglefloating
+				bind = SUPER SHIFT, F, fullscreen, 1
+
+				bind = ALT, F4, killactive
+				bind = SUPER, C, killactive
 			'';
 		};
 	};

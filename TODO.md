@@ -18,9 +18,6 @@ easily call GC
 Record screen
 Reconfigure Firefox
 
-`bind = , catchall, submap, reset` for submaps. maybe noop. allow moving during resize
-Packages should not follow aether
-
 ## Optional
 
 Change polkit with the one from hyprland
@@ -48,9 +45,6 @@ Better styling for swaync (colors are not from the theme right now) (overlaps wi
 
 
 ## Refactor
- - hyprland
- - utilities
-
  - waybar
  - rofi
  - notifications

@@ -20,8 +20,14 @@
 	{
 		home.file.".config/aether/display/profiles.json".text = builtins.toJSON cfg;
 
-		wayland.windowManager.hyprland.settings.exec-once = [
-			"aether-display-auto-profile"
-		];
+		wayland.windowManager.hyprland.settings = {
+			source = [
+				"~/.config/hypr/monitors.conf"
+			];
+
+			exec-once = [
+				"aether-display-auto-profile"
+			];
+		};
 	};
 }

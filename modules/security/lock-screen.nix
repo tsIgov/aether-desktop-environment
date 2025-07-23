@@ -10,6 +10,12 @@
 
 	home = { ... }:
 	{
+		wayland.windowManager.hyprland = {
+			extraConfig = ''
+				bind = SUPER, L, exec, pidof swaylock || swaylock
+			'';
+		};
+
 		home.file = {
 			".config/swaylock/config".text = ''screenshots
 clock
@@ -25,5 +31,5 @@ separator-color=00000000
 fade-in=0.2'';
 		};
 	};
-	
+
 }
