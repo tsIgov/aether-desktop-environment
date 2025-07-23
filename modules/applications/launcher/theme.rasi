@@ -5,7 +5,7 @@
 window {
 	location: center;
 	anchor: center;
-	y-offset: 0px;
+	y-offset: 10px;
 	width: 500px;
 	border: 1px;
 	border-radius: 3px;

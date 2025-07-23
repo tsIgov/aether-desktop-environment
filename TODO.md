@@ -23,6 +23,7 @@ Reconfigure Firefox
 Change polkit with the one from hyprland
 Add micro instead of nano? (set $EDITOR)
 add screenshot to clipboard + annotation?
+Use clipboard via rofi
 Kitty grab
 
 ## Problems
@@ -32,19 +33,15 @@ Keystore doesn't unlock on login
 Screenshot of a window take a screenshot of all windows on the workspace
 Swaylock breaks on monitor switch
 
-## Appearance
-
-
-Finish rofi
-	- set app name and tranciency to the notify-send calls
-	- Colors are hardcoded
-	- clipboard
-Better styling for waybar (colors are not from the theme right now)
-	- mic tooltip is wrong
-Better styling for swaync (colors are not from the theme right now) (overlaps with rofi)
-
-
 ## Refactor
  - waybar
+	- mic tooltip is wrong
  - rofi
+	- set app name and tranciency to the notify-send calls
+	- colors are hardcoded
+	- configure font
+	- switching to calc animation
  - notifications
+	- colors are hardcoded
+	- configure font
+	- hotkeys
