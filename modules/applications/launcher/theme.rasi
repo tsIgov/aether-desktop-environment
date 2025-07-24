@@ -8,7 +8,7 @@ window {
 	y-offset: 10px;
 	width: 500px;
 	border: 1px;
-	border-radius: 3px;
+	border-radius: 2px;
 	border-color: @primary;
 	background-color: @crust;
 	children: [ mainbox, sidebar ];

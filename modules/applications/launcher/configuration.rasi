@@ -105,7 +105,7 @@ configuration {
 		no-persist-history: true;
 		automatic-save-to-history: true;
 		calc-command-history: true;
-		calc-error-color: "@red";
+		calc-error-color: "@error";
 		calc-command: "echo -n '{result}' | wl-copy";
 		hint-result: "";
 		hint-welcome: "";
