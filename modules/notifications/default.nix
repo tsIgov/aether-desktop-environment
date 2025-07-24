@@ -28,7 +28,5 @@
 
 			style = ./style.css;
 		};
-
-		home.file.".config/swaync/colors.css".source = ./colors.css;
 	};
 }

@@ -38,12 +38,8 @@ Swaylock breaks on monitor switch
 	- mic tooltip is wrong
  - rofi
 	- set app name and tranciency to the notify-send calls
-	- colors are hardcoded
-	- configure font
 	- switching to calc animation
  - notifications
-	- colors are hardcoded
-	- configure font
 	- hotkeys
 
 

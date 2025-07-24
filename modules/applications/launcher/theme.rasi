@@ -1,4 +1,4 @@
-@theme "~/.config/rofi/colors.rasi"
+@theme "~/.config/rofi/variables.rasi"
 
 /* Window */
 
@@ -9,7 +9,7 @@ window {
 	width: 500px;
 	border: 1px;
 	border-radius: 3px;
-	border-color: @mauve;
+	border-color: @primary;
 	background-color: @crust;
 	children: [ mainbox, sidebar ];
 }
@@ -105,7 +105,7 @@ element-text {
 
 element-text selected,
 element-text active {
-	text-color: @mauve;
+	text-color: @primary;
 }
 
 element-icon {
@@ -133,6 +133,6 @@ button {
 	text-color: @text;
 }
 button selected {
-	text-color: @mauve;
+	text-color: @primary;
 }
 

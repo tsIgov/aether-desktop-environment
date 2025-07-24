@@ -2,7 +2,6 @@
 
 configuration {
 	click-to-exit: true;
-	font: "Inter 12";
 	show-icons: true;
 	modes: "drun,calc,window";
 	sidebar-mode: true;
