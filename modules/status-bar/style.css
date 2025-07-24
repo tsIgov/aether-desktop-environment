@@ -13,7 +13,7 @@
 	color: @text;
 	border: 2px solid @surface0;
 	font-size: 14px;
-	border-radius: 3px;
+	border-radius: 2px;
 }
 
 #waybar > box {
@@ -43,11 +43,11 @@
 }
 
 #workspaces button.active {
-	color: @mauve;
+	color: @primary;
 }
 
 #workspaces button:hover {
-	color: @mauve;
+	color: @primary;
 	box-shadow: none;
 }
 
@@ -56,18 +56,14 @@
 }
 
 
-#custom-distro,
-#custom-temperature,
-#custom-cpu,
+#custom-system,
 #custom-disk,
-#custom-memory,
 #clock.time,
 #clock.cal,
 #network,
 #bluetooth,
 #pulseaudio,
 #pulseaudio#source,
-#custom-notifications,
 #battery,
 #backlight,
 #power-profiles-daemon,
@@ -79,6 +75,18 @@
 	padding-right: 4px;
 }
 
+#custom-notifications {
+	background: @surface0;
+	padding-left: 4px;
+	padding-right: 14px;
+}
+#custom-notifications.notification,
+#custom-notifications.dnd-notification,
+#custom-notifications.inhibited-notification,
+#custom-notifications.dnd-inhibited-notification {
+	color: @primary;
+}
+
 #clock.time,
 #clock.cal {
 	font-size: 12px;
@@ -88,14 +96,9 @@
 #custom-center-cr,
 #custom-center-l1l,
 #custom-center-l1r,
-#custom-center-l2l,
-#custom-center-l2r,
 #custom-center-r1l,
 #custom-center-r1r,
-#custom-center-r2l,
-#custom-center-r2r,
 #custom-right-1l,
-#custom-right-1r,
 #custom-right-2l,
 #custom-right-2r,
 #custom-right-3l,
@@ -103,6 +106,16 @@
 #custom-right-4l,
 #custom-right-4r  {
 	color:@surface0;
-	background: @mantle;;
+	background: @mantle;
 	font-size: 20px;
+}
+
+
+tooltip {
+	background-color: @mantle;
+	color: @text;
+	border: 1px solid @surface0;
+	font-size: 13px;
+	border-radius: 2px;
+	font-family: Hack Nerd Font Mono;
 }

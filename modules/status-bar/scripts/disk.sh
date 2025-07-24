@@ -5,12 +5,12 @@ values=$(df --output=used,avail,pcent --block-size=G / | tail -1 | tr -d G%)
 used=$(echo $values | cut -f1 -d ' ')
 avail=$(echo $values | cut -f2 -d ' ')
 percentage=$(echo $values | cut -f3 -d ' ')
+avail_percentage=$((100 - percentage))
 total=$((used + avail))
 
 
 # Define text, tooltip and class based on percentage
-text="${percentage}%"
-tooltip="${used}GB (${percentage}%) used out of ${total}GB\n${avail}GB available"
+tooltip="Disk\nUsed:  ${used} GB (${percentage}%)\nAvail: ${avail} GB (${avail_percentage}%)\nTotal: ${total} GB"
 
 # Set class based on usage thresholds
 if [ "$percentage" -ge 90 ]; then
@@ -22,6 +22,6 @@ else
 fi
 
 # Output JSON that Waybar can parse
-echo "{\"text\": \"$text\", \"tooltip\": \"$tooltip\", \"class\": \"$class\", \"percentage\": $percentage }"
+echo "{\"text\": \"\", \"tooltip\": \"$tooltip\", \"class\": \"$class\", \"percentage\": $percentage }"
 
 

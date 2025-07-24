@@ -1,4 +1,9 @@
 {
+	system = { hostName, ... }:
+	{
+		environment.etc."aether/status-bar/scripts".source = ./scripts;
+	};
+
 	home = { aether, pkgs, ... }:
 	{
 		programs.waybar = {
@@ -23,11 +28,6 @@
 					];
 
 					modules-center = [
-						"custom/center-l2l"
-						"hyprland/submap"
-						"hyprland/language"
-						"custom/center-l2r"
-
 						"custom/center-l1l"
 						"clock#cal"
 						"custom/center-l1r"
@@ -39,33 +39,30 @@
 						"custom/center-r1l"
 						"clock#time"
 						"custom/center-r1r"
-
-						"custom/center-r2l"
-						"pulseaudio"
-						"pulseaudio#source"
-						"custom/notifications"
-						"custom/center-r2r"
 					];
 
 					modules-right = [
 						"custom/right-4l"
-						"network"
-						"bluetooth"
+						"hyprland/submap"
+						"hyprland/language"
 						"custom/right-4r"
 
 						"custom/right-3l"
-						"battery"
-						"power-profiles-daemon"
-						"backlight"
+						"pulseaudio"
+						"pulseaudio#source"
+						"bluetooth"
+						"network"
 						"custom/right-3r"
 
 						"custom/right-2l"
-						"group/status"
+						"group/power"
+						"custom/system"
+						"custom/disk"
 						"custom/right-2r"
 
 						"custom/right-1l"
 						"tray"
-						"custom/right-1r"
+						"custom/notifications"
 					];
 
 
@@ -74,16 +71,11 @@
 
 					"custom/center-l1l" = { format = ""; tooltip = false; };
 					"custom/center-l1r" = { format = ""; tooltip = false; };
-					"custom/center-l2l" = { format = ""; tooltip = false; };
-					"custom/center-l2r" = { format = ""; tooltip = false; };
 
 					"custom/center-r1l" = { format = ""; tooltip = false; };
 					"custom/center-r1r" = { format = ""; tooltip = false; };
-					"custom/center-r2l" = { format = ""; tooltip = false; };
-					"custom/center-r2r" = { format = ""; tooltip = false; };
 
 					"custom/right-1l" = { format = ""; tooltip = false; };
-					"custom/right-1r" = { format = ""; tooltip = false; };
 					"custom/right-2l" = { format = ""; tooltip = false; };
 					"custom/right-2r" = { format = ""; tooltip = false; };
 					"custom/right-3l" = { format = ""; tooltip = false; };
@@ -91,41 +83,21 @@
 					"custom/right-4l" = { format = ""; tooltip = false; };
 					"custom/right-4r" = { format = ""; tooltip = false; };
 
+					# █    "
 
-					"group/status" = {
-						orientation = "horizontal";
-						modules = [
-							"custom/cpu"
-							"custom/temperature"
-							"custom/memory"
-							"custom/disk"
-						];
-					};
+
 					"custom/disk" = {
 						interval = 30;
-						exec = "sh $HOME/.config/waybar/scripts/disk.sh 2> /dev/null";
+						exec = "sh /etc/aether/status-bar/scripts/disk.sh 2> /dev/null";
 						"return-type" = "json";
 						format = "{icon}";
 						"format-icons" = ["󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥"];
 					};
-					"custom/cpu" = {
+					"custom/system" = {
 						interval = 10;
-						exec = "sh $HOME/.config/waybar/scripts/cpu.sh 2> /dev/null";
+						exec = "sh /etc/aether/status-bar/scripts/system.sh 2> /dev/null";
 						"return-type" = "json";
 						format = "";
-					};
-					"custom/temperature" = {
-						interval = 10;
-						exec = "sh $HOME/.config/waybar/scripts/temperature.sh 2> /dev/null";
-						"return-type" = "json";
-						format = "{icon}";
-						"format-icons" = ["" "" "" "" ""];
-					};
-					"custom/memory" = {
-						interval = 10;
-						exec = "sh $HOME/.config/waybar/scripts/memory.sh 2> /dev/null";
-						"return-type" = "json";
-						format = "";
 					};
 
 
@@ -195,6 +167,18 @@
 						on-click-right = "rfkill toggle bluetooth";
 					};
 
+					"group/power" = {
+						orientation = "horizontal";
+						modules = [
+							"battery"
+							"power-profiles-daemon"
+							"backlight"
+						];
+						drawer = {
+							"click-to-reveal" = false;
+							"transition-left-to-right" = false;
+						};
+					};
 
 					backlight = {
 						format = "{icon}";
@@ -259,14 +243,14 @@
 						"tooltip" = false;
 						"format" = "{icon}";
 						"format-icons" = {
-							"notification" = "󰂚<span foreground='red'><sup></sup></span>";
-							"none" = "󰂚";
-							"dnd-notification" = "󰂛<span foreground='red'><sup></sup></span>";
-							"dnd-none" = "󰂛";
-							"inhibited-notification" = "󰂚<span foreground='red'><sup></sup></span>";
-							"inhibited-none" = "󰂚";
-							"dnd-inhibited-notification" = "󰂛<span foreground='red'><sup></sup></span>";
-							"dnd-inhibited-none" = "󰂛";
+							"none" = "";
+							"notification" = "";
+							"inhibited-none" = "";
+							"inhibited-notification" = "";
+							"dnd-none" = "";
+							"dnd-notification" = "";
+							"dnd-inhibited-none" = "";
+							"dnd-inhibited-notification" = "";
 						};
 						"return-type" = "json";
 						"exec-if" = "which swaync-client";
@@ -278,10 +262,10 @@
 
 
 					tray = {
-						icon-size = 20;
+						icon-size = 15;
 						show-pasive-items = true;
 						smooth-scrolling-threshold = 1;
-						spacing = 3;
+						spacing = 4;
 					};
 
 
@@ -334,6 +318,5 @@
 		};
 
 		home.file.".config/waybar/colors.css".source = ./colors.css;
-		home.file.".config/waybar/scripts".source = ./scripts;
 	};
 }
