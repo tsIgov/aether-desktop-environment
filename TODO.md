@@ -37,6 +37,7 @@ Rofi click-on-exit not working
 
 ## Refactor
  - waybar
+	- audio menus should not be centered
 	- mic tooltip is wrong
 	- bluetooth has no tooltip
 	- brightness has not tooltip
