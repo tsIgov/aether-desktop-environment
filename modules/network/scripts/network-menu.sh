@@ -70,18 +70,18 @@ manage_wifi() {
                 local success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
                 local saved_connections=$(nmcli -g NAME connection show)
                 if [[ $(echo "$saved_connections" | grep -Fx "$chosen_id") ]]; then
-                    nmcli connection up id "$chosen_id" | grep "successfully" && notify-send "Connection Established" "$success_message"
+                    nmcli connection up id "$chosen_id" | grep "successfully" && notify-send -e -a network-menu "Connection Established" "$success_message"
                 else
                     local wifi_password=$("${rofi_command[@]}" "Password" -password)
-                    nmcli device wifi connect "$chosen_id" password "$wifi_password" | grep "successfully" && notify-send "Connection Established" "$success_message"
+                    nmcli device wifi connect "$chosen_id" password "$wifi_password" | grep "successfully" && notify-send -e -a network-menu "Connection Established" "$success_message"
                 fi
                 ;;
             "  Disconnect")
 				device=$(nmcli device | grep " wifi " | awk '{print $1}')
-                nmcli device disconnect $device && notify-send "Disconnected" "You have been disconnected from $chosen_id."
+                nmcli device disconnect $device && notify-send -e -a network-menu "Disconnected" "You have been disconnected from $chosen_id."
                 ;;
             "  Forget")
-                nmcli connection delete id "$chosen_id" && notify-send "Forgotten" "The network $chosen_id has been forgotten."
+                nmcli connection delete id "$chosen_id" && notify-send -e -a network-menu "Forgotten" "The network $chosen_id has been forgotten."
                 ;;
         esac
     fi
@@ -92,7 +92,7 @@ manage_wifi() {
 manage_ethernet() {
     local eth_devices=$(nmcli device status | (grep "ethernet" || true) | (grep -v "unavailable" || true) | awk '{print $1}')
     if [ -z "$eth_devices" ]; then
-        notify-send "Error" "No ethernet devices available."
+        notify-send -e -a network-menu "Error" "No ethernet devices available."
         return
     fi
 
@@ -117,13 +117,13 @@ manage_ethernet() {
     local device_status=$(nmcli device status | grep "$chosen_device" | awk '{print $3}')
 
     if [ "$device_status" = "connected" ]; then
-        nmcli device disconnect "$chosen_device" && notify-send "Disconnected" "You have been disconnected from $chosen_device."
+        nmcli device disconnect "$chosen_device" && notify-send -e -a network-menu "Disconnected" "You have been disconnected from $chosen_device."
     elif [ "$device_status" = "disconnected" ]; then
-        nmcli device connect "$chosen_device" && notify-send "Connected" "You are now connected to $chosen_device."
+        nmcli device connect "$chosen_device" && notify-send -e -a network-menu "Connected" "You are now connected to $chosen_device."
     elif [ "$device_status" = "unavailable" ]; then
-        notify-send "Error" "$chosen_device is unavailable."
+        notify-send -e -a network-menu "Error" "$chosen_device is unavailable."
     else
-        notify-send "Error" "Unable to determine the action for $chosen_device."
+        notify-send -e -a network-menu "Error" "Unable to determine the action for $chosen_device."
     fi
 }
 

@@ -37,8 +37,7 @@ Swaylock breaks on monitor switch
  - waybar
 	- mic tooltip is wrong
  - rofi
-	- set app name and tranciency to the notify-send calls
-	- switching to calc animation
+	- switching to calc animation (separate calc from the main rofi window)
  - notifications
 	- hotkeys
 
