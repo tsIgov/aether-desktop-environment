@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -euo pipefail
-rofiCmd=(rofi -dmenu -i -no-show-icons -theme-str 'window { location: north; anchor: north; width: 400px; }')
+rofiCmd=(rofi -dmenu -i -no-show-icons -theme-str 'window { location: north east; anchor: north east; width: 400px; x-offset: -10; }')
 
 function usage {
     echo "Usage:"

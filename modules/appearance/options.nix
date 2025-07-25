@@ -34,6 +34,7 @@
 					regular = mkOption { type = str; default = "Inter"; };
 					mono = mkOption { type = str; default = "Hack Nerd Font Mono"; };
 					emoji = mkOption { type = str; default = "Noto Emoji"; };
+					icons = mkOption { type = str; default = "Hack Nerd Font Propo"; };
 				};
 				cursorSize =  mkOption { type = ints.positive; default = 22; };
 			};

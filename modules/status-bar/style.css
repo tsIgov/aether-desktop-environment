@@ -1,7 +1,7 @@
 @import "colors.css";
+@import "fonts.css";
 
 * {
-	font-family: Hack Nerd Font Propo;
 	font-size: inherit;
 	font-weight: 900;
 	margin:0;
@@ -21,11 +21,11 @@
 }
 
 .warning {
-	color: @yellow;
+	color: @primary;
 }
 
 .critical {
-	color: @red;
+	color: @error;
 }
 
 .normal {
@@ -87,24 +87,40 @@
 	color: @primary;
 }
 
-#clock.time,
-#clock.cal {
-	font-size: 12px;
+#submap {
+	font-size: 13px;
 }
 
-#custom-center-cl ,
-#custom-center-cr,
-#custom-center-l1l,
-#custom-center-l1r,
-#custom-center-r1l,
-#custom-center-r1r,
-#custom-right-1l,
-#custom-right-2l,
-#custom-right-2r,
-#custom-right-3l,
-#custom-right-3r,
-#custom-right-4l,
-#custom-right-4r  {
+#window  {
+	font-size: 13px;
+	font-family: Hack Nerd Font Mono;
+}
+
+#clock.time,
+#clock.cal,
+#language  {
+	font-size: 12px;
+	font-family: Hack Nerd Font Mono;
+}
+
+#clock.cal,
+#clock.time {
+	min-width: 43px;
+}
+
+#custom-workspaces-left,
+#custom-workspaces-right,
+#custom-calendar-left,
+#custom-calendar-right,
+#custom-time-left,
+#custom-time-right,
+#custom-notifications-left,
+#custom-connectivity-left,
+#custom-connectivity-right,
+#custom-system-left,
+#custom-system-right,
+#custom-keyboard-left,
+#custom-keyboard-right  {
 	color:@surface0;
 	background: @mantle;
 	font-size: 20px;
