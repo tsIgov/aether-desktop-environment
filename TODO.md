@@ -26,6 +26,7 @@ Add micro instead of nano? (set $EDITOR)
 add screenshot to clipboard + annotation?
 Use clipboard via rofi
 Kitty grab
+OSD
 
 ## Problems
 Network devices are missing on cold boot
@@ -39,10 +40,6 @@ Mic tooltip on statusbar can't be shown properly
 ## Refactor
  - waybar
 	- calendar tooltop is weird
-	- inconsistent mouse buttons
-	- open pulsemixer when clicking on audio icons
-	- open overscride when clicking on bluetooth icons
-	- open nmtui when clicking on wifi button
 	- refactor submap and language
 	- color icons on events
  - rofi

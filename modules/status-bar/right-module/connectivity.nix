@@ -19,7 +19,7 @@
 						orientation = "horizontal";
 						modules = [
 							"custom/connectivity-left"
-							"pulseaudio"
+							"group/speakers"
 							"pulseaudio#source"
 							"bluetooth"
 							"network"
@@ -42,7 +42,7 @@
 						tooltip-format-disconnected = "Disconnected";
 
 						on-click = "sh /etc/aether/network/scripts/network-menu.sh";
-						on-click-middle = "rfkill toggle wifi";
+						on-click-right = "rfkill toggle wifi";
 					};
 					bluetooth = {
 						format = "󰂯";
@@ -64,18 +64,36 @@
 						on-click-right = "rfkill toggle bluetooth";
 					};
 
+					"group/speakers" = {
+						orientation = "horizontal";
+						modules = [
+							"pulseaudio"
+							"pulseaudio/slider"
+						];
+						drawer = {
+							"click-to-reveal" = false;
+							"transition-left-to-right" = false;
+						};
+					};
+
 					pulseaudio = {
 						format = "{icon}";
 						format-muted = "󰖁";
 						format-icons = [ "" "" "" ];
 
 						on-click = "sh /etc/aether/audio/scripts/audio-menu.sh sink";
-						on-click-middle = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+						on-click-right = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
 						on-scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +2%";
 						on-scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -2%";
 
 						tooltip = true;
 						tooltip-format = "Volume: {volume}%\n{desc}";
+					};
+
+					"pulseaudio/slider" = {
+						min = 0;
+						max = 100;
+						orientation = "horizontal";
 					};
 
 					"pulseaudio#source" = {
@@ -84,7 +102,7 @@
 						format-source-muted = "󰍭";
 
 						on-click = "sh /etc/aether/audio/scripts/audio-menu.sh source";
-						on-click-middle = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+						on-click-right = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 						on-scroll-up = "pactl set-source-volume @DEFAULT_SOURCE@ +2%";
 						on-scroll-down = "pactl set-source-volume @DEFAULT_SOURCE@ -2%";
 
@@ -92,7 +110,6 @@
 					};
 				};
 			};
-			style = ./style.css;
 		};
 	};
 }
