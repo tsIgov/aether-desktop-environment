@@ -11,7 +11,7 @@ window {
 	border-radius: 2px;
 	border-color: @primary;
 	background-color: @crust;
-	children: [ mainbox, sidebar ];
+	children: [ mainbox ];
 }
 
 mainbox {

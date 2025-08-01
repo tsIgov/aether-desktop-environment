@@ -3,7 +3,7 @@
 configuration {
 	click-to-exit: true;
 	show-icons: true;
-	modes: "drun,calc,window";
+	modes: "drun,window";
 	sidebar-mode: true;
 	drun-display-format: "{name}";
 	hover-select: true;

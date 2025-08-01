@@ -74,7 +74,7 @@
 				bind = SUPER SHIFT, F, fullscreen, 1
 
 				bind = ALT, F4, killactive
-				bind = SUPER, C, killactive
+				bind = SUPER, F4, killactive
 			'';
 		};
 	};

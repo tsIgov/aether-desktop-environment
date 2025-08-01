@@ -45,7 +45,7 @@
 
 .control-center {
   border-radius: 2px;
-  border: 2px solid @surface0;
+  border: 1px solid @primary;
   background-color: @mantle;
   margin: 10px;
   color: @text;

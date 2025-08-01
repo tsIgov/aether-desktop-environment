@@ -38,8 +38,6 @@ Rofi click-on-exit not working
 Mic tooltip on statusbar can't be shown properly
 
 ## Refactor
- - rofi
-	- switching to calc animation (separate calc from the main rofi window)
  - notifications
 	- hotkeys
 
