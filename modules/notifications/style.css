@@ -65,7 +65,8 @@
   padding: 4px;
 }
 
-.control-center .widget-title button:hover {
+.control-center .widget-title button:hover,
+.control-center .widget-title button:focus {
   background-color: @surface1;
   border: 1px solid @surface2;
   color: @text;
@@ -98,7 +99,10 @@
   margin: 7px;
 }
 
-.control-center .notification-row .notification-background:hover {
+.control-center .notification-group:hover .notification-row .notification-background,
+.control-center .notification-group:focus .notification-row .notification-background,
+.control-center .notification-row:hover .notification-background
+{
   border-color: @surface1;
   background-color: @surface0;
 }
@@ -187,7 +191,8 @@
   background-color: @surface0;
 }
 
-.notification-action:hover {
+.notification-action:hover,
+.notification-action:focus {
   border: 1px solid @surface2;
   background-color: @surface1;
 }
