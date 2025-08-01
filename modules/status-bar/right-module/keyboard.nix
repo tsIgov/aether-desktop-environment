@@ -18,15 +18,13 @@
 					"custom/keyboard-right" = { format = ""; tooltip = false; };
 
 					"hyprland/language" = {
-						format = "{}";
-						format-en = "EN";
-						format-bg = "BG";
+						format = "<span text_transform=\"uppercase\">{shortDescription}</span>";
 					};
 					"hyprland/submap" = {
 						format = "";
 						max-length = 8;
 						tooltip = false;
-						always-on = true;
+						always-on = false;
 					};
 				};
 			};

@@ -90,6 +90,7 @@
 
 #submap {
 	font-size: 13px;
+	color: @primary;
 }
 
 #window  {

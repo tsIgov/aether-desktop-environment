@@ -1,5 +1,8 @@
 {
-	home = { aether, pkgs, ... }:
+	home = { aether, config, ... }:
+	let
+		palette = aether.lib.appearance.getPalette { inherit config; };
+	in
 	{
 		programs.waybar = {
 			settings = {
@@ -38,22 +41,23 @@
 					"clock#cal" = {
 						format = "{:%d %a}";
 						interval = 1;
+						locale = if config.aether.localization.timeFormat != null then config.aether.localization.timeFormat else config.aether.localization.default;
 						tooltip = true;
 						tooltip-format = "{calendar}";
 
 						calendar = {
 							mode = "month";
-							weeks-pos = "left";
+							mode-mon-col = 3;
 							on-scroll = 1;
 							format = {
-								months = "<span color='#d4be98'><b>{}</b></span>";
-								weeks = "<span color='#7daea3'><b>W{}</b></span>";
-								weekdays = "<span color='#d8a657'><b>{}</b></span>";
-								days = "<span color='#d4be98'><b>{}</b></span>";
-								today = "<span color='#e78a4e'><b><u>{}</u></b></span>";
+								months = "<span color='#${palette.subtext0}'><b>{}</b></span>";
+								weekdays = "<span color='#${palette.primary}'><b>{}</b></span>";
+								days = "<span color='#${palette.text}'><b>{}</b></span>";
+								today = "<span color='#${palette.secondary}'><b>{}</b></span>";
 							};
 						};
 						actions = {
+							on-click = "mode";
 							on-scroll-up = "shift_down";
 							on-scroll-down = "shift_up";
 						};
