@@ -17,7 +17,7 @@ Move printer drivers outside of aether?
 easily call GC
 Record screen
 Reconfigure Firefox
-Clicking on system icon should open gotop
+Clicking on system icon should open bottom
 
 ## Optional
 
@@ -38,12 +38,12 @@ Rofi click-on-exit not working
 Mic tooltip on statusbar can't be shown properly
 
 ## Refactor
- - notifications
-	- hotkeys
+hotkeys
+	- (toggle notification center and dismiss notification)
+	- close window
+	- deal with floating windows
+	- prevent typing while in submap
 
-
-gotop has weird text color
-screen sharing
 
 hypridle
 hyprlock

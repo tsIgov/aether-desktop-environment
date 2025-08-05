@@ -1,9 +1,4 @@
 {
-	system = { hostName, ... }:
-	{
-		environment.etc."aether/status-bar/scripts".source = ./scripts;
-	};
-
 	home = { aether, pkgs, ... }:
 	{
 		programs.waybar = {
