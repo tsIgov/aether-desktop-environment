@@ -44,7 +44,10 @@ hotkeys
 	- deal with floating windows
 	- prevent typing while in submap
 
+Ctrl+u doesn't work on rofi
 better warning colors on the status bar
+
+better wallpapers
 
 hypridle
 hyprlock
