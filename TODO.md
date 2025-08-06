@@ -44,8 +44,8 @@ hotkeys
 	- deal with floating windows
 	- prevent typing while in submap
 
+better warning colors on the status bar
 
 hypridle
 hyprlock
-hyprpaper
 hyprpolkitagent

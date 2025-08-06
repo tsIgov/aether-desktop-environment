@@ -37,6 +37,7 @@
 					icons = mkOption { type = str; default = "Hack Nerd Font Propo"; };
 				};
 				cursorSize =  mkOption { type = ints.positive; default = 22; };
+				wallpaper = mkOption { type = enum [ "deer" ]; default = "deer"; };
 			};
 
 		};
