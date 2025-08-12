@@ -44,6 +44,8 @@ hotkeys
 	- prevent typing while in submap
 
 Ctrl+u doesn't work on rofi
+remove placeholders from rofi
+
 better warning colors on the status bar
 
 hypridle
