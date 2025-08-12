@@ -29,14 +29,14 @@ stdenv.mkDerivation {
 		for svg in $(find ./images -name "*.svg"); do
 			name=$(basename "$svg" .svg)
 			echo $svg
-			sed -e 's/{foreground_color}/#${foreground-color}/g' "$svg" > "$TMPDIR/processed/$name.processed.svg"
+			sed -e 's/#ffffff/#${foreground-color}/g' -e 's/#000000/#${background-color}/g' "$svg" > "$TMPDIR/processed/$name.processed.svg"
 
 		done
 
 		mkdir -p $TMPDIR/pngs
 		for svg in $TMPDIR/processed/*.svg; do
 			name=$(basename "$svg" .processed.svg)
-			${inkscape}/bin/inkscape "$svg" --export-type=png --export-height=1152 --export-width=2048 --export-background=#${background-color} --export-area-page --export-filename="$TMPDIR/pngs/$name.png"
+			${inkscape}/bin/inkscape "$svg" --export-type=png --export-height=2048 --export-width=3640 --export-area-page --export-filename="$TMPDIR/pngs/$name.png"
 		done
 	'';
 
