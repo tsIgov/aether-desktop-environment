@@ -13,7 +13,10 @@
 						orientation = "horizontal";
 						modules = [
 							"custom/system-left"
-							"group/power"
+							"idle_inhibitor"
+							"backlight"
+							"power-profiles-daemon"
+							"battery"
 							"custom/system"
 							"custom/disk"
 							"custom/system-right"
@@ -22,19 +25,6 @@
 
 					"custom/system-left" = { format = ""; tooltip = false; };
 					"custom/system-right" = { format = ""; tooltip = false; };
-
-					"group/power" = {
-						orientation = "horizontal";
-						modules = [
-							"battery"
-							"power-profiles-daemon"
-							"backlight"
-						];
-						drawer = {
-							"click-to-reveal" = false;
-							"transition-left-to-right" = false;
-						};
-					};
 
 					backlight = {
 						format = "{icon}";
@@ -82,6 +72,16 @@
 						exec = "sh /etc/aether/status-bar/scripts/system.sh 2> /dev/null";
 						"return-type" = "json";
 						format = "";
+					};
+
+					idle_inhibitor = {
+						format = "{icon}";
+						format-icons = {
+							activated = "";
+							deactivated = "";
+						};
+						tooltip-format-activated = "Idling inhibited";
+						tooltip-format-deactivated = "Idling enabled";
 					};
 				};
 			};

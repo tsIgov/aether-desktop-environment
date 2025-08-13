@@ -5,7 +5,7 @@
 			settings.input = {
 				scroll_method = "2fg";
 				touchpad = {
-					natural_scroll = true;
+					natural_scroll = false;
 
 					clickfinger_behavior = true;
 					tap-to-click = true;

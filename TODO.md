@@ -48,5 +48,7 @@ remove placeholders from rofi
 
 better warning colors on the status bar
 
-hypridle
 hyprpolkitagent
+
+number of notifications on the lock screen
+[ "$(echo $(swaync-client -c))" -eq 0 ] && echo "zero" || echo "non-zero"

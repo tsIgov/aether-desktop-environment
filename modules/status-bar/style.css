@@ -32,6 +32,10 @@
 	color: @text
 }
 
+#idle_inhibitor.activated {
+	color: @primary;
+}
+
 #workspaces {
 	background: @surface0;
 	padding-left: 6px;
@@ -55,7 +59,7 @@
 	background: none;
 }
 
-
+#idle_inhibitor,
 #custom-system,
 #custom-disk,
 #clock.time,
