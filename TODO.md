@@ -21,7 +21,6 @@ Clicking on system icon should open bottom
 
 ## Optional
 
-Change polkit with the one from hyprland
 Add micro instead of nano? (set $EDITOR)
 add screenshot to clipboard + annotation?
 Use clipboard via rofi
@@ -52,7 +51,5 @@ Ctrl+u doesn't work on rofi
 remove placeholders from rofi
 
 better warning colors on the status bar
-
-hyprpolkitagent
 
 https://gitlab.com/sixsixfive/DarK-icons
