@@ -27,6 +27,10 @@ add screenshot to clipboard + annotation?
 Use clipboard via rofi
 Kitty grab
 OSD
+- https://github.com/Misterio77/nix-colors/blob/b92df8f5eb1fa20d8e09810c03c9dc0d94ef2820/lib/core/conversions.nix#L87
+- https://github.com/heyjuvi/avizo
+- https://github.com/System64fumo/syshud
+- syshud -p top-right -o h -m "20 20 20 20"
 
 ## Problems
 Network devices are missing on cold boot
@@ -42,6 +46,7 @@ hotkeys
 	- close window
 	- deal with floating windows
 	- prevent typing while in submap
+	- hotkey for btm of hyprctl kill
 
 Ctrl+u doesn't work on rofi
 remove placeholders from rofi
@@ -50,5 +55,4 @@ better warning colors on the status bar
 
 hyprpolkitagent
 
-number of notifications on the lock screen
-[ "$(echo $(swaync-client -c))" -eq 0 ] && echo "zero" || echo "non-zero"
+https://gitlab.com/sixsixfive/DarK-icons

@@ -59,6 +59,21 @@
 						valign = "top";
 					}
 
+					{
+						text = "cmd[update:1000] [ \"$(echo $(swaync-client -c))\" -eq 0 ] && echo \"\" || echo \"\"";
+						color = "rgb(${palette.primary})";
+						font_size = 40;
+						font_family = "${config.aether.appearance.fonts.icons}";
+						position = "0, -40";
+						halign = "center";
+						valign = "top";
+
+						shadow_passes = 3;
+						shadow_size = 3;
+						shadow_color = "rgb(0,0,0)";
+						shadow_boost = 1.2;
+					}
+
 
 					{
 						text = "cmd[update:1000] echo \"$(date +\"%A, %B %d\")\"";

@@ -10,12 +10,12 @@
 
 				lock = {
 					on-battery = mkOption { type = int; description = "Timeout in seconds. -1 to disable."; default = 180; };
-					plugged = mkOption { type = int; description = "Timeout in seconds. -1 to disable."; default = 600; };
+					plugged = mkOption { type = int; description = "Timeout in seconds. -1 to disable."; default = 900; };
 				};
 
 				turn-off-display = {
 					on-battery = mkOption { type = int; description = "Timeout in seconds. -1 to disable."; default = 240; };
-					plugged = mkOption { type = int; description = "Timeout in seconds. -1 to disable."; default = 1800; };
+					plugged = mkOption { type = int; description = "Timeout in seconds. -1 to disable."; default = 3600; };
 				};
 
 				suspend = {
