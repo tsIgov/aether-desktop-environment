@@ -47,9 +47,4 @@ hotkeys
 	- prevent typing while in submap
 	- hotkey for btm of hyprctl kill
 
-Ctrl+u doesn't work on rofi
-remove placeholders from rofi
-
-better warning colors on the status bar
-
 https://gitlab.com/sixsixfive/DarK-icons

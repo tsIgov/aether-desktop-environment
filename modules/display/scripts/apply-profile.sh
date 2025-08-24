@@ -1,15 +1,16 @@
 #!/bin/sh
+set +u
 
 profiles="$HOME/.config/aether/display/profiles.json"
 outputFile="$HOME/.config/hypr/monitors.conf"
 
 getMonitorConfig() {
-	name=$1
-	enabled=$(echo $2 | jq -r '.enabled')
-	resolution=$(echo $2 | jq -r '.resolution')
-	position=$(echo $2 | jq -r '.position')
-	scale=$(echo $2 | jq -r '.scale')
-	extraArgs=$(echo $2 | jq -r '.extraArgs')
+	name="$1"
+	enabled=$(echo "$2" | jq -r '.enabled')
+	resolution=$(echo "$2" | jq -r '.resolution')
+	position=$(echo "$2" | jq -r '.position')
+	scale=$(echo "$2" | jq -r '.scale')
+	extraArgs=$(echo "$2" | jq -r '.extraArgs')
 
 	if [[ $enabled == "false" ]]; then
 		echo "monitor = $name, disable"
@@ -24,8 +25,9 @@ getMonitorConfig() {
 }
 
 currentMonitors=$(hyprctl monitors all -j | jq -r '.[].name')
-currentMonitors=$(echo $currentMonitors) # gets them on a single line
-currentMonitorsCount=$(echo $currentMonitors | wc -w)
+# shellcheck disable=SC2116
+currentMonitors=$(echo "$currentMonitors") # gets them on a single line
+currentMonitorsCount=$(echo "$currentMonitors" | wc -w)
 
 # Parse each profile
 while read -r profile; do
@@ -45,7 +47,7 @@ while read -r profile; do
             if [[ $currentMonitor =~ ^$nameRegex$ ]]; then
 				matched=1
                 matchedMonitors="$matchedMonitors $currentMonitor"
-				monitorConfig=$(getMonitorConfig $currentMonitor $monitor)
+				monitorConfig=$(getMonitorConfig "$currentMonitor" "$monitor")
 				configValues="$configValues\n$monitorConfig"
                 break
             fi
@@ -87,4 +89,4 @@ if [[ $profileMatched != "true" ]]; then
 	configValues="monitor = , preferred, auto, auto"
 fi
 
-echo -e "$configValues" > $outputFile
+echo -e "$configValues" > "$outputFile"
