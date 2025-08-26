@@ -43,8 +43,6 @@ Mic tooltip on statusbar can't be shown properly
 hotkeys
 	- (toggle notification center and dismiss notification)
 	- close window
-	- deal with floating windows
-	- prevent typing while in submap
 	- hotkey for btm of hyprctl kill
 
-https://gitlab.com/sixsixfive/DarK-icons
+https://gitlab.com/sixsixfive/DarK-oicons

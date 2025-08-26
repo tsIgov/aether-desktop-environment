@@ -9,10 +9,10 @@
 				bind = SUPER, w, movefocus, u
 				bind = SUPER, s, movefocus, d
 
-				bind = SUPER SHIFT, a, movewindoworgroup, l
-				bind = SUPER SHIFT, d, movewindoworgroup, r
-				bind = SUPER SHIFT, w, movewindoworgroup, u
-				bind = SUPER SHIFT, s, movewindoworgroup, d
+				binde = SUPER SHIFT, a, exec, sh $HOME/.config/hypr/scripts/move.sh l
+				binde = SUPER SHIFT, d, exec, sh $HOME/.config/hypr/scripts/move.sh r
+				binde = SUPER SHIFT, w, exec, sh $HOME/.config/hypr/scripts/move.sh u
+				binde = SUPER SHIFT, s, exec, sh $HOME/.config/hypr/scripts/move.sh d
 
 				bind = SUPER, 1, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 1
 				bind = SUPER, 2, exec, sh $HOME/.config/hypr/scripts/change-workspace.sh 2
@@ -48,12 +48,20 @@
 
 
 				# Resizing
-				bind = SUPER, r, submap, resize
+				bind = SUPER SHIFT, r, submap, resize
 				submap = resize
-				bind = SUPER, d, exec, sh $HOME/.config/hypr/scripts/resize.sh r
-				bind = SUPER, a, exec, sh $HOME/.config/hypr/scripts/resize.sh l
-				bind = SUPER, s, exec, sh $HOME/.config/hypr/scripts/resize.sh d
-				bind = SUPER, w, exec, sh $HOME/.config/hypr/scripts/resize.sh u
+				binde = SUPER SHIFT, d, exec, sh $HOME/.config/hypr/scripts/resize.sh r
+				binde = SUPER SHIFT, a, exec, sh $HOME/.config/hypr/scripts/resize.sh l
+				binde = SUPER SHIFT, s, exec, sh $HOME/.config/hypr/scripts/resize.sh d
+				binde = SUPER SHIFT, w, exec, sh $HOME/.config/hypr/scripts/resize.sh u
+				bind = SUPER, d, movefocus, r
+				bind = SUPER, a, movefocus, l
+				bind = SUPER, w, movefocus, u
+				bind = SUPER, s, movefocus, d
+				binde = SUPER SHIFT, a, exec, sh $HOME/.config/hypr/scripts/move.sh l
+				binde = SUPER SHIFT, d, exec, sh $HOME/.config/hypr/scripts/move.sh r
+				binde = SUPER SHIFT, w, exec, sh $HOME/.config/hypr/scripts/move.sh u
+				binde = SUPER SHIFT, s, exec, sh $HOME/.config/hypr/scripts/move.sh d
 				bind = , escape, submap, reset
 				bind = , catchall, submap, resize
 				bind = SUPER, catchall, submap, resize
@@ -70,8 +78,16 @@
 				bind = SUPER SHIFT, tab, changegroupactive, b
 
 
-				bind = SUPER, F, togglefloating
-				bind = SUPER SHIFT, F, fullscreen, 1
+
+
+
+				bind = SUPER, H, exec, sh $HOME/.config/hypr/scripts/toggle-floating-focus.sh
+				bind = SUPER SHIFT, H, togglefloating
+				bind = SUPER SHIFT, H, centerwindow, 1
+
+				bind = SUPER, F, fullscreen, 1
+				bind = SUPER SHIFT, F, fullscreen, 0
+
 
 				bind = ALT, F4, killactive
 				bind = SUPER, F4, killactive
