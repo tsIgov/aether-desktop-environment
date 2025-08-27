@@ -6,16 +6,13 @@
 			settings = {
 
 				windowrulev2 = [
-					"opacity 0.0 override 0.0 override,class:^(xwaylandvideobridge)$"
-					"noanim,class:^(xwaylandvideobridge)$"
-					"nofocus,class:^(xwaylandvideobridge)$"
-					"noinitialfocus,class:^(xwaylandvideobridge)$"
+					"float, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
+					"center, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
+					"size 1150 750, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
 
-					# Clipboard manager
-					"float,class:(clipse)"
-					"size 700 80%,class:(clipse)"
-
-					"plugin:scroller:columnwidth onethird, class:(kitty)"
+					"float, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
+					"center, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
+					"size 1150 750, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
 				];
 
 				workspace = [

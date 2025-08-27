@@ -62,6 +62,8 @@
 				binde = SUPER SHIFT, d, exec, sh $HOME/.config/hypr/scripts/move.sh r
 				binde = SUPER SHIFT, w, exec, sh $HOME/.config/hypr/scripts/move.sh u
 				binde = SUPER SHIFT, s, exec, sh $HOME/.config/hypr/scripts/move.sh d
+				bindm = SUPER, mouse:272, movewindow
+				bindm = SUPER, mouse:273, resizewindow
 				bind = , escape, submap, reset
 				bind = , catchall, submap, resize
 				bind = SUPER, catchall, submap, resize

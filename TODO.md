@@ -10,8 +10,6 @@ Discord
 Bazecore
 
 ## Usability
-Deal with popup screens (file roller, copying, file chooser, screen sharing, network manager, audio manager, clipse)
-screen casting
 Configure XDG (notes in digital brain) - file manager
 Move printer drivers outside of aether?
 easily call GC

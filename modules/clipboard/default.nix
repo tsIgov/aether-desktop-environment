@@ -19,6 +19,12 @@
 				"${pkgs.wl-clip-persist}/bin/wl-clip-persist --clipboard regular"
 			];
 
+			settings.windowrulev2 = [
+				"float,class:(clipse)"
+				"center,class:(clipse)"
+				"size 700 80%,class:(clipse)"
+			];
+
 			extraConfig = ''
 				bind = SUPER, V, exec, pkill clipse || kitty --class clipse clipse
 				bind = SUPER SHIFT, V, exec, clipse -clear

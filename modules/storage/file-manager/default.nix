@@ -14,6 +14,15 @@
 			".local/share/nemo/actions/open-in-terminal.nemo_action".source = ./actions/open-in-terminal.nemo_action;
 		};
 
+		wayland.windowManager.hyprland = {
+			settings = {
+				windowrulev2 = [
+					"float, class:(nemo), initialTitle:^(.*Properties)$"
+					"center, class:(nemo), initialTitle:^(.*Properties)$"
+				];
+			};
+		};
+
 		dconf = {
 			settings = {
 				"org/nemo" = {
