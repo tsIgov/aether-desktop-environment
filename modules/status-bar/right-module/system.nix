@@ -72,6 +72,7 @@
 						exec = "sh /etc/aether/status-bar/scripts/system.sh 2> /dev/null";
 						"return-type" = "json";
 						format = "";
+						on-click = "kitty --class btm btm";
 					};
 
 					idle_inhibitor = {

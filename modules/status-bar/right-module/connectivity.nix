@@ -1,6 +1,16 @@
 {
 	home = { aether, pkgs, ... }:
 	{
+		wayland.windowManager.hyprland = {
+			settings = {
+				windowrulev2 = [
+					"float, class:(pulsemixer)"
+					"center, class:(pulsemixer)"
+					"size 50% 50%, class:(pulsemixer)"
+				];
+			};
+		};
+
 		programs.waybar = {
 			enable = true;
 			systemd = {
@@ -77,6 +87,7 @@
 						format-icons = [ "" "" "" ];
 
 						on-click = "sh /etc/aether/audio/scripts/audio-menu.sh sink";
+						on-click-middle = "kitty --class pulsemixer pulsemixer";
 						on-click-right = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
 						on-scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +2%";
 						on-scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -2%";
@@ -97,6 +108,7 @@
 						format-source-muted = "󰍭";
 
 						on-click = "sh /etc/aether/audio/scripts/audio-menu.sh source";
+						on-click-middle = "kitty --class pulsemixer pulsemixer";
 						on-click-right = "pactl set-source-mute @DEFAULT_SOURCE@ toggle";
 						on-scroll-up = "pactl set-source-volume @DEFAULT_SOURCE@ +2%";
 						on-scroll-down = "pactl set-source-volume @DEFAULT_SOURCE@ -2%";

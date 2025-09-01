@@ -93,6 +93,8 @@
 
 				bind = ALT, F4, killactive
 				bind = SUPER, F4, killactive
+
+				bind = SUPER SHIFT, X, exec, hyprctl kill
 			'';
 		};
 	};

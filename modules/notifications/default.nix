@@ -4,7 +4,7 @@
 		palette = aether.lib.appearance.getPalette { inherit config; };
 	in
 	{
-		services.swaync ={
+		services.swaync = {
 			enable = true;
 			settings = {
 				positionX = "right";
@@ -27,6 +27,12 @@
 			};
 
 			style = ./style.css;
+		};
+
+		wayland.windowManager.hyprland = {
+			extraConfig = ''
+				bind = SUPER, N, exec, swaync-client -t
+			'';
 		};
 	};
 }

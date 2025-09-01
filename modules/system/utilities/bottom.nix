@@ -10,6 +10,20 @@
 		palette = aether.lib.appearance.getPalette { inherit config; };
 	in
 	{
+		wayland.windowManager.hyprland = {
+			extraConfig = ''
+				bind = SUPER SHIFT, Escape, exec, kitty --class btm btm
+			'';
+
+			settings = {
+				windowrulev2 = [
+					"float, class:(btm)"
+					"center, class:(btm)"
+					"size 50% 50%, class:(btm)"
+				];
+			};
+		};
+
 		home.file.".config/bottom/bottom.toml".text = ''
 			[flags]
 			hide_avg_cpu = false

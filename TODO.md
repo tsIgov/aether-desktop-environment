@@ -12,13 +12,10 @@ Bazecore
 ## Usability
 Configure XDG (notes in digital brain) - file manager
 Move printer drivers outside of aether?
-easily call GC
 Record screen
 Reconfigure Firefox
-Clicking on system icon should open bottom
 
 ## Optional
-
 Add micro instead of nano? (set $EDITOR)
 add screenshot to clipboard + annotation?
 Use clipboard via rofi
@@ -37,10 +34,6 @@ Screenshot of a window take a screenshot of all windows on the workspace
 Rofi click-on-exit not working
 Mic tooltip on statusbar can't be shown properly
 
-## Refactor
-hotkeys
-	- (toggle notification center and dismiss notification)
-	- close window
-	- hotkey for btm of hyprctl kill
 
+## Appearance
 https://gitlab.com/sixsixfive/DarK-oicons
