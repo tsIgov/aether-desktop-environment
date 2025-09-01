@@ -8,7 +8,6 @@ handle() {
 			monitorId="${monitorId%%,*}"   # Remove everything after the first ,
 
 			if [[ $monitorId -ne -1 ]]; then
-				echo $1
 				/etc/aether/display/scripts/apply-profile.sh
 			fi
 		;;
