@@ -35,6 +35,8 @@ Separate power from system in waybar
 Move the hyprland scripts to /etc
 Changing workspace doesn't close quick one
 
+Waking up with no monitors breaks hyprlock and doesn't issue fallback
+
 
 ## Appearance
 https://gitlab.com/sixsixfive/DarK-oicons
