@@ -30,7 +30,10 @@ Screenshot of a window take a screenshot of all windows on the workspace
 Rofi click-on-exit not working
 Mic tooltip on statusbar can't be shown properly
 
-Shutting down with monitor on and booting with display off doesn't reapply the display profile
+
+Separate power from system in waybar
+Move the hyprland scripts to /etc
+Changing workspace doesn't close quick one
 
 
 ## Appearance
