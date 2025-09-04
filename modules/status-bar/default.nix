@@ -34,6 +34,7 @@
 					modules-right = [
 						"group/keyboard"
 						"group/connectivity"
+						"group/power"
 						"group/system"
 						"group/notifications"
 					];

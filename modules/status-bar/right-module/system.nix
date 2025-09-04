@@ -13,10 +13,6 @@
 						orientation = "horizontal";
 						modules = [
 							"custom/system-left"
-							"idle_inhibitor"
-							"backlight"
-							"power-profiles-daemon"
-							"battery"
 							"custom/system"
 							"custom/disk"
 							"custom/system-right"
@@ -25,40 +21,6 @@
 
 					"custom/system-left" = { format = ""; tooltip = false; };
 					"custom/system-right" = { format = ""; tooltip = false; };
-
-					backlight = {
-						format = "{icon}";
-						format-icons = [ "󰛩" "󱩎" "󱩏" "󱩐" "󱩑" "󱩒" "󱩓" "󱩔" "󱩕" "󱩖" "󰛨" ];
-						on-scroll-down = "brightnessctl set 2%-";
-						on-scroll-up = "brightnessctl set +2%";
-						tooltip = true;
-						tooltip-format = "{percent}%";
-					};
-					battery = {
-						states = {
-							warning = 30;
-							critical = 15;
-						};
-
-						format = "{icon}";
-						format-charging = "󰂄";
-						format-full = "󰂄";
-						format-icons = [ "󰂎" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
-
-						tooltip = true;
-						tooltip-format = "{capacity}%\n{timeTo}";
-					};
-					power-profiles-daemon = {
-						format = "{icon}";
-						tooltip-format = "Power profile: {profile}\nDriver: {driver}";
-						tooltip = true;
-						format-icons = {
-							default = "";
-							performance = "";
-							balanced = "";
-							power-saver = "";
-						};
-					};
 
 					"custom/disk" = {
 						interval = 30;
@@ -75,15 +37,6 @@
 						on-click = "kitty --class btm btm";
 					};
 
-					idle_inhibitor = {
-						format = "{icon}";
-						format-icons = {
-							activated = "";
-							deactivated = "";
-						};
-						tooltip-format-activated = "Idling inhibited";
-						tooltip-format-deactivated = "Idling enabled";
-					};
 				};
 			};
 		};
