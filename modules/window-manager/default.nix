@@ -15,6 +15,8 @@
 			"NIXOS_OZONE_WL" = "1";
 			"ELECTRON_OZONE_PLATFORM_HINT" = "wayland";
 		};
+
+		environment.etc."aether/window-manager/scripts".source = ./scripts;
 	};
 
 	home = { pkgs, ... }:
@@ -29,7 +31,5 @@
 				};
 			};
 		};
-
-		home.file.".config/hypr/scripts".source = ./scripts;
 	};
 }
