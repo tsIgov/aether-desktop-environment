@@ -24,7 +24,7 @@
 						orientation = "horizontal";
 						modules = [
 							"custom/connectivity-left"
-							"group/speakers"
+							"pulseaudio"
 							"pulseaudio#source"
 							"bluetooth"
 							"network"
@@ -67,18 +67,6 @@
 
 						on-click = "sh /etc/aether/bluetooth/scripts/bluetooth-menu.sh";
 						on-click-right = "rfkill toggle bluetooth";
-					};
-
-					"group/speakers" = {
-						orientation = "horizontal";
-						modules = [
-							"pulseaudio"
-							"pulseaudio/slider"
-						];
-						drawer = {
-							"click-to-reveal" = false;
-							"transition-left-to-right" = false;
-						};
 					};
 
 					pulseaudio = {

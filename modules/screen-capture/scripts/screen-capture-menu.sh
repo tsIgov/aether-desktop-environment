@@ -1,26 +1,29 @@
 #! /bin/sh
-rofi_command=(rofi -dmenu -i -no-show-icons -kb-custom-1 "Shift+Return,Shift+KP_Enter" -p)
 
-chosenOption=$(echo -e "󰍹  Screen\n  Window\n󰩬  Region" | "${rofi_command[@]}" "Screen Capture")
+function screenshot {
+	OutputDir="$HOME/Pictures/Screenshots"
+	mkdir -p "$OutputDir"
 
-if [[ $? -eq 0 ]]; then
-	extraArgs="-s --clipboard-only"
-else
-	mkdir -p "$HOME/Pictures/Screenshots"
-	extraArgs="-o $HOME/Pictures/Screenshots"
-fi
+	pkill slurp || hyprshot -m ${1:-region} --raw |
+	satty --filename - \
+		--output-filename "$OutputDir/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
+		--early-exit \
+		--actions-on-enter save-to-clipboard \
+		--copy-command 'wl-copy'
+}
+
+rofi_command=(rofi -dmenu -i -no-show-icons -p)
+
+chosenOption=$(echo -e "󰍹  Screen\n  Window\n󰩬  Region" | rofi -dmenu -i -no-show-icons -p "Screen Capture")
 
 case $chosenOption in
 	"󰍹  Screen")
-		hyprshot -m output $extraArgs
+		screenshot output
 		;;
 	"  Window")
-		hyprshot -m window $extraArgs
+		screenshot window
 		;;
 	"󰩬  Region")
-		hyprshot -m region $extraArgs
+		screenshot region
 		;;
 esac
-
-
-echo Done
