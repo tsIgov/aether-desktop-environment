@@ -1,6 +1,6 @@
+{ aether, pkgs, ... }:
 {
-	home = { aether, pkgs, ... }:
-	{
+	hm = {
 		programs.waybar = {
 			settings = {
 				mainBar = {

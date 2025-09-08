@@ -1,6 +1,6 @@
+{ config, ... }:
 {
-	home = { config, ... }:
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
 				bindr = SUPER, SUPER_L, exec, pkill rofi || rofi -show

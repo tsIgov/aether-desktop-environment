@@ -1,10 +1,10 @@
+{ config, pkgs, ... }:
+let
+	flavorName = config.aether.appearance.colors.flavor;
+	accent = config.aether.appearance.colors.primary;
+in
 {
-	home = { config, pkgs, ... }:
-	let
-		flavorName = config.aether.appearance.colors.flavor;
-		accent = config.aether.appearance.colors.primary;
-	in
-	{
+	hm = {
 		home.packages = with pkgs; [
 			qt5.qtwayland
 			qt6.qtwayland
@@ -27,5 +27,4 @@
 			General.theme = "catppuccin-${flavorName}-${accent}";
 		};
 	};
-
 }

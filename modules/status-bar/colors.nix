@@ -1,9 +1,9 @@
+{ pkgs, config, aether, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { pkgs, config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		home.file.".config/waybar/colors.css".text = ''
 @define-color base #${palette.base};
 @define-color mantle #${palette.mantle};

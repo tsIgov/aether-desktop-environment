@@ -1,9 +1,9 @@
+{ config, aether, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		home.sessionVariables = {
 			NEWT_COLORS=''
 				root=#${palette.text},#${palette.base}
@@ -34,5 +34,4 @@
 			# NEWT_MONO = 1;
 		};
 	};
-
 }

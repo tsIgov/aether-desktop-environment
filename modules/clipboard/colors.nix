@@ -1,9 +1,9 @@
+{ pkgs, config, aether, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { pkgs, config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		home.file = {
 			".config/clipse/custom_theme.json".text = ''
 				{

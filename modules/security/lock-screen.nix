@@ -1,25 +1,22 @@
+{ pkgs, aether, config, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+	font = config.aether.appearance.fonts.regular;
+
+	wallpapersPkg = (aether.pkgs.wallpapers.override {
+			flavor = config.aether.appearance.colors.flavor;
+			accent = config.aether.appearance.colors.primary;
+	});
+	wallpaper = "${wallpapersPkg}/${config.aether.appearance.wallpaper}.png";
+in
 {
-	system = { pkgs, ... }:
-	{
-		environment.systemPackages = with pkgs; [
-			hyprlock
-		];
+	environment.systemPackages = with pkgs; [
+		hyprlock
+	];
 
-		security.pam.services.hyprlock = {};
-	};
+	security.pam.services.hyprlock = {};
 
-	home = { aether, config, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-		font = config.aether.appearance.fonts.regular;
-
-		wallpapersPkg = (aether.pkgs.wallpapers.override {
-				flavor = config.aether.appearance.colors.flavor;
-				accent = config.aether.appearance.colors.primary;
-		});
-		wallpaper = "${wallpapersPkg}/${config.aether.appearance.wallpaper}.png";
-	in
-	{
+	hm = {
 		programs.hyprlock = {
 			enable = true;
 			settings = {

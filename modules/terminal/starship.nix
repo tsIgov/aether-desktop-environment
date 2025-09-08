@@ -1,9 +1,9 @@
+{ lib, config, aether, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { lib, config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		programs.starship = {
 			enable = true;
 			settings = {

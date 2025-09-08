@@ -1,6 +1,6 @@
+{ pkgs, ... }:
 {
-	home = { pkgs, ... }:
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			settings = {
 

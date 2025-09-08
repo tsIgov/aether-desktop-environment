@@ -1,25 +1,22 @@
-{
-	system = { pkgs, ... }:
-	{
-		environment.etc."aether/display/scripts".source = ./scripts;
+{ pkgs, config, lib, ... }:
+let
+	cfg = config.aether.display.profiles;
 
-		environment.systemPackages = with pkgs; [
-			wdisplays # monitor layout tool
-			brightnessctl # controls display brightness
-		];
+	applyScript = pkgs.writeShellApplication {
+		name = "refresh-display-profile";
+		runtimeInputs = [ pkgs.hyprland pkgs.jq ];
+		text = builtins.readFile ./scripts/apply-profile.sh;
 	};
+in
+{
+	environment.etc."aether/display/scripts".source = ./scripts;
 
-	home = { pkgs, config, lib, ... }:
-	let
-		cfg = config.aether.display.profiles;
+	environment.systemPackages = with pkgs; [
+		wdisplays # monitor layout tool
+		brightnessctl # controls display brightness
+	];
 
-		applyScript = pkgs.writeShellApplication {
-			name = "refresh-display-profile";
-			runtimeInputs = [ pkgs.hyprland pkgs.jq ];
-			text = builtins.readFile ./scripts/apply-profile.sh;
-		};
-	in
-	{
+	hm = {
 		wayland.windowManager.hyprland.settings = {
 			source = [
 				"~/.config/hypr/monitors.conf"

@@ -1,18 +1,12 @@
+{ config, lib, ... }:
+let
+	cfg = config.aether.localization;
+in
 {
-	system = { config, lib, ... }:
-	let
-		cfg = config.aether.localization;
-	in
-	{
-		time.timeZone = lib.mkIf (cfg.timezone != "auto") cfg.timezone;
-		services.tzupdate.enable = lib.mkIf (cfg.timezone == "auto") true;
-	};
+	time.timeZone = lib.mkIf (cfg.timezone != "auto") cfg.timezone;
+	services.tzupdate.enable = lib.mkIf (cfg.timezone == "auto") true;
 
-	home = { config, lib, ... }:
-	let
-		cfg = config.aether.localization;
-	in
-	{
+	hm = {
 		home.language = {
 			base = cfg.default;
 			address = cfg.addressFormat;

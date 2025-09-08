@@ -1,6 +1,6 @@
+{ ... }:
 {
-	home = { ... }:
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			settings.input = {
 				scroll_method = "2fg";

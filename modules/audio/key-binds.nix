@@ -1,6 +1,6 @@
+{ config, aether, pkgs, ... }:
 {
-	home = { config, aether, pkgs, ... }:
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
 				bindle=, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ -l 1.0

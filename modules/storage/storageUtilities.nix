@@ -1,18 +1,15 @@
+{ pkgs, ... }:
 {
-	system = { pkgs, ... }:
-	{
-		services.udisks2.enable = true;
+	services.udisks2.enable = true;
 
-		environment.systemPackages = with pkgs; [
-			gvfs
-			gnome-disk-utility
-			ffmpegthumbnailer
-			webp-pixbuf-loader
-		];
-	};
+	environment.systemPackages = with pkgs; [
+		gvfs
+		gnome-disk-utility
+		ffmpegthumbnailer
+		webp-pixbuf-loader
+	];
 
-	home = { ... }:
-	{
+	hm = {
 		services.udiskie = {
 			enable = true;
 			automount = true;

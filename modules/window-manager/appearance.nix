@@ -1,9 +1,9 @@
+{ config, aether, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		wayland.windowManager.hyprland.settings = {
 			general = {
 				border_size = 1;

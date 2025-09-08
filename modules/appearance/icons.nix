@@ -1,6 +1,6 @@
+{ config, aether, ... }:
 {
-	home = { config, aether, ... }:
-	{
+	hm = {
 		gtk.iconTheme = {
 			name = "aether-icons";
 			package = aether.pkgs.icons.override {

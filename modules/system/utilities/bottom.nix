@@ -1,15 +1,12 @@
+{ pkgs, aether, config, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	system = { pkgs, aether, ... }:
-	{
-		environment.systemPackages = with pkgs; [
-			bottom # Activity monitoring TUI
-		];
-	};
-	home = { config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	environment.systemPackages = with pkgs; [
+		bottom # Activity monitoring TUI
+	];
+	hm = {
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
 				bind = SUPER SHIFT, Escape, exec, kitty --class btm btm
@@ -145,5 +142,4 @@
 				default=true
 		'';
 	};
-
 }

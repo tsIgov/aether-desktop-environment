@@ -1,6 +1,6 @@
+{ pkgs, config, ... }:
 {
-	home = { pkgs, config, ... }:
-	{
+	hm = {
 		programs.rofi = {
 			enable = true;
 			package = pkgs.rofi-wayland;

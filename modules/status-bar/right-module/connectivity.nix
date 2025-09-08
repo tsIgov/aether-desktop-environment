@@ -1,6 +1,6 @@
+{ aether, pkgs, ... }:
 {
-	home = { aether, pkgs, ... }:
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			settings = {
 				windowrulev2 = [

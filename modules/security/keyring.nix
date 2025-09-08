@@ -1,11 +1,9 @@
+{ pkgs, ... }:
 {
-	system = { pkgs, ... }:
-	{
-		services.gnome.gnome-keyring.enable = true;
-		security.pam.services.sddm.enableGnomeKeyring = true;
+	services.gnome.gnome-keyring.enable = true;
+	security.pam.services.sddm.enableGnomeKeyring = true;
 
-		environment.systemPackages = with pkgs; [
-			seahorse
-		];
-	};
+	environment.systemPackages = with pkgs; [
+		seahorse
+	];
 }

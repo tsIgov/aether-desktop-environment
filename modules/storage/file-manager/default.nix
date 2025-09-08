@@ -1,13 +1,10 @@
+{ pkgs, lib, ... }:
 {
-	system = { pkgs, ... }:
-	{
-		environment.systemPackages = with pkgs; [
-			nemo
-		];
-	};
+	environment.systemPackages = with pkgs; [
+		nemo
+	];
 
-	home = { lib, ... }:
-	{
+	hm = {
 		home.file = {
 			".local/share/nemo/actions/create-archive.nemo_action".source = ./actions/create-archive.nemo_action;
 			".local/share/nemo/actions/extract.nemo_action".source = ./actions/extract.nemo_action;
@@ -60,7 +57,7 @@
 					"preferences/show-up-icon-toolbar" = true;
 					"preferences/sort-favorites-first" = false;
 					"preferences/start-with-dual-pane" = false;
-					"preferences/thumbnail-limit" = lib.hm.gvariant.mkUint64(4294967295);
+					"preferences/thumbnail-limit" = lib.gvariant.mkUint64(4294967295);
 
 					"preferences/menu-config/background-menu-open-as-root" = true;
 					"preferences/menu-config/background-menu-open-in-terminal" = false;

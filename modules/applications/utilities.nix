@@ -1,6 +1,6 @@
+{ pkgs, ... }:
 {
-	home = { pkgs, ... }:
-	{
+	hm = {
 		home.packages = with pkgs; [
 			eog # imaget viewer
 			gedit # text editor
@@ -9,5 +9,4 @@
 			evince # pdf viewer
 		];
 	};
-
 }

@@ -1,9 +1,9 @@
+{ aether, config, pkgs, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { aether, config, pkgs, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		home.packages = with pkgs; [
 			syshud
 		];

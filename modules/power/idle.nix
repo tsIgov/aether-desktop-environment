@@ -1,9 +1,9 @@
+{ config, ... }:
+let
+	timers = config.aether.power.idle-timers;
+in
 {
-	home = { config, ... }:
-	let
-		timers = config.aether.power.idle-timers;
-	in
-	{
+	hm = {
 		services.hypridle = {
 			enable = true;
 			settings = {

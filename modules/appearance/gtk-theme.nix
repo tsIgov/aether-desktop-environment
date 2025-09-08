@@ -1,12 +1,11 @@
+{ config, pkgs, ... }:
+let
+	flavorName = config.aether.appearance.colors.flavor;
+	colorScheme = if flavorName == "latte" then "light" else "dark";
+	accent = config.aether.appearance.colors.primary;
+in
 {
-
-	home = { config, pkgs, ... }:
-	let
-		flavorName = config.aether.appearance.colors.flavor;
-		colorScheme = if flavorName == "latte" then "light" else "dark";
-		accent = config.aether.appearance.colors.primary;
-	in
-	{
+	hm = {
 		gtk = {
 			enable = true;
 
@@ -28,5 +27,4 @@
 			"org.gtk.Settings.Debug" = {enable-inspector-keybinding = true; };
 		};
 	};
-
 }

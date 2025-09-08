@@ -1,16 +1,13 @@
+{ pkgs, ... }:
 {
-	system = { pkgs, ... }:
-	{
-		environment.etc."aether/screen-capture/scripts".source = ./scripts;
+	environment.etc."aether/screen-capture/scripts".source = ./scripts;
 
-		environment.systemPackages = with pkgs; [
-			hyprshot
-			satty
-		];
-	};
+	environment.systemPackages = with pkgs; [
+		hyprshot
+		satty
+	];
 
-	home = { pkgs, ... }:
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
 				bind = , PRINT, exec, sh /etc/aether/screen-capture/scripts/screen-capture-menu.sh

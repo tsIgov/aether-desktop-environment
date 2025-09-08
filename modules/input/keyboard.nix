@@ -1,11 +1,11 @@
+{ config, lib, ... }:
+let
+	cfg = config.aether.input;
+	kblayouts = lib.strings.concatStringsSep "," (builtins.map (layout: layout.name) cfg.keyboard.layouts);
+	kbvariants = lib.strings.concatStringsSep "," (builtins.map (layout: layout.variant) cfg.keyboard.layouts);
+in
 {
-	home = { config, lib, ... }:
-	let
-		cfg = config.aether.input;
-		kblayouts = lib.strings.concatStringsSep "," (builtins.map (layout: layout.name) cfg.keyboard.layouts);
-		kbvariants = lib.strings.concatStringsSep "," (builtins.map (layout: layout.variant) cfg.keyboard.layouts);
-	in
-	{
+	hm = {
 		wayland.windowManager.hyprland = {
 			settings.input = {
 				kb_layout = kblayouts;

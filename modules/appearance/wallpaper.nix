@@ -1,14 +1,14 @@
-{
-	home = { config, aether, pkgs, ... }:
-	let
-		wallpapersPkg = (aether.pkgs.wallpapers.override {
-				flavor = config.aether.appearance.colors.flavor;
-				accent = config.aether.appearance.colors.primary;
-		});
-		wallpaper = "${wallpapersPkg}/${config.aether.appearance.wallpaper}.png";
+{ config, aether, pkgs, ... }:
+let
+	wallpapersPkg = (aether.pkgs.wallpapers.override {
+			flavor = config.aether.appearance.colors.flavor;
+			accent = config.aether.appearance.colors.primary;
+	});
+	wallpaper = "${wallpapersPkg}/${config.aether.appearance.wallpaper}.png";
 
-	in
-	{
+in
+{
+	hm = {
 		home.packages = [
 			wallpapersPkg
 			pkgs.hyprpaper

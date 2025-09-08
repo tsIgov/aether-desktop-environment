@@ -1,13 +1,10 @@
+{ pkgs, ... }:
 {
-	system = { pkgs, ... }:
-	{
-		environment.systemPackages = with pkgs; [
-			file-roller
-			p7zip
-		];
-	};
-	home = { ... }:
-	{
+	environment.systemPackages = with pkgs; [
+		file-roller
+		p7zip
+	];
+	hm = {
 		wayland.windowManager.hyprland = {
 			settings = {
 				windowrulev2 = [

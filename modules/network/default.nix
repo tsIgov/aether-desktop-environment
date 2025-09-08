@@ -1,25 +1,23 @@
+{ hostname, pkgs, ... }:
 {
-	system = { hostname, pkgs, ... }:
-	{
-		environment.etc."aether/network/scripts".source = ./scripts;
+	environment.etc."aether/network/scripts".source = ./scripts;
 
-		environment.systemPackages = with pkgs; [
-			impala
-		];
+	environment.systemPackages = with pkgs; [
+		impala
+	];
 
-		networking = {
-			hostName = hostname;
-			wireless.iwd.settings = {
-				IPv6 = {
-					Enabled = true;
-				};
-				Settings = {
-					AutoConnect = true;
-				};
+	networking = {
+		hostName = hostname;
+		wireless.iwd.settings = {
+			IPv6 = {
+				Enabled = true;
 			};
-			wireless.iwd.enable = true;
-
-			# networkmanager.enable = true;
+			Settings = {
+				AutoConnect = true;
+			};
 		};
+		wireless.iwd.enable = true;
+
+		# networkmanager.enable = true;
 	};
 }

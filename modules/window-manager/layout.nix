@@ -1,7 +1,6 @@
+{ ... }:
 {
-	home = { ... }:
-	{
-
+	hm = {
 		wayland.windowManager.hyprland = {
 			settings = {
 				general = {

@@ -1,20 +1,11 @@
+{ pkgs, username, ... }:
 {
-	system = { pkgs, aether, ... }:
-	{
-		system.stateVersion = "24.11";
-		nix.settings.experimental-features = [ "nix-command" "flakes" ];
+	system.stateVersion = "24.11";
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-		environment.systemPackages = with pkgs; [
-			# home-manager
-		];
+	programs.nix-ld.enable = true; # Allows dynamic linking
 
-		home-manager.users.igov.home.file."test.test".text = ''test'';
-
-		programs.nix-ld.enable = true; # Allows dynamic linking
-	};
-
-	home = { username, ... }:
-	{
+	hm = {
 		programs.home-manager.enable = true;
 		news.display = "silent";
 

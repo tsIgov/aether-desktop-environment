@@ -1,9 +1,9 @@
+{ config, aether, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { config, aether, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		home.file.".config/swaync/colors.css".text = ''
 @define-color base #${palette.base};
 @define-color mantle #${palette.mantle};

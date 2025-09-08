@@ -1,6 +1,6 @@
+{ pkgs, config, aether, ... }:
 {
-	home = { pkgs, config, aether, ... }:
-	{
+	hm = {
 		home.file.".config/waybar/fonts.css".text = ''
 * {
 	font-family: ${config.aether.appearance.fonts.icons};

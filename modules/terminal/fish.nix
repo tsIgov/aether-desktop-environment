@@ -1,37 +1,37 @@
+{ config, aether, ... }:
+let
+	codeMap = {
+		rosewater = "37";
+		flamingo = "97";
+		pink = "95";
+		mauve = "35";
+		red = "31";
+		maroon = "91";
+		peach = "93";
+		yellow = "33";
+		green = "32";
+		teal = "92";
+		sky = "36";
+		sapphire = "96";
+		blue = "34";
+		lavender = "94";
+	};
+
+	palette = aether.lib.appearance.getPalette { inherit config; };
+
+	primaryColor = config.aether.appearance.colors.primary;
+	secondaryColor = config.aether.appearance.colors.secondary;
+	tertiaryColor = config.aether.appearance.colors.tertiary;
+	errorColor = config.aether.appearance.colors.error;
+
+	primaryCode = codeMap.${primaryColor};
+	secondaryCode = codeMap.${secondaryColor};
+	tertiaryCode = codeMap.${tertiaryColor};
+	errorCode = codeMap.${errorColor};
+
+in
 {
-	home = { config, aether, ... }:
-	let
-		codeMap = {
-			rosewater = "37";
-			flamingo = "97";
-			pink = "95";
-			mauve = "35";
-			red = "31";
-			maroon = "91";
-			peach = "93";
-			yellow = "33";
-			green = "32";
-			teal = "92";
-			sky = "36";
-			sapphire = "96";
-			blue = "34";
-			lavender = "94";
-		};
-
-		palette = aether.lib.appearance.getPalette { inherit config; };
-
-		primaryColor = config.aether.appearance.colors.primary;
-		secondaryColor = config.aether.appearance.colors.secondary;
-		tertiaryColor = config.aether.appearance.colors.tertiary;
-		errorColor = config.aether.appearance.colors.error;
-
-		primaryCode = codeMap.${primaryColor};
-		secondaryCode = codeMap.${secondaryColor};
-		tertiaryCode = codeMap.${tertiaryColor};
-		errorCode = codeMap.${errorColor};
-
-	in
-	{
+	hm = {
 		programs.fish = {
 			enable = true;
 			interactiveShellInit = ''

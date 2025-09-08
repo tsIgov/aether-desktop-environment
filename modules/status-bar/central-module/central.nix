@@ -1,9 +1,9 @@
+{ aether, config, ... }:
+let
+	palette = aether.lib.appearance.getPalette { inherit config; };
+in
 {
-	home = { aether, config, ... }:
-	let
-		palette = aether.lib.appearance.getPalette { inherit config; };
-	in
-	{
+	hm = {
 		programs.waybar = {
 			settings = {
 				mainBar = {

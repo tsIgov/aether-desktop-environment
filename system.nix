@@ -6,16 +6,13 @@ in
 	nixosConfigurations.${hostname} = aether.inputs.nixpkgs.lib.nixosSystem {
 		inherit pkgs;
 		specialArgs = specialArgsFinal;
-		modules = (internal.getModules ./modules "system")  ++ modules ++ [
+		modules = (aether.lib.moduleUtils.listModulesRecursively ./modules)  ++ modules ++ [
+			(aether.inputs.nixpkgs.lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
 			home-module {
 				home-manager = {
 					useGlobalPkgs = true;
 					useUserPackages = false;
 					extraSpecialArgs = specialArgsFinal;
-					users.${username} = { ... } :
-					{
-						imports = (internal.getModules ./modules "home") ++ homeModules;
-					};
 				};
 			}
 		];
