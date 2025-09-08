@@ -14,6 +14,7 @@
 		pkgs = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 		aetherLib = import ./lib inputs.nixpkgs.lib;
 		internal = import ./internal aetherLib;
+		home-module = inputs.home-manager.nixosModules.home-manager;
 
 		aether = {
 			lib = aetherLib;
@@ -23,7 +24,6 @@
 	in
 	{
 		lib = aetherLib;
-		systemConfig = import ./system.nix { inherit aether pkgs internal; };
-		userConfig = import ./home.nix { inherit aether pkgs internal; };
+		aetherConfig = import ./system.nix { inherit aether pkgs internal home-module; };
 	};
 }

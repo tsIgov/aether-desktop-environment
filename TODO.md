@@ -28,6 +28,7 @@ Run home manager as part of the system config
 Auto login and remove SDDM
 Walker instead of rofi
 Hotkeys for everything
+Separate hotkey for screenshot to be able to screenshot hovering with --freeze
 Use walker for clipboard manager?
 Run web-apps with chromium
 

@@ -5,8 +5,10 @@
 		nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 		environment.systemPackages = with pkgs; [
-			home-manager
+			# home-manager
 		];
+
+		home-manager.users.igov.home.file."test.test".text = ''test'';
 
 		programs.nix-ld.enable = true; # Allows dynamic linking
 	};

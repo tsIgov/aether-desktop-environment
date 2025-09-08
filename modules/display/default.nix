@@ -36,11 +36,11 @@
 			applyScript
 		];
 
-		home.activation = {
-			resetDisplay = lib.hm.dag.entryAfter ["writeBoundary"] ''
-				${applyScript}/bin/refresh-display-profile
-			'';
-		};
+		# home.activation = {
+		# 	resetDisplay = lib.hm.dag.entryAfter ["writeBoundary"] ''
+		# 		${applyScript}/bin/refresh-display-profile
+		# 	'';
+		# };
 
 		systemd.user.services.aether-fallback-display-profile = {
 			Unit = {

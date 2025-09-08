@@ -1,5 +1,5 @@
 {
-	system = { hostName, pkgs, ... }:
+	system = { hostname, pkgs, ... }:
 	{
 		environment.etc."aether/network/scripts".source = ./scripts;
 
@@ -8,7 +8,7 @@
 		];
 
 		networking = {
-			hostName = hostName;
+			hostName = hostname;
 			wireless.iwd.settings = {
 				IPv6 = {
 					Enabled = true;
