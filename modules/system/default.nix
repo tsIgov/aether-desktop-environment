@@ -5,6 +5,13 @@
 
 	programs.nix-ld.enable = true; # Allows dynamic linking
 
+	environment.systemPackages = with pkgs; [
+		(writeShellApplication {
+			name = "aether";
+			text = builtins.readFile ./aether.sh;
+		})
+	];
+
 	hm = {
 		programs.home-manager.enable = true;
 		news.display = "silent";
