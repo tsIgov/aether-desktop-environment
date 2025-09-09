@@ -8,7 +8,8 @@ Usage: $0 [COMMAND] [ARGS...]
 
 Commands:
   apply 		       Applies the current configuration
-  update [ARGS...]     Updates AetherOS and applies the current configuration.
+  update [ARGS...]     Updates AetherOS and applies the current configuration
+  gc				   Deletes all old profile and runs the garbage collector and the store optimiser
 
 Arguments for update:
   all                  Also updates all other inputs
@@ -48,6 +49,13 @@ apply() {
 
 
 
+garbageCollect() {
+	nix-collect-garbage --delete-old
+	nix-store --optimise
+}
+
+
+
 if [[ $# -eq 0 ]]; then
     show_help
     exit 0
@@ -64,6 +72,10 @@ case "$1" in
     apply)
         shift
         apply "$@"
+        ;;
+	gc)
+        shift
+        garbageCollect "$@"
         ;;
     *)
         echo "Error: Unknown command '$1'"
