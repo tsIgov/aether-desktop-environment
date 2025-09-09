@@ -1,4 +1,7 @@
-{ pkgs, username, ... }:
+{ pkgs, config, lib, ... }:
+let
+	username = config.aether.user.username;
+in
 {
 	system.stateVersion = "24.11";
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -10,6 +13,10 @@
 			name = "aether";
 			text = builtins.readFile ./aether.sh;
 		})
+	];
+
+	imports = [
+		(lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
 	];
 
 	hm = {

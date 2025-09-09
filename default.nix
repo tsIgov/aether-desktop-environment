@@ -1,16 +1,15 @@
-{ pkgs, aether, internal, home-module }: { hostname, username, specialArgs ? {}, modules ? [] }:
+{ pkgs, aether, internal, home-module }: { specialArgs ? {}, modules ? [] }:
 let
-	specialArgsFinal = specialArgs // { inherit aether hostname username; };
+	specialArgsFinal = specialArgs // { inherit aether; };
 
-	inherit (aether.inputs.nixpkgs.lib) nixosSystem mkAliasOptionModule;
 	inherit (aether.lib.moduleUtils) listModulesRecursively;
+	inherit (aether.inputs.nixpkgs.lib) nixosSystem;
 in
 {
 	nixosConfigurations.aether-os = nixosSystem {
 		inherit pkgs;
 		specialArgs = specialArgsFinal;
 		modules = [
-			(mkAliasOptionModule ["hm"] ["home-manager" "users" username])
 			home-module
 		] ++ (listModulesRecursively ./modules) ++ modules;
 	};
