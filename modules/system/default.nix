@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, aether, ... }:
 let
 	username = config.aether.user.username;
 in
@@ -9,9 +9,13 @@ in
 	programs.nix-ld.enable = true; # Allows dynamic linking
 
 	environment.systemPackages = with pkgs; [
-		(writeShellApplication {
-			name = "aether";
-			text = builtins.readFile ./aether.sh;
+		# (writeShellApplication {
+		# 	name = "aether";
+		# 	text = builtins.readFile ./aether.sh;
+		# })
+
+		(aether.pkgs.aether.override {
+			aetherConfigLocation = "/home/${config.aether.user.username}/.config/aether";
 		})
 	];
 

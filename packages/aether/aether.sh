@@ -1,7 +1,5 @@
 #! /bin/sh
 set -euo pipefail
-config_location="$HOME/.config/aether"
-
 
 
 show_help() {
@@ -9,7 +7,7 @@ show_help() {
 Usage: $0 [COMMAND] [ARGS...]
 
 Commands:
-  apply 		           Applies the current configuration
+  apply 		       Applies the current configuration
   update [ARGS...]     Updates AetherOS and applies the current configuration.
 
 Arguments for update:
@@ -34,7 +32,7 @@ update() {
 		inputs=("$@")
 	fi
 
-	cd "$config_location"
+	cd "$AETHER_CONFIG_LOCATION"
 	nix flake update "${inputs[@]}"
 	sudo nixos-rebuild switch --flake .#aether-os
 }
@@ -44,7 +42,7 @@ update() {
 apply() {
 	sudo -v
 
-	cd "$config_location"
+	cd "$AETHER_CONFIG_LOCATION"
 	sudo nixos-rebuild switch --flake .#aether-os
 }
 
