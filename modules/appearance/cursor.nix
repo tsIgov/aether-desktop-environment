@@ -11,7 +11,7 @@ let
 in
 {
 	options.aether.appearance = with lib; with types; {
-		cursorSize =  mkOption { type = ints.positive; default = 22; };
+		cursor-size =  mkOption { type = ints.positive; default = 22; };
 	};
 
 	config = {
@@ -19,12 +19,12 @@ in
 			gtk.cursorTheme = {
 				name = cursorName;
 				package = pkgs.catppuccin-cursors.${packageOutput};
-				size = config.aether.appearance.cursorSize;
+				size = config.aether.appearance.cursor-size;
 			};
 
 			home.sessionVariables = {
 				HYPRCURSOR_THEME = cursorName;
-				HYPRCURSOR_SIZE = config.aether.appearance.cursorSize;
+				HYPRCURSOR_SIZE = config.aether.appearance.cursor-size ;
 			};
 		};
 	};
