@@ -34,6 +34,7 @@ in
 					"clock#time" = {
 						format = "{:%H:%M}";
 						interval = 1;
+						locale = if config.aether.localization.time != null then config.aether.localization.time else config.aether.localization.default;
 						tooltip = true;
 						tooltip-format = "{:%H:%M:%S}";
 					};
@@ -41,7 +42,7 @@ in
 					"clock#cal" = {
 						format = "{:%d %a}";
 						interval = 1;
-						# locale = if config.aether.localization.timeFormat != null then config.aether.localization.timeFormat else config.aether.localization.default;
+						locale = if config.aether.localization.time != null then config.aether.localization.time else config.aether.localization.default;
 						tooltip = true;
 						tooltip-format = "{calendar}";
 

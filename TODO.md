@@ -20,7 +20,6 @@ Record screen
 
 ## Problems
 Changing workspace doesn't close quick one
-Waybar doesn't follow the locale
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
 
 ## Refactor
