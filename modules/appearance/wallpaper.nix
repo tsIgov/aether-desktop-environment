@@ -1,30 +1,36 @@
-{ config, aether, pkgs, ... }:
+{ config, aether, pkgs, lib, ... }:
 let
+	inherit (lib) mkOption;
+	inherit (lib.types)ints enum;
+
 	wallpapersPkg = (aether.pkgs.wallpapers.override {
 			flavor = config.aether.appearance.colors.flavor;
 			accent = config.aether.appearance.colors.primary;
 	});
 	wallpaper = "${wallpapersPkg}/${config.aether.appearance.wallpaper}.png";
-
 in
 {
-	hm = {
-		home.packages = [
-			wallpapersPkg
-			pkgs.hyprpaper
-		];
+	options.aether.appearance.wallpaper = mkOption { type = enum [ "deer" ]; default = "deer"; };
 
-		services.hyprpaper = {
-			enable = true;
-			settings = {
-				ipc = "off";
-				splash = false;
+	config = {
+		hm = {
+			home.packages = [
+				wallpapersPkg
+				pkgs.hyprpaper
+			];
 
-				preload = [ "${wallpaper}" ];
+			services.hyprpaper = {
+				enable = true;
+				settings = {
+					ipc = "off";
+					splash = false;
 
-				wallpaper = [
-					",${wallpaper}"
-				];
+					preload = [ "${wallpaper}" ];
+
+					wallpaper = [
+						",${wallpaper}"
+					];
+				};
 			};
 		};
 	};

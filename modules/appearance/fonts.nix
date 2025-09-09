@@ -1,37 +1,55 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
+let
+	inherit (lib) mkOption;
+	inherit (lib.types) str ints;
+
+	cfg = config.aether.appearance.fonts;
+in
 {
-	fonts = {
-		packages = with pkgs; [
-			inter
-			nerd-fonts.hack
-			noto-fonts-monochrome-emoji
-		];
-		fontconfig = {
-			enable = true;
-			defaultFonts = {
-				serif = [ config.aether.appearance.fonts.regular ];
-				sansSerif = [ config.aether.appearance.fonts.regular ];
-				monospace = [ config.aether.appearance.fonts.mono ];
-				emoji = [ config.aether.appearance.fonts.emoji ];
-			};
+	options.aether.appearance = {
+		fonts = {
+			size = mkOption { type = ints.positive; default = 11; };
+			regular = mkOption { type = str; default = "Inter"; };
+			mono = mkOption { type = str; default = "Hack Nerd Font Mono"; };
+			emoji = mkOption { type = str; default = "Noto Emoji"; };
+			icons = mkOption { type = str; default = "Hack Nerd Font Propo"; };
 		};
 	};
 
-	hm = {
-		fonts.fontconfig = {
-			enable = true;
-			defaultFonts = {
-				serif = [ config.aether.appearance.fonts.regular ];
-				sansSerif = [ config.aether.appearance.fonts.regular ];
-				monospace = [ config.aether.appearance.fonts.mono ];
-				emoji = [ config.aether.appearance.fonts.emoji ];
+	config = {
+		fonts = {
+			packages = with pkgs; [
+				inter
+				nerd-fonts.hack
+				noto-fonts-monochrome-emoji
+			];
+			fontconfig = {
+				enable = true;
+				defaultFonts = {
+					serif = [ cfg.regular ];
+					sansSerif = [ cfg.regular ];
+					monospace = [ cfg.mono ];
+					emoji = [ cfg.emoji ];
+				};
 			};
 		};
 
-		gtk = {
-			font = {
-				name = config.aether.appearance.fonts.mono;
-				size = config.aether.appearance.fonts.size;
+		hm = {
+			fonts.fontconfig = {
+				enable = true;
+				defaultFonts = {
+					serif = [ cfg.regular ];
+					sansSerif = [ cfg.regular ];
+					monospace = [ cfg.mono ];
+					emoji = [ cfg.emoji ];
+				};
+			};
+
+			gtk = {
+				font = {
+					name = cfg.mono;
+					size = cfg.size;
+				};
 			};
 		};
 	};
