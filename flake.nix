@@ -14,16 +14,23 @@
 		pkgs = import inputs.nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
 		aetherLib = import ./lib inputs.nixpkgs.lib;
 		internal = import ./internal aetherLib;
-		home-module = inputs.home-manager.nixosModules.home-manager;
 
 		aether = {
-			lib = aetherLib;
 			pkgs = import ./packages { inherit pkgs aetherLib; };
+			lib = aetherLib;
 			inputs = inputs;
+		};
+
+		home-module = { ... }: {
+			imports = [ inputs.home-manager.nixosModules.home-manager ];
+			home-manager = {
+				useGlobalPkgs = true;
+				useUserPackages = false;
+			};
 		};
 	in
 	{
 		lib = aetherLib;
-		aetherConfig = import ./system.nix { inherit aether pkgs internal home-module; };
+		aetherConfig = import ./default.nix { inherit aether pkgs internal home-module; };
 	};
 }

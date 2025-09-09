@@ -20,11 +20,11 @@ Record screen
 
 ## Problems
 Changing workspace doesn't close quick one
+Waybar doesn't follow the locale
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
 
 ## Refactor
 Network manager script is not working
-Run home manager as part of the system config
 Auto login and remove SDDM
 Walker instead of rofi
 Hotkeys for everything

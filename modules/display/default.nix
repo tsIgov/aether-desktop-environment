@@ -10,11 +10,22 @@ let
 in
 {
 	environment.etc."aether/display/scripts".source = ./scripts;
+	environment.etc."aether/display/monitor-profiles.json".text = builtins.toJSON cfg;
+
 
 	environment.systemPackages = with pkgs; [
 		wdisplays # monitor layout tool
 		brightnessctl # controls display brightness
 	];
+
+	system.userActivationScripts = {
+		resetDisplay = {
+			text = ''
+				${applyScript}/bin/refresh-display-profile
+			'';
+			deps = [];
+		};
+	};
 
 	hm = {
 		wayland.windowManager.hyprland.settings = {
@@ -27,17 +38,9 @@ in
 			];
 		};
 
-		home.file.".config/aether/display/profiles.json".text = builtins.toJSON cfg;
-
 		home.packages = [
 			applyScript
 		];
-
-		# home.activation = {
-		# 	resetDisplay = lib.hm.dag.entryAfter ["writeBoundary"] ''
-		# 		${applyScript}/bin/refresh-display-profile
-		# 	'';
-		# };
 
 		systemd.user.services.aether-fallback-display-profile = {
 			Unit = {

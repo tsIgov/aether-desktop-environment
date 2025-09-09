@@ -1,6 +1,6 @@
 #! /bin/sh
 set -euo pipefail
-config_location="/etc/aether-os"
+config_location="$HOME/.config/aether"
 
 
 
@@ -9,7 +9,7 @@ show_help() {
 Usage: $0 [COMMAND] [ARGS...]
 
 Commands:
-  apply 		       Applies the current configuration
+  apply 		           Applies the current configuration
   update [ARGS...]     Updates AetherOS and applies the current configuration.
 
 Arguments for update:
@@ -17,7 +17,7 @@ Arguments for update:
   [input1 input2 ...]  Also updates the specified inputs
 
 Options:
-  -h, --help      Show this help message
+  -h, --help           Show this help message
 EOF
 }
 
