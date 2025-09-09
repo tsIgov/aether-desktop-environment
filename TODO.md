@@ -24,6 +24,7 @@ Waybar doesn't follow the locale
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
 
 ## Refactor
+Config the hostname and username through the config
 Network manager script is not working
 Auto login and remove SDDM
 Walker instead of rofi
