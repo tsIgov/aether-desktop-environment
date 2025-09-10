@@ -1,4 +1,7 @@
-{ ... }:
+{ aether, config, ... }:
+let
+	gtkPalette = aether.lib.appearance.getGtkColorDefinitions { inherit config; };
+in
 {
 	environment.etc."aether/status-bar/scripts".source = ./scripts;
 
@@ -39,5 +42,7 @@
 			};
 			style = ./style.css;
 		};
+
+		home.file.".config/waybar/colors.css".text = gtkPalette;
 	};
 }

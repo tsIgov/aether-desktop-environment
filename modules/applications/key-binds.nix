@@ -3,7 +3,7 @@
 	hm = {
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
-				bindr = SUPER, SUPER_L, exec, pkill rofi || rofi -show
+				bindr = SUPER, SUPER_L, exec, walker
 				bind = SUPER, T, exec, ${config.aether.applications.default-apps.terminal}
 				bind = SUPER, E, exec, ${config.aether.applications.default-apps.fileManager}
 

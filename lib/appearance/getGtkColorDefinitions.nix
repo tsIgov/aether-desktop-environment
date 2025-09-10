@@ -1,10 +1,8 @@
-{ config, aether, ... }:
+getPalette: { config }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = getPalette { inherit config; };
 in
-{
-	hm = {
-		home.file.".config/swaync/colors.css".text = ''
+''
 @define-color base #${palette.base};
 @define-color mantle #${palette.mantle};
 @define-color crust #${palette.crust};
@@ -22,13 +20,7 @@ in
 @define-color overlay2 #${palette.overlay2};
 
 @define-color primary #${palette.primary};
-@define-color tertiary #${palette.tertiary};
 @define-color secondary #${palette.secondary};
+@define-color tertiary #${palette.tertiary};
 @define-color error #${palette.error};
-
-* {
-  font-family: "${config.aether.appearance.fonts.regular}";
-}
-		'';
-	};
-}
+''
