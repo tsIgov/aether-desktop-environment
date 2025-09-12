@@ -17,7 +17,7 @@ in
 				close_when_open = true;
 				disable_mouse = false;
 				exact_search_prefix = "'";
-				force_keyboard_focus = false;
+				force_keyboard_focus = true;
 				global_argument_delimiter = "#";
 				keep_open_modifier = "shift";
 				selection_wrap = false;
@@ -36,7 +36,7 @@ in
 					close = "Escape";
 					next = "Down";
 					previous = "Up";
-					quick_activate = ["F1" "F2" "F3"];
+					quick_activate = [];
 				};
 
 				placeholders.default = {
@@ -46,17 +46,22 @@ in
 
 
 				providers = {
-					default = [ "desktopapplications" "providerlist" ];
+					default = [ "desktopapplications" "calc" "providerlist" ];
 					empty = [ "desktopapplications" ];
 					prefixes = [
-						{ provider = "websearch"; prefix = "+"; }
-						{ provider = "providerlist"; prefix = "_"; }
+						{ provider = "clipboard"; prefix = "!"; }
+						{ provider = "websearch"; prefix = "@"; }
+						{ provider = "symbols"; prefix = ":"; }
+						{ provider = "unicode"; prefix = ";"; }
+						{ provider = "calc"; prefix = "="; }
+						{ provider = "menus:screenshots"; prefix = "/"; }
 					];
 				};
 			};
 		};
 
 
+		home.file.".config/walker/themes/aether/layout.xml".source = ./layout.xml;
 		home.file.".config/walker/themes/aether/style.css".source = ./style.css;
 		home.file.".config/walker/themes/aether/colors.css".text = gtkPalette;
 

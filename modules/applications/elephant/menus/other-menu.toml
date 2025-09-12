@@ -1,0 +1,30 @@
+name = "other"
+name_pretty = "Other"
+description = "subtext"
+icon = "applications-other"
+global_search = false
+keywords = [ "other", "menu" ]
+fixed_order = true
+history = false
+history_when_empty = false
+
+
+[[entries]]
+text = "Volume"
+async = "echo $(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
+icon = "audio-volume-high"
+action = "wpctl set-volume @DEFAULT_AUDIO_SINK@ %RESULT%"
+
+[[entries]]
+text = "System"
+async = """echo $(echo "Memory: $(free -h | awk '/^Mem:/ {printf "%s/%s", $3, $2}') | CPU: $(top -bn1 | grep 'Cpu(s)' | awk '{printf "%.1f%%", 100 - $8}')")"""
+icon = "computer"
+action = ""
+
+[[entries]]
+text = "Today"
+async = """echo $(date "+%H:%M - %d.%m. %A - KW %V")"""
+subtext = "date and time"
+icon = "clock"
+action = ""
+keywords = [ "date", "today", "time" ]
