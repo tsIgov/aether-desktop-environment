@@ -7,11 +7,11 @@
 
 				windowrulev2 = [
 					"float, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
-					"center, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
+					"center 1, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
 					"size 1150 750, class:(xdg-desktop-portal-gtk), title:^(.*Open.*)$"
 
 					"float, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
-					"center, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
+					"center 1, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
 					"size 1150 750, class:(xdg-desktop-portal-gtk), title:^(.*Save.*)$"
 				];
 

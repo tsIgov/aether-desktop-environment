@@ -20,7 +20,7 @@
 			settings = {
 				windowrulev2 = [
 					"float, class:(wiremix)"
-					"center, class:(wiremix)"
+					"center 1, class:(wiremix)"
 					"size 700 500, class:(wiremix)"
 				];
 			};

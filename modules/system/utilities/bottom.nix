@@ -15,7 +15,7 @@ in
 			settings = {
 				windowrulev2 = [
 					"float, class:(btm)"
-					"center, class:(btm)"
+					"center 1, class:(btm)"
 					"size 50% 50%, class:(btm)"
 				];
 			};

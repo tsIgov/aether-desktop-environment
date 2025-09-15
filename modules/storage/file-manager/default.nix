@@ -15,7 +15,7 @@
 			settings = {
 				windowrulev2 = [
 					"float, class:(nemo), initialTitle:^(.*Properties)$"
-					"center, class:(nemo), initialTitle:^(.*Properties)$"
+					"center 1, class:(nemo), initialTitle:^(.*Properties)$"
 				];
 			};
 		};

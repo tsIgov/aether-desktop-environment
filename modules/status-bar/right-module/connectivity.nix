@@ -46,7 +46,7 @@
 						tooltip-format-wifi = "ESSID: {essid}\nFrequency: {frequency} GHz\nStrength: {signalStrength}%\nIP: {ipaddr}\nDownload: {bandwidthDownBytes}\nUpload: {bandwidthUpBytes}";
 						tooltip-format-disconnected = "Disconnected";
 
-						on-click = "sh /etc/aether/network/scripts/network-menu.sh";
+						on-click = "kitty --class impala impala";
 						on-click-right = "rfkill toggle wifi";
 					};
 					bluetooth = {
@@ -65,7 +65,7 @@
 						tooltip-format-enumerate-connected = "{device_alias}";
 						tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_battery_percentage}%";
 
-						on-click = "sh /etc/aether/bluetooth/scripts/bluetooth-menu.sh";
+						on-click = "kitty --class bluetui bluetui";
 						on-click-right = "rfkill toggle bluetooth";
 					};
 

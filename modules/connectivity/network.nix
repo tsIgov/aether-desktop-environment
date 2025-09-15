@@ -13,8 +13,6 @@ in
 	};
 
 	config = {
-		environment.etc."aether/network/scripts".source = ./scripts;
-
 		environment.systemPackages = with pkgs; [
 			impala
 		];
@@ -32,6 +30,18 @@ in
 			wireless.iwd.enable = true;
 
 			# networkmanager.enable = true;
+		};
+
+		hm = {
+			wayland.windowManager.hyprland = {
+				settings = {
+					windowrulev2 = [
+						"float, class:(impala)"
+						"center 1, class:(impala)"
+						"size 700 800, class:(impala)"
+					];
+				};
+			};
 		};
 	};
 }

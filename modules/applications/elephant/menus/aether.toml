@@ -1,6 +1,5 @@
 name = "aether"
 name_pretty = "Aether Menu"
-icon = "applications-other"
 global_search = false
 keywords = [ "aether", "menu" ]
 fixed_order = true
@@ -10,6 +9,15 @@ history_when_empty = false
 
 [[entries]]
 text = "Audio"
-icon = "audio-headphones"
 action = "kitty --class wiremix wiremix"
-keywords = [ "audio" ]
+keywords = [ "audio", "wiremix" ]
+
+[[entries]]
+text = "Bluetooth"
+action = "kitty --class bluetui bluetui"
+keywords = [ "bluetooth", "bluetui" ]
+
+[[entries]]
+text = "Wifi"
+action = "kitty --class impala impala"
+keywords = [ "network", "wifi", "wi-fi", "wireless", "impala" ]
