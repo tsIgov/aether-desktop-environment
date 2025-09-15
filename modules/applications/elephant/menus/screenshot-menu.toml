@@ -1,7 +1,7 @@
 name = "screenshot"
 name_pretty = "Screenshot"
 global_search = false
-keywords = [ "aether", "menu" ]
+keywords = [ "screenshot" ]
 fixed_order = true
 history = false
 history_when_empty = false
@@ -17,4 +17,3 @@ action = "sh /etc/aether/screen-capture/scripts/screenshot.sh window"
 [[entries]]
 text = "Monitor"
 action = "sh /etc/aether/screen-capture/scripts/screenshot.sh output"
-

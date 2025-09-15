@@ -18,10 +18,14 @@ action = "kitty --class bluetui bluetui"
 keywords = [ "bluetooth", "bluetui" ]
 
 [[entries]]
+text = "Power"
+submenu = "power"
+keywords = [ "power", "reboot", "restart", "sleep", "suspend", "hibernate", "sleep", "logout", "shutdown" ]
+
+[[entries]]
 text = "Screenshot"
 submenu = "screenshot"
 keywords = [ "screenshot", "capture" ]
-
 
 [[entries]]
 text = "Wifi"

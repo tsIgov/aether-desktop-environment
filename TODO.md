@@ -15,6 +15,7 @@ Move printer drivers outside of aether?
 Reconfigure Firefox
 Kitty grab
 Pinning items in walker clipboard. Remove clipse
+Configure the websearch
 
 ## Screenshots
 Record screen
@@ -25,11 +26,13 @@ Waking up with no monitors breaks hyprlock and doesn't issue fallback
 Screenshot annotation tool is slow to open and close
 
 ## Refactor
-Auto login and remove SDDM
-Walker instead of rofi
 Hotkeys for everything
-Separate hotkey for screenshot to be able to screenshot hovering with --freeze
+	- idle
+	- power management
+	- kill
+	- btop
 
+Auto login and remove SDDM
 btop instead of bottom (btm)
 
 Run web-apps with chromium

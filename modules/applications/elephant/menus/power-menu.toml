@@ -1,0 +1,28 @@
+name = "power"
+name_pretty = "Power"
+global_search = false
+keywords = [ "power" ]
+fixed_order = true
+history = false
+history_when_empty = false
+
+[[entries]]
+text = "  Shutdown"
+action = "systemctl poweroff"
+
+[[entries]]
+text = "  Reboot"
+action = "systemctl reboot"
+
+[[entries]]
+text = "󰍃  Logout"
+action = "hyprctl dispatch exit"
+
+[[entries]]
+text = "⏾  Suspend"
+action = "systemctl suspend"
+
+[[entries]]
+text = "󰜗  Hibernate"
+action = "systemctl hibernate"
+
