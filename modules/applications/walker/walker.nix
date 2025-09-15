@@ -46,7 +46,7 @@ in
 
 
 				providers = {
-					default = [ "desktopapplications" "calc" "providerlist" ];
+					default = [ "desktopapplications" "calc" ];
 					empty = [ "desktopapplications" ];
 					prefixes = [
 						{ provider = "clipboard"; prefix = "!"; }
@@ -54,7 +54,7 @@ in
 						{ provider = "symbols"; prefix = ":"; }
 						{ provider = "unicode"; prefix = ";"; }
 						{ provider = "calc"; prefix = "="; }
-						{ provider = "menus:screenshots"; prefix = "/"; }
+						{ provider = "menus:aether"; prefix = "/"; }
 					];
 				};
 			};
@@ -62,8 +62,10 @@ in
 
 
 		home.file.".config/walker/themes/aether/layout.xml".source = ./layout.xml;
-		home.file.".config/walker/themes/aether/item_menus:aether.xml".source = ./item-iconless.xml;
 		home.file.".config/walker/themes/aether/item_calc.xml".source = ./item-iconless.xml;
+		home.file.".config/walker/themes/aether/item_menus:aether.xml".source = ./item-iconless.xml;
+		home.file.".config/walker/themes/aether/item_menus:screenshot.xml".source = ./item-iconless.xml;
+
 		home.file.".config/walker/themes/aether/style.css".source = ./style.css;
 		home.file.".config/walker/themes/aether/colors.css".text = gtkPalette;
 

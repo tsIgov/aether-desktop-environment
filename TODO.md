@@ -22,6 +22,7 @@ Record screen
 ## Problems
 Changing workspace doesn't close quick one
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
+Screenshot annotation tool is slow to open and close
 
 ## Refactor
 Auto login and remove SDDM
@@ -37,4 +38,7 @@ Package as an OS
 ## Appearance
 - wiremix theme
 - impala theme
+- bluetui theme
+
+Icons for menu
 

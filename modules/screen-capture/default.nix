@@ -10,7 +10,7 @@
 	hm = {
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
-				bind = , PRINT, exec, sh /etc/aether/screen-capture/scripts/screen-capture-menu.sh
+				bind = , PRINT, exec, sh /etc/aether/screen-capture/scripts/screenshot.sh
 			'';
 		};
 	};

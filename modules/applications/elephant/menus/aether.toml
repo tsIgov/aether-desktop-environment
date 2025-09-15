@@ -18,6 +18,12 @@ action = "kitty --class bluetui bluetui"
 keywords = [ "bluetooth", "bluetui" ]
 
 [[entries]]
+text = "Screenshot"
+submenu = "screenshot"
+keywords = [ "screenshot", "capture" ]
+
+
+[[entries]]
 text = "Wifi"
 action = "kitty --class impala impala"
 keywords = [ "network", "wifi", "wi-fi", "wireless", "impala" ]
