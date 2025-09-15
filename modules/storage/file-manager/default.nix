@@ -16,6 +16,10 @@
 				windowrulev2 = [
 					"float, class:(nemo), initialTitle:^(.*Properties)$"
 					"center 1, class:(nemo), initialTitle:^(.*Properties)$"
+
+					"float, class:(nemo), initialTitle:(Open with)"
+					"center 1, class:(nemo), initialTitle:(Open with)"
+					"size 800 550, class:(nemo), initialTitle:(Open with)"
 				];
 			};
 		};
