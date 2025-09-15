@@ -57,10 +57,6 @@
 				bind = SUPER, a, movefocus, l
 				bind = SUPER, w, movefocus, u
 				bind = SUPER, s, movefocus, d
-				binde = SUPER SHIFT, a, exec, sh /etc/aether/window-manager/scripts/move.sh l
-				binde = SUPER SHIFT, d, exec, sh /etc/aether/window-manager/scripts/move.sh r
-				binde = SUPER SHIFT, w, exec, sh /etc/aether/window-manager/scripts/move.sh u
-				binde = SUPER SHIFT, s, exec, sh /etc/aether/window-manager/scripts/move.sh d
 				bindm = SUPER, mouse:272, movewindow
 				bindm = SUPER, mouse:273, resizewindow
 				bind = , escape, submap, reset

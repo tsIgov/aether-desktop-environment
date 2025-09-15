@@ -34,4 +34,5 @@ Run web-apps with chromium
 Package as an OS
 
 ## Appearance
-https://gitlab.com/sixsixfive/DarK-oicons
+- wiremix theme
+

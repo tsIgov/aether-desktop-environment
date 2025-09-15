@@ -1,0 +1,15 @@
+name = "aether"
+name_pretty = "Aether Menu"
+icon = "applications-other"
+global_search = false
+keywords = [ "aether", "menu" ]
+fixed_order = true
+history = false
+history_when_empty = false
+
+
+[[entries]]
+text = "Audio"
+icon = "audio-headphones"
+action = "kitty --class wiremix wiremix"
+keywords = [ "audio" ]
