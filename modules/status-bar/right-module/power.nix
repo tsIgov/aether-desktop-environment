@@ -13,7 +13,7 @@
 						orientation = "horizontal";
 						modules = [
 							"custom/power-left"
-							"idle_inhibitor"
+							"custom/idle"
 							"backlight"
 							"power-profiles-daemon"
 							"battery"
@@ -58,14 +58,12 @@
 						};
 					};
 
-					idle_inhibitor = {
-						format = "{icon}";
-						format-icons = {
-							activated = "";
-							deactivated = "";
-						};
-						tooltip-format-activated = "Idling inhibited";
-						tooltip-format-deactivated = "Idling enabled";
+					"custom/idle" = {
+						interval = 1;
+						exec = "sh /etc/aether/status-bar/scripts/idle.sh 2> /dev/null";
+						"return-type" = "json";
+						format = "";
+						on-click = "sh /etc/aether/power/scripts/inhibition-toggle.sh";
 					};
 				};
 			};

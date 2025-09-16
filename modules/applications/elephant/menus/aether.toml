@@ -18,6 +18,12 @@ action = "kitty --class bluetui bluetui"
 keywords = [ "bluetooth", "bluetui" ]
 
 [[entries]]
+text = "Idle"
+async = """echo "Idle inhibiton: $(sh /etc/aether/power/scripts/inhibition-status.sh)" """
+action = "sh /etc/aether/power/scripts/inhibition-toggle.sh"
+keywords = [ "idle", "inhibition" ]
+
+[[entries]]
 text = "Power"
 submenu = "power"
 keywords = [ "power", "reboot", "restart", "sleep", "suspend", "hibernate", "sleep", "logout", "shutdown" ]

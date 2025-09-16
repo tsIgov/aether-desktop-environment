@@ -27,7 +27,6 @@ Screenshot annotation tool is slow to open and close
 
 ## Refactor
 Hotkeys for everything
-	- idle
 	- power management
 	- kill
 	- btop
@@ -45,3 +44,5 @@ Package as an OS
 
 Icons for menu
 
+Darken background between between gaps
+Themes other than cattpuccin

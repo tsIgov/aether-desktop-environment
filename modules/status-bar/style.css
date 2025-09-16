@@ -32,7 +32,7 @@
 	color: @text
 }
 
-#idle_inhibitor.activated {
+#custom-idle {
 	color: @primary;
 }
 
@@ -59,7 +59,7 @@
 	background: none;
 }
 
-#idle_inhibitor,
+#custom-idle,
 #custom-system,
 #custom-disk,
 #clock.time,

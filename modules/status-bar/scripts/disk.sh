@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/sh
 
 # Get disk usage percentage as an integer
 values=$(df --output=used,avail,pcent --block-size=G / | tail -1 | tr -d G%)

@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/sh
 
 export S_TIME_FORMAT=ISO
 
