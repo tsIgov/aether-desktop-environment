@@ -16,48 +16,48 @@ in
 				listener = [
 					# on battery
 					{
-						timeout = timers.dim-screen.on-battery;
+						timeout = timers.on-battery.dim-screen;
 						on-timeout = "brightnessctl -s && systemd-ac-power || brightnessctl set 10";
 						on-resume = "brightnessctl -r";
 					}
 
 					{
-						timeout = timers.lock.on-battery;
+						timeout = timers.on-battery.lock;
 						on-timeout = "systemd-ac-power || loginctl lock-session";
 					}
 
 					{
-						timeout = timers.turn-off-display.on-battery;
+						timeout = timers.on-battery.turn-off-display;
 						on-timeout = "systemd-ac-power || hyprctl dispatch dpms off";
 						on-resume = "hyprctl dispatch dpms on";
 					}
 
 					{
-						timeout = timers.suspend.on-battery;
+						timeout = timers.on-battery.suspend;
 						on-timeout = "systemd-ac-power || systemctl suspend";
 					}
 
 
 					# plugged in
 					{
-						timeout = timers.dim-screen.plugged;
+						timeout = timers.plugged.dim-screen;
 						on-timeout = "brightnessctl -s && systemd-ac-power && brightnessctl set 10";
 						on-resume = "brightnessctl -r";
 					}
 
 					{
-						timeout = timers.lock.plugged;
+						timeout = timers.plugged.lock;
 						on-timeout = "systemd-ac-power && loginctl lock-session";
 					}
 
 					{
-						timeout = timers.turn-off-display.plugged;
+						timeout = timers.plugged.turn-off-display;
 						on-timeout = "systemd-ac-power && hyprctl dispatch dpms off";
 						on-resume = "hyprctl dispatch dpms on";
 					}
 
 					{
-						timeout = timers.suspend.plugged;
+						timeout = timers.plugged.suspend;
 						on-timeout = "systemd-ac-power && systemctl suspend";
 					}
 				];
