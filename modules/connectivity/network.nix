@@ -3,11 +3,11 @@ let
 	inherit (lib) mkOption;
 	inherit (lib.types) str;
 
-	cfg = config.aether.networking;
+	cfg = config.aether.connectivity;
 in
 {
 	options = {
-		aether.networking = {
+		aether.connectivity = {
 			hostname = mkOption { type = str; };
 		};
 	};
