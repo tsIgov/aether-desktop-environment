@@ -4,7 +4,7 @@
 		wayland.windowManager.hyprland = {
 			extraConfig = ''
 				bindr = SUPER, SUPER_L, exec, walker
-				bind = SUPER, Space, exec, elephant m aether
+				bind = SUPER, Slash, exec, elephant m aether
 				bind = CTRL ALT, Delete, exec, elephant m power
 
 				bind = SUPER, T, exec, ${pkgs.kitty}/bin/kitty
