@@ -12,7 +12,7 @@ in
 		measurements = mkOption { type = nullOr str; default = null; };
 		money = mkOption { type = nullOr str; default = "en_IE.UTF-8"; };
 		names = mkOption { type = nullOr str; default = null; };
-		numeric = mkOption { type = nullOr str; default = null; };
+		numeric = mkOption { type = nullOr str; default = "en_US.UTF-8"; };
 		paper = mkOption { type = nullOr str; default = null; };
 		telephone = mkOption { type = nullOr str; default = null; };
 		time = mkOption { type = nullOr str; default = null; };

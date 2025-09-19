@@ -1,0 +1,19 @@
+name = "performance"
+name_pretty = "Performance"
+global_search = false
+keywords = [ "performance" ]
+fixed_order = true
+history = false
+history_when_empty = false
+
+[[entries]]
+text = "Auto"
+action = "sudo auto-cpufreq --force reset"
+
+[[entries]]
+text = "Power Saver"
+action = "sudo auto-cpufreq --force powersave"
+
+[[entries]]
+text = "Performance"
+action = "sudo auto-cpufreq --force performance"

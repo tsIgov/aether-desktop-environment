@@ -32,7 +32,8 @@
 	color: @text
 }
 
-#custom-idle {
+#custom-idle,
+#custom-power-profile {
 	color: @primary;
 }
 
@@ -60,6 +61,7 @@
 }
 
 #custom-idle,
+#custom-power-profile,
 #custom-system,
 #custom-disk,
 #clock.time,
@@ -123,8 +125,6 @@
 #custom-notifications-left,
 #custom-connectivity-left,
 #custom-connectivity-right,
-#custom-power-left,
-#custom-power-right,
 #custom-system-left,
 #custom-system-right,
 #custom-keyboard-left,

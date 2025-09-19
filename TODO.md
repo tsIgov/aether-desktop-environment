@@ -27,10 +27,10 @@ Screenshot annotation tool is slow to open and close
 
 ## Refactor
 Hotkeys for everything
-	- power management
 	- kill
 	- btop
 
+## OS
 Auto login and remove SDDM
 btop instead of bottom (btm)
 
@@ -38,6 +38,8 @@ Run web-apps with chromium
 Package as an OS
 
 ## Appearance
+resizable height for walker?
+
 - wiremix theme
 - impala theme
 - bluetui theme

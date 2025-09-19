@@ -29,6 +29,11 @@ submenu = "power"
 keywords = [ "power", "reboot", "restart", "sleep", "suspend", "hibernate", "sleep", "logout", "shutdown" ]
 
 [[entries]]
+text = "Performance"
+submenu = "performance"
+keywords = [ "performance" ]
+
+[[entries]]
 text = "Screenshot"
 submenu = "screenshot"
 keywords = [ "screenshot", "capture" ]
