@@ -25,11 +25,6 @@ Changing workspace doesn't close quick one
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
 Screenshot annotation tool is slow to open and close
 
-## Refactor
-Hotkeys for everything
-	- kill
-	- btop
-
 ## OS
 Auto login and remove SDDM
 btop instead of bottom (btm)
@@ -43,6 +38,7 @@ resizable height for walker?
 - wiremix theme
 - impala theme
 - bluetui theme
+- btop theme
 
 Icons for menu
 
