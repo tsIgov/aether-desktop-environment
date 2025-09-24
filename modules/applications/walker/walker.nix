@@ -63,11 +63,6 @@ in
 
 		home.file.".config/walker/themes/aether/layout.xml".source = ./layout.xml;
 		home.file.".config/walker/themes/aether/item_calc.xml".source = ./item-iconless.xml;
-		home.file.".config/walker/themes/aether/item_menus:aether.xml".source = ./item-iconless.xml;
-		home.file.".config/walker/themes/aether/item_menus:screenshot.xml".source = ./item-iconless.xml;
-		home.file.".config/walker/themes/aether/item_menus:power.xml".source = ./item-iconless.xml;
-		home.file.".config/walker/themes/aether/item_menus:performance.xml".source = ./item-iconless.xml;
-
 		home.file.".config/walker/themes/aether/style.css".source = ./style.css;
 		home.file.".config/walker/themes/aether/colors.css".text = gtkPalette;
 

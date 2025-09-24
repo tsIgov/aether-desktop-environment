@@ -27,20 +27,14 @@ Screenshot annotation tool is slow to open and close
 
 ## OS
 Auto login and remove SDDM
-btop instead of bottom (btm)
-
 Run web-apps with chromium
 Package as an OS
 
 ## Appearance
-resizable height for walker?
-
 - wiremix theme
 - impala theme
 - bluetui theme
 - btop theme
-
-Icons for menu
 
 Darken background between between gaps
 Themes other than cattpuccin

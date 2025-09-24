@@ -9,11 +9,16 @@ history_when_empty = false
 [[entries]]
 text = "Region"
 action = "sh /etc/aether/screen-capture/scripts/screenshot.sh region"
+icon = "edit-select-all-symbolic"
 
 [[entries]]
 text = "Window"
 action = "sh /etc/aether/screen-capture/scripts/screenshot.sh window"
+icon = "view-fullscreen-symbolic"
 
 [[entries]]
 text = "Monitor"
 action = "sh /etc/aether/screen-capture/scripts/screenshot.sh output"
+icon = "video-display-symbolic"
+keywords = [ "screen", "monitor", "display" ]
+

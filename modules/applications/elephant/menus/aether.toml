@@ -9,36 +9,43 @@ history_when_empty = false
 
 [[entries]]
 text = "Audio"
+icon = "audio-speakers-symbolic"
 action = "kitty --class wiremix wiremix"
 keywords = [ "audio", "wiremix" ]
 
 [[entries]]
 text = "Bluetooth"
+icon = "network-bluetooth-symbolic"
 action = "kitty --class bluetui bluetui"
 keywords = [ "bluetooth", "bluetui" ]
 
 [[entries]]
 text = "Idle"
 async = """echo "Idle inhibiton: $(sh /etc/aether/power/scripts/inhibition-status.sh)" """
+icon = "stopwatch-symbolic"
 action = "sh /etc/aether/power/scripts/inhibition-toggle.sh"
 keywords = [ "idle", "inhibition" ]
 
 [[entries]]
 text = "Power"
+icon = "system-shutdown-symbolic"
 submenu = "power"
 keywords = [ "power", "reboot", "restart", "sleep", "suspend", "hibernate", "sleep", "logout", "shutdown" ]
 
 [[entries]]
 text = "Performance"
+icon = "power-profile-balanced-symbolic"
 submenu = "performance"
 keywords = [ "performance" ]
 
 [[entries]]
 text = "Screenshot"
+icon = "camera-photo-symbolic"
 submenu = "screenshot"
 keywords = [ "screenshot", "capture" ]
 
 [[entries]]
 text = "Wifi"
+icon = "network-wireless-connected-100-symbolic"
 action = "kitty --class impala impala"
 keywords = [ "network", "wifi", "wi-fi", "wireless", "impala" ]

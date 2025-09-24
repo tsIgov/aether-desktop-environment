@@ -9,11 +9,14 @@ history_when_empty = false
 [[entries]]
 text = "Auto"
 action = "sudo auto-cpufreq --force reset"
+icon = "edit-undo-symbolic"
 
 [[entries]]
 text = "Power Saver"
 action = "sudo auto-cpufreq --force powersave"
+icon = "battery-profile-powersave-symbolic"
 
 [[entries]]
 text = "Performance"
 action = "sudo auto-cpufreq --force performance"
+icon = "battery-profile-performance-symbolic"

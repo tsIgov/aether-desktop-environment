@@ -7,22 +7,32 @@ history = false
 history_when_empty = false
 
 [[entries]]
-text = "  Shutdown"
+text = "Shutdown"
 action = "systemctl poweroff"
+icon = "system-shutdown-symbolic"
 
 [[entries]]
-text = "  Reboot"
+text = "Reboot"
 action = "systemctl reboot"
+icon = "system-reboot-symbolic"
 
 [[entries]]
-text = "󰍃  Logout"
-action = "hyprctl dispatch exit"
-
-[[entries]]
-text = "⏾  Suspend"
+text = "Suspend"
 action = "systemctl suspend"
+icon = "system-suspend-symbolic"
 
 [[entries]]
-text = "󰜗  Hibernate"
+text = "Hibernate"
 action = "systemctl hibernate"
+icon = "system-hibernate-symbolic"
+
+[[entries]]
+text = "Logout"
+action = "hyprctl dispatch exit"
+icon = "system-log-out-symbolic"
+
+[[entries]]
+text = "Lock Screen"
+action = "loginctl lock-session"
+icon = "system-lock-screen-symbolic"
 
