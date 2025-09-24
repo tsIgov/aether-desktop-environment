@@ -1,7 +1,7 @@
-name = "screenshot"
-name_pretty = "Screenshot"
+name = "screencapture"
+name_pretty = "Screen Capture"
 global_search = false
-keywords = [ "screenshot" ]
+keywords = [ "screenshot", "screen", "capture", "record" ]
 fixed_order = true
 history = false
 history_when_empty = false
@@ -22,3 +22,8 @@ action = "sh /etc/aether/screen-capture/scripts/screenshot.sh output"
 icon = "video-display-symbolic"
 keywords = [ "screen", "monitor", "display" ]
 
+[[entries]]
+text = "Video"
+action = "kooha"
+icon = "camera-video-symbolic"
+keywords = [ "record", "video" ]

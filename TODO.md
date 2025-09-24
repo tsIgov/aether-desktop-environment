@@ -18,12 +18,11 @@ Pinning items in walker clipboard. Remove clipse
 Configure the websearch
 
 ## Screenshots
-Record screen
+Screenshot annotation tool is slow to open and close
 
 ## Problems
 Changing workspace doesn't close quick one
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
-Screenshot annotation tool is slow to open and close
 
 ## OS
 Auto login and remove SDDM

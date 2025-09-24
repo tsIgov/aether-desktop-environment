@@ -21,7 +21,7 @@ keywords = [ "bluetooth", "bluetui" ]
 
 [[entries]]
 text = "Idle"
-async = """echo "Idle inhibiton: $(sh /etc/aether/power/scripts/inhibition-status.sh)" """
+async = """echo "Idle Inhibiton: $(sh /etc/aether/power/scripts/inhibition-status.sh)" """
 icon = "stopwatch-symbolic"
 action = "sh /etc/aether/power/scripts/inhibition-toggle.sh"
 keywords = [ "idle", "inhibition" ]
@@ -39,10 +39,10 @@ submenu = "performance"
 keywords = [ "performance" ]
 
 [[entries]]
-text = "Screenshot"
+text = "Screen Capture"
 icon = "camera-photo-symbolic"
-submenu = "screenshot"
-keywords = [ "screenshot", "capture" ]
+submenu = "screencapture"
+keywords = [ "screenshot", "screen", "capture", "record" ]
 
 [[entries]]
 text = "Wifi"
