@@ -1,13 +1,12 @@
-#! /bin/sh
+#! @bash@
+mkdir -p "@outputDir@"
 
-OutputDir="$HOME/Pictures/Screenshots"
-mkdir -p "$OutputDir"
+WORKSPACE=$(hyprctl activewindow -j | jq .workspace.id)
+if [[ $WORKSPACE == "null" ]]; then
+	WORKSPACE=$(hyprctl activeworkspace -j | jq .id)
+fi
 
-pkill slurp || hyprshot -m ${1:-region} --raw |
-satty --filename - \
-	--output-filename "$OutputDir/screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png" \
-	--early-exit \
-	--actions-on-enter save-to-clipboard \
-	--disable-notifications \
-	--copy-command 'wl-copy'
+GEOMETRY=$(hyprctl clients -j | jq -r ".[] | select(.workspace.id == $WORKSPACE) | \"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])\"" | slurp -c "@selectionBorderColor@" -b "@overlayColor@" -w 1 -o)
+
+grim -g "$GEOMETRY" -t ppm - | satty --filename -
 

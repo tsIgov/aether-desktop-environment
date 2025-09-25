@@ -1,0 +1,71 @@
+[general]
+fullscreen = false
+# Exit directly after copy/save action
+early-exit = true
+corner-roundness = 12
+# Select the tool on startup [possible values: pointer, crop, line, arrow, rectangle, text, marker, blur, brush]
+initial-tool = "brush"
+copy-command = "wl-copy"
+# Increase or decrease the size of the annotations
+annotation-size-factor = 0.5
+# Filename to use for saving action. Omit to disable saving to file. Might contain format specifiers: https://docs.rs/chrono/latest/chrono/format/strftime/index.html
+output-filename = "@outputDir@/screenshot-%Y-%m-%d_%H:%M:%S.png"
+save-after-copy = false
+# Hide toolbars by default
+default-hide-toolbars = false
+# The primary highlighter to use, the other is accessible by holding CTRL at the start of a highlight [possible values: block, freehand]
+primary-highlighter = "block"
+# Disable notifications
+disable-notifications = true
+
+# [possible values: save-to-clipboard, save-to-file, exit]
+actions-on-right-click = []
+actions-on-enter = []
+actions-on-escape = ["exit"]
+
+no-window-decoration = true
+
+# Font to use for text annotations
+[font]
+family = "@font@"
+style = "Bold"
+
+# Custom colours for the colour palette
+[color-palette]
+# These will be shown in the toolbar for quick selection
+palette = [
+    "#@colors1@",
+    "#@colors2@",
+    "#@colors3@",
+    "#@colors4@",
+]
+
+# These will be available in the color picker as presets
+# Leave empty to use GTK's default
+custom = [
+    "#@palette01@",
+	"#@palette02@",
+	"#@palette03@",
+	"#@palette04@",
+	"#@palette05@",
+	"#@palette06@",
+	"#@palette07@",
+	"#@palette08@",
+	"#@palette09@",
+	"#@palette10@",
+	"#@palette11@",
+	"#@palette12@",
+	"#@palette13@",
+	"#@palette14@",
+	"#@palette15@",
+	"#@palette16@",
+	"#@palette17@",
+	"#@palette18@",
+	"#@palette19@",
+	"#@palette20@",
+	"#@palette21@",
+	"#@palette22@",
+	"#@palette23@",
+	"#@palette24@",
+	"#@palette25@",
+]

@@ -1,20 +1,10 @@
 { pkgs, lib, aether, ... }:
 {
-	environment.etc."aether/screen-capture/scripts".source = ./scripts;
-
 	environment.systemPackages = with pkgs; [
-		hyprshot
-		satty
 		kooha
 	];
 
 	hm = {
-		wayland.windowManager.hyprland = {
-			extraConfig = ''
-				bind = , PRINT, exec, sh /etc/aether/screen-capture/scripts/screenshot.sh
-			'';
-		};
-
 		dconf.settings = {
 			"io/github/seadve/Kooha" = {
 				capture-mode = "monitor-window";

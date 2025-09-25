@@ -2,7 +2,7 @@ name = "aether"
 name_pretty = "Aether Menu"
 global_search = false
 keywords = [ "aether", "menu" ]
-fixed_order = true
+fixed_order = false
 history = false
 history_when_empty = false
 
@@ -39,10 +39,16 @@ submenu = "performance"
 keywords = [ "performance" ]
 
 [[entries]]
-text = "Screen Capture"
+text = "Screenshot"
 icon = "camera-photo-symbolic"
-submenu = "screencapture"
-keywords = [ "screenshot", "screen", "capture", "record" ]
+action = "sh /etc/aether/screen-capture/scripts/screenshot.sh"
+keywords = [ "screenshot", "screen", "capture" ]
+
+[[entries]]
+text = "Record Screen"
+action = "kooha"
+icon = "camera-video-symbolic"
+keywords = [ "record", "video", "capture", "screen" ]
 
 [[entries]]
 text = "Wifi"

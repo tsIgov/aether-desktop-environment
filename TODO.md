@@ -16,15 +16,14 @@ Reconfigure Firefox
 Kitty grab
 Pinning items in walker clipboard. Remove clipse
 Configure the websearch
-
-## Screenshots
-Screenshot annotation tool is slow to open and close
+Common places in Nemo sidebar
 
 ## Problems
 Changing workspace doesn't close quick one
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
 
 ## OS
+Remove some desktop files
 Auto login and remove SDDM
 Run web-apps with chromium
 Package as an OS
