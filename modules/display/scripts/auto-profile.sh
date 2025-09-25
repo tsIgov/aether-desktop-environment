@@ -1,4 +1,4 @@
-#!/bin/sh
+#! @bash@
 
 handle() {
 	case $1 in
