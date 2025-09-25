@@ -1,4 +1,4 @@
-{ aether, config, ... }:
+{ aether, config, pkgs, ... }:
 let
 	gtkPalette = aether.lib.appearance.getGtkColorDefinitions { inherit config; };
 in
@@ -42,6 +42,12 @@ in
 			style = ./style.css;
 		};
 
-		home.file.".config/waybar/colors.css".text = gtkPalette;
+		home.file = {
+			".config/waybar/fonts.css".source = pkgs.replaceVars ./fonts.css {
+				fontIcons = config.aether.appearance.fonts.icons;
+				fontMono = config.aether.appearance.fonts.mono;
+			};
+			".config/waybar/colors.css".text = gtkPalette;
+		};
 	};
 }

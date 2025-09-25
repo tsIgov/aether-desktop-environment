@@ -2,7 +2,7 @@
 {
 	services.printing = {
 		enable = true;
-		drivers = with pkgs; [ gutenprint cups-filters hplipWithPlugin ];
+		drivers = with pkgs; [ cups-filters ];
 		browsing = true;
 		browsedConf = ''
 			BrowseDNSSDSubTypes _cups,_print

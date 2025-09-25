@@ -9,10 +9,6 @@ in
 	programs.nix-ld.enable = true; # Allows dynamic linking
 
 	environment.systemPackages = with pkgs; [
-		# (writeShellApplication {
-		# 	name = "aether";
-		# 	text = builtins.readFile ./aether.sh;
-		# })
 
 		(aether.pkgs.aether.override {
 			aetherConfigLocation = "/home/${config.aether.user.username}/.config/aether";

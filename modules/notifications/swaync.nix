@@ -26,7 +26,7 @@ in
 				timeout-critical = 0;
 			};
 
-			style = ./style.css;
+			style = ./swaync.css;
 		};
 
 		home.file.".config/swaync/colors.css".text = gtkPalette;

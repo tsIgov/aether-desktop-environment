@@ -1,0 +1,10 @@
+* {
+	font-family: @fontIcons@;
+}
+
+#clock.time,
+#clock.cal,
+#language,
+tooltip {
+	font-family: @fontMono@;
+}

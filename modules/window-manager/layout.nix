@@ -15,8 +15,15 @@
 				group = {
 					insert_after_current = false;
 				};
-			};
 
+				workspace = [
+					"special:quick-1, gapsout:100"
+					"special:quick-2, gapsout:100"
+					"special:quick-3, gapsout:100"
+					"special:quick-4, gapsout:100"
+					"special:quick-5, gapsout:100"
+				];
+			};
 		};
 	};
 }

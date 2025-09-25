@@ -11,7 +11,6 @@ Bazecore
 
 ## Usability
 Configure XDG (notes in digital brain) - file manager
-Move printer drivers outside of aether?
 Reconfigure Firefox
 Kitty grab
 Pinning items in walker clipboard. Remove clipse
@@ -19,8 +18,9 @@ Configure the websearch
 Common places in Nemo sidebar
 
 ## Problems
-Changing workspace doesn't close quick one
 Waking up with no monitors breaks hyprlock and doesn't issue fallback
+Changing workspace doesn't close quick one
+Change to dwindle layout?
 
 ## OS
 Remove some desktop files
