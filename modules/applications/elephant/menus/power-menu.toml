@@ -10,16 +10,19 @@ history_when_empty = false
 text = "Shutdown"
 action = "systemctl poweroff"
 icon = "system-shutdown-symbolic"
+keywords = [ "shutdown", "power", "poweroff", "off" ]
 
 [[entries]]
 text = "Reboot"
 action = "systemctl reboot"
 icon = "system-reboot-symbolic"
+keywords = [ "reboot", "restart" ]
 
 [[entries]]
 text = "Suspend"
 action = "systemctl suspend"
 icon = "system-suspend-symbolic"
+keywords = [ "suspend", "sleep" ]
 
 [[entries]]
 text = "Hibernate"
