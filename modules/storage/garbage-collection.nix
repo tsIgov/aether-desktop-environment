@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 let
 	inherit (lib) mkOption mkIf;
 	inherit (lib.types) bool singleLineStr ints;
@@ -25,6 +25,15 @@ in
 				automatic = cfg.enable;
 				persistent = true;
 				dates = cfg.schedule;
+			};
+		};
+
+		environment.etc = {
+			"aether/storage/scripts/garbage-collect.sh" = {
+				source = pkgs.replaceVars ./scripts/garbage-collect.sh {
+					bash = "${pkgs.bash}/bin/bash";
+				};
+				mode = "0555";
 			};
 		};
 	};

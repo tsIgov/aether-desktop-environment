@@ -19,7 +19,6 @@ Common places in Nemo sidebar
 
 ## Problems
 Changing workspace doesn't close quick one
-Change to dwindle layout?
 
 ## OS
 Remove some desktop files

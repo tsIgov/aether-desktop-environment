@@ -55,3 +55,9 @@ text = "Wifi"
 icon = "network-wireless-connected-100-symbolic"
 action = "kitty --class impala impala"
 keywords = [ "network", "wifi", "wi-fi", "wireless", "impala" ]
+
+[[entries]]
+text = "Garbage Collect"
+icon = "user-trash-symbolic"
+action = "sh /etc/aether/storage/scripts/garbage-collect.sh"
+keywords = [ "garbage", "collect", "store" ]
