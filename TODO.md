@@ -18,7 +18,6 @@ Configure the websearch
 Common places in Nemo sidebar
 
 ## Problems
-Waking up with no monitors breaks hyprlock and doesn't issue fallback
 Changing workspace doesn't close quick one
 Change to dwindle layout?
 
