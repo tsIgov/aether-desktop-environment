@@ -18,7 +18,6 @@ Configure the websearch
 Common places in Nemo sidebar
 
 ## Problems
-Add the process monitor to the menu
 Changing workspace doesn't close quick one
 
 ## OS

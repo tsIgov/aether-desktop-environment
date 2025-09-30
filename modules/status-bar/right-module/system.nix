@@ -29,14 +29,14 @@
 					"custom/disk" = {
 						interval = 30;
 						exec = "/etc/aether/status-bar/scripts/disk.sh 2> /dev/null";
-						"return-type" = "json";
+						return-type = "json";
 						format = "{icon}";
-						"format-icons" = ["󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥"];
+						format-icons = ["󰝦" "󰪞" "󰪟" "󰪠" "󰪡" "󰪢" "󰪣" "󰪤" "󰪥"];
 					};
 					"custom/system" = {
 						interval = 10;
 						exec = "/etc/aether/status-bar/scripts/system.sh 2> /dev/null";
-						"return-type" = "json";
+						return-type = "json";
 						format = "";
 						on-click = "kitty --class btm btm";
 					};
@@ -67,7 +67,7 @@
 					"custom/idle" = {
 						interval = 1;
 						exec = "/etc/aether/status-bar/scripts/idle.sh 2> /dev/null";
-						"return-type" = "json";
+						return-type = "json";
 						format = "";
 						on-click = "/etc/aether/power/scripts/inhibition-toggle.sh";
 					};
@@ -75,7 +75,7 @@
 					"custom/power-profile" = {
 						interval = 10;
 						exec = "/etc/aether/status-bar/scripts/power-profile.sh 2> /dev/null";
-						"return-type" = "json";
+						return-type = "json";
 						format = "{icon}";
 						format-icons = {
 							default = "";
