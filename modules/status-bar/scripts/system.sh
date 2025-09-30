@@ -1,9 +1,9 @@
-#! /bin/sh
+#! @bash@
 
 export S_TIME_FORMAT=ISO
 
 # cpu
-cpu_percentage=$(mpstat | grep -A 1 "%idle" | tail -n 1 | awk -F " " '{print 100 -  $ 12}'a)
+cpu_percentage=$(@mpstat@ | grep -A 1 "%idle" | tail -n 1 | awk -F " " '{print 100 -  $ 12}'a)
 cpu_text="CPU:   ${cpu_percentage}%"
 
 # temperature
@@ -20,7 +20,7 @@ temp_max=$(echo $temp_max | rev | cut -c4- | rev)
 temp_text="Temp:  ${temp_max}°C"
 
 # memory
-mem_values=$(free --mega | grep "Mem:")
+mem_values=$(@free@ --mega | grep "Mem:")
 mem_total=$(echo $mem_values | awk '{print $2}')
 mem_used=$(echo $mem_values | awk '{print $3}')
 mem_avail=$(echo $mem_values | awk '{print $7}')

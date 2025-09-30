@@ -14,6 +14,11 @@ in
 		source = pkgs.replaceVars ./scripts/screenshot.sh {
 			inherit outputDir;
 			bash = "${pkgs.bash}/bin/bash";
+			hyprctl = "${pkgs.hyprland}/bin/hyprctl";
+			jq = "${pkgs.jq}/bin/jq";
+			satty = "${pkgs.satty}/bin/satty";
+			slurp = "${pkgs.slurp}/bin/slurp";
+			grim = "${pkgs.grim}/bin/grim";
 			selectionBorderColor = "#${palette.primary}ff";
 			overlayColor = "#${palette.overlay0}4c";
 		};

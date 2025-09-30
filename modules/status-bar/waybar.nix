@@ -3,8 +3,6 @@ let
 	gtkPalette = aether.lib.appearance.getGtkColorDefinitions { inherit config; };
 in
 {
-	environment.etc."aether/status-bar/scripts".source = ./scripts;
-
 	hm = {
 		programs.waybar = {
 			enable = true;

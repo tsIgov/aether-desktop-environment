@@ -1,4 +1,4 @@
-#!/bin/sh
+#! @bash@
 getBusFor() {
 	echo $(lspci -nn | grep -E -i --max-count=1 "\[(0300|0302|0380)\].*$1" | cut -d " " -f1)
 }

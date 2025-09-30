@@ -1,7 +1,7 @@
-#! /bin/sh
+#! @bash@
 
 STATUS=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
-systemd-ac-power
+@systemd-ac-power@
 ON_AC=$?
 
 if [[ $ON_AC -eq 0 && $STATUS == "performance" ]]; then

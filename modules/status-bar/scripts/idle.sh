@@ -1,6 +1,6 @@
-#! /bin/sh
+#! @bash@
 
-STATUS=$(sh /etc/aether/power/scripts/inhibition-status.sh)
+STATUS=$(/etc/aether/power/scripts/inhibition-status.sh)
 
 if [[ $STATUS == "On" ]]; then
 # Output JSON that Waybar can parse

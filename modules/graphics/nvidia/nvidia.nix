@@ -29,7 +29,9 @@ in
 
 			prime = lib.mkIf (cfg.prime.enable) (
 				let
-					script = builtins.readFile ./get-graphics-controllers.sh;
+					script = builtins.readFile (pkgs.replaceVars ./get-graphics-controllers.sh {
+						bash = "${pkgs.bash}/bin/bash";
+					});
 					controllersJSON = pkgs.runCommand "get-graphics-controllers" { nativeBuildInputs = [ pkgs.pciutils ]; } script;
 					controllers = builtins.fromJSON (builtins.readFile controllersJSON);
 				in

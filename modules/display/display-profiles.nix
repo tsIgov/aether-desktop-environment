@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ config, lib, ... }:
 let
 	cfg = config.aether.display.profiles;
 
@@ -28,33 +28,7 @@ in
 	};
 
 	config = {
-		environment.etc = {
-			"aether/display/scripts/auto-profile.sh" = {
-				source = pkgs.replaceVars ./scripts/auto-profile.sh {
-					bash = "${pkgs.bash}/bin/bash";
-				};
-				mode = "0555";
-			};
-			"aether/display/scripts/apply-profile.sh" = {
-				source = pkgs.replaceVars ./scripts/apply-profile.sh {
-					bash = "${pkgs.bash}/bin/bash";
-					hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-					jq = "${pkgs.jq}/bin/jq";
-				};
-				mode = "0555";
-			};
-			"aether/display/scripts/fallback-reset.sh" = {
-				source = pkgs.replaceVars ./scripts/fallback-reset.sh {
-					bash = "${pkgs.bash}/bin/bash";
-					hyprctl = "${pkgs.hyprland}/bin/hyprctl";
-					jq = "${pkgs.jq}/bin/jq";
-				};
-				mode = "0555";
-			};
-		};
-
 		environment.etc."aether/display/monitor-profiles.json".text = builtins.toJSON cfg;
-
 
 		system.userActivationScripts = {
 			resetDisplay = {
@@ -70,7 +44,7 @@ in
 				];
 
 				exec-once = [
-					"sh /etc/aether/display/scripts/auto-profile.sh"
+					"/etc/aether/display/scripts/auto-profile.sh"
 				];
 			};
 

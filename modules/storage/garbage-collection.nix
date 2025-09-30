@@ -27,14 +27,5 @@ in
 				dates = cfg.schedule;
 			};
 		};
-
-		environment.etc = {
-			"aether/storage/scripts/garbage-collect.sh" = {
-				source = pkgs.replaceVars ./scripts/garbage-collect.sh {
-					bash = "${pkgs.bash}/bin/bash";
-				};
-				mode = "0555";
-			};
-		};
 	};
 }
