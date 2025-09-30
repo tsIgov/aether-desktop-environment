@@ -1,9 +1,9 @@
-#!/bin/sh
+#! @bash@
 
-groupMembers=$(hyprctl activewindow -j | jq '.grouped | length')
+groupMembers=$(@hyprctl@ activewindow -j | @jq@ '.grouped | length')
 
 if [[ $groupMembers -lt 2 ]]; then
-    hyprctl dispatch togglegroup
+    @hyprctl@ dispatch togglegroup
 else
-    hyprctl dispatch lockactivegroup toggle
+    @hyprctl@ dispatch lockactivegroup toggle
 fi

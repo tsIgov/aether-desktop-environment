@@ -1,6 +1,6 @@
-#!/bin/sh
+#! @bash@
 
-current=$(hyprctl activewindow -j | jq -r '.floating')
+current=$(@hyprctl@ activewindow -j | @jq@ -r '.floating')
 
 if [ "$current" == "true" ]; then
     case "$1" in
@@ -22,7 +22,7 @@ if [ "$current" == "true" ]; then
 		;;
 	esac
 
-	hyprctl dispatch moveactive $X $Y
+	@hyprctl@ dispatch moveactive $X $Y
 else
-    hyprctl dispatch movewindoworgroup $1
+    @hyprctl@ dispatch movewindoworgroup $1
 fi

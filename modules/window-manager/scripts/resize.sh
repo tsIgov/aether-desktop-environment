@@ -1,9 +1,9 @@
-#!/bin/sh
+#! @bash@
 
 step=100
 
-minX=$(hyprctl clients -j | jq "[.[] | select (.floating == false and .workspace.id == $(hyprctl activewindow -j | jq .workspace.id))] | min_by(.at[0]) | .at[0]")
-x=$(hyprctl activewindow -j | jq ".at[0]")
+minX=$(@hyprctl@ clients -j | @jq@ "[.[] | select (.floating == false and .workspace.id == $(@hyprctl@ activewindow -j | @jq@ .workspace.id))] | min_by(.at[0]) | .at[0]")
+x=$(@hyprctl@ activewindow -j | @jq@ ".at[0]")
 
 if [[ $minX -eq $x ]]; then
     master=true
@@ -39,4 +39,4 @@ xOffset=$(( $xOffset * $step ))
 yOffset=$(( $yOffset * $step ))
 
 
-hyprctl dispatch resizeactive $xOffset $yOffset
+@hyprctl@ dispatch resizeactive $xOffset $yOffset

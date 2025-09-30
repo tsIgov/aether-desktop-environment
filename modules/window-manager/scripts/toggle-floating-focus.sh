@@ -1,9 +1,9 @@
-#!/bin/sh
+#! @bash@
 
-current=$(hyprctl activewindow -j | jq -r '.floating')
+current=$(@hyprctl@ activewindow -j | @jq@ -r '.floating')
 
 if [ "$current" == "true" ]; then
-    hyprctl dispatch focuswindow tiled
+    @hyprctl@ dispatch focuswindow tiled
 else
-    hyprctl dispatch focuswindow floating
+    @hyprctl@ dispatch focuswindow floating
 fi

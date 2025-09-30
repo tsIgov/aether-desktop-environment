@@ -11,8 +11,6 @@
 		"ELECTRON_OZONE_PLATFORM_HINT" = "wayland";
 	};
 
-	environment.etc."aether/window-manager/scripts".source = ./scripts;
-
 	hm = {
 		wayland.windowManager.hyprland = {
 			enable = true;
