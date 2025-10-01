@@ -69,8 +69,8 @@
 				bindm = SUPER, mouse:273, resizewindow
 
 				# Grouping
-				bind = SUPER, g, exec, /etc/aether/window-manager/scripts/group.sh
-				bind = SUPER SHIFT, g, exec, /etc/aether/window-manager/scripts/master.sh
+				bind = SUPER, g, exec, /etc/aether/window-manager/scripts/toggle-group.sh
+				bind = SUPER SHIFT, g, exec, /etc/aether/window-manager/scripts/add-master.sh
 				bind = SUPER, tab, changegroupactive, f
 				bind = SUPER SHIFT, tab, changegroupactive, b
 

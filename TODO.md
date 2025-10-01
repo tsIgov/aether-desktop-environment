@@ -4,6 +4,7 @@ Calculator
 Text Editor
 Paint
 Calendar
+
 Mail client
 Password manager
 Discord
@@ -13,18 +14,19 @@ Bazecore
 Configure XDG (notes in digital brain) - file manager
 Reconfigure Firefox
 Kitty grab
-Pinning items in walker clipboard. Remove clipse
 Configure the websearch
+Pinning items in walker clipboard. Remove clipse
 Common places in Nemo sidebar
-
-## Problems
-Changing workspace doesn't close quick one
 
 ## OS
 Remove some desktop files
 Auto login and remove SDDM
 Run web-apps with chromium
 Package as an OS
+- /etc/os-release
+- /etc/issue
+- neofetch
+- plymouth
 
 ## Appearance
 - wiremix theme

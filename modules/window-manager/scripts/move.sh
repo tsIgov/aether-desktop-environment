@@ -1,8 +1,8 @@
 #! @bash@
 
-current=$(@hyprctl@ activewindow -j | @jq@ -r '.floating')
+ACTIVE_IS_FLOATING=$(@hyprctl@ activewindow -j | @jq@ -r '.floating')
 
-if [ "$current" == "true" ]; then
+if [ "$ACTIVE_IS_FLOATING" == "true" ]; then
     case "$1" in
 		l)
 			X=-50

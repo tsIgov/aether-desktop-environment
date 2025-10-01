@@ -1,42 +1,42 @@
 #! @bash@
 
-step=100
+STEP=50
 
-minX=$(@hyprctl@ clients -j | @jq@ "[.[] | select (.floating == false and .workspace.id == $(@hyprctl@ activewindow -j | @jq@ .workspace.id))] | min_by(.at[0]) | .at[0]")
-x=$(@hyprctl@ activewindow -j | @jq@ ".at[0]")
+ACTIVE_WORKSPACE=$(@hyprctl@ activewindow -j | @jq@ -r .workspace.id)
+MIN_X=$(@hyprctl@ clients -j | @jq@ -r "[.[] | select (.floating == false and .workspace.id == $ACTIVE_WORKSPACE)] | min_by(.at[0]) | .at[0]")
+ACTIVE_WINDOW_X=$(@hyprctl@ activewindow -j | @jq@ -r ".at[0]")
 
-if [[ $minX -eq $x ]]; then
-    master=true
+if [[ $MIN_X -eq $ACTIVE_WINDOW_X ]]; then
+    MASTER=true
 else
-    master=false
+    MASTER=false
 fi
 
-xOffset=0
-yOffset=0
+X_OFFSET=0
+Y_OFFSET=0
+case $1 in
+	"l" )
+		if [[ $MASTER -eq true ]] ; then
+			X_OFFSET=-1
+		else
+			X_OFFSET=1
+		fi
+	;;
+	"r" )
+		if [[ $MASTER -eq true ]] ; then
+			X_OFFSET=1
+		else
+			X_OFFSET=-1
+		fi
+	;;
+	"u" )
+		Y_OFFSET=-1;;
+	"d" )
+		Y_OFFSET=1;;
+esac
 
-    case $1 in
-        "l" )
-			if [[ $master -eq true ]] ; then
-				xOffset=-1
-			else
-				xOffset=1
-			fi
-		;;
-        "r" )
-			if [[ $master -eq true ]] ; then
-				xOffset=1
-			else
-				xOffset=-1
-			fi
-        ;;
-        "u" )
-           yOffset=-1;;
-        "d" )
-           yOffset=1;;
-   esac
-
-xOffset=$(( $xOffset * $step ))
-yOffset=$(( $yOffset * $step ))
+X_OFFSET=$(( $X_OFFSET * $STEP ))
+Y_OFFSET=$(( $Y_OFFSET * $STEP ))
 
 
-@hyprctl@ dispatch resizeactive $xOffset $yOffset
+@hyprctl@ dispatch resizeactive $X_OFFSET $Y_OFFSET

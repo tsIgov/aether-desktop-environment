@@ -13,15 +13,15 @@ in
 		mode = "0555";
 	};
 
-	environment.etc."aether/window-manager/scripts/group.sh" = {
-		source = pkgs.replaceVars ./group.sh {
+	environment.etc."aether/window-manager/scripts/toggle-group.sh" = {
+		source = pkgs.replaceVars ./toggle-group.sh {
 			inherit bash hyprctl jq;
 		};
 		mode = "0555";
 	};
 
-	environment.etc."aether/window-manager/scripts/master.sh" = {
-		source = pkgs.replaceVars ./master.sh {
+	environment.etc."aether/window-manager/scripts/add-master.sh" = {
+		source = pkgs.replaceVars ./add-master.sh {
 			inherit bash hyprctl jq;
 		};
 		mode = "0555";
@@ -43,7 +43,7 @@ in
 
 	environment.etc."aether/window-manager/scripts/quick-toggle.sh" = {
 		source = pkgs.replaceVars ./quick-toggle.sh {
-			inherit bash hyprctl jq;
+			inherit bash hyprctl jq awk;
 		};
 		mode = "0555";
 	};

@@ -1,11 +1,11 @@
 #! @bash@
 
-workspace=$(@hyprctl@ activewindow -j | @jq@ -r ".workspace.name")
+WORKSPACE=$(@hyprctl@ activewindow -j | @jq@ -r ".workspace.name")
 
-if [[ $workspace == *"quick"* ]]; then
-	destination=$(echo $workspace | @awk@ -F '-' '{print $2}')
+if [[ $WORKSPACE == *"quick"* ]]; then
+	DESTINATION=$(echo $WORKSPACE | @awk@ -F '-' '{print $2}')
 else
-	destination="special:quick-${workspace}"
+	DESTINATION="special:quick-${WORKSPACE}"
 fi
 
-@hyprctl@ dispatch movetoworkspacesilent $destination
+@hyprctl@ dispatch movetoworkspacesilent $DESTINATION
