@@ -1,10 +1,13 @@
 ## Software
-Kde connect
-Calculator
-Text Editor
-Paint
-Calendar
+Kde connect (localsend)
+Calculator (kdePackages.kcalc)
+Text Editor (vscode)
+Paint (pinta)
+fastfetch
 
+Calendar
+lazygit
+lazydocker
 Mail client
 Password manager
 Discord
@@ -12,11 +15,12 @@ Bazecore
 
 ## Usability
 Configure XDG (notes in digital brain) - file manager
-Reconfigure Firefox
 Kitty grab
 Configure the websearch
+
 Pinning items in walker clipboard. Remove clipse
 Common places in Nemo sidebar
+Reconfigure Firefox
 
 ## OS
 Remove some desktop files
@@ -25,7 +29,7 @@ Run web-apps with chromium
 Package as an OS
 - /etc/os-release
 - /etc/issue
-- neofetch
+- neofetch / fastfetch
 - plymouth
 
 ## Appearance
