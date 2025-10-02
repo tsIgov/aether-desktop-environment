@@ -66,6 +66,14 @@ in
 		home.file.".config/walker/themes/aether/style.css".source = ./style.css;
 		home.file.".config/walker/themes/aether/colors.css".text = gtkPalette;
 
+		wayland.windowManager.hyprland = {
+			settings = {
+				layerrule = [
+					"noanim, walker"
+				];
+			};
+		};
+
 		imports = [ aether.inputs.walker.homeManagerModules.default ];
 	};
 }

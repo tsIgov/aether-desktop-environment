@@ -67,3 +67,9 @@ text = "Process Monitor"
 icon = "cpu-symbolic"
 action = "kitty --class btop btop"
 keywords = [ "process", "task", "monitor", "manager" ]
+
+[[entries]]
+text = "Color Picker"
+icon = "color-select-symbolic"
+action = "hyprpicker -a"
+keywords = [ "color", "picker" ]

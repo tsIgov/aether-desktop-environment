@@ -1,10 +1,6 @@
 ## Software
-Kde connect (localsend)
-Calculator (kdePackages.kcalc)
-Text Editor (vscode)
-Paint (pinta)
-fastfetch
-
+localsend
+Run web-apps with chromium
 Calendar
 lazygit
 lazydocker
@@ -25,7 +21,6 @@ Reconfigure Firefox
 ## OS
 Remove some desktop files
 Auto login and remove SDDM
-Run web-apps with chromium
 Package as an OS
 - /etc/os-release
 - /etc/issue

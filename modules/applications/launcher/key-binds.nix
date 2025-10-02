@@ -10,7 +10,6 @@
 				bind = SUPER, T, exec, ${pkgs.kitty}/bin/kitty
 				bind = SUPER, E, exec, ${pkgs.nemo}/bin/nemo
 
-				bind = SUPER, C, exec, pkill rofi || rofi -modes calc -theme-str 'mainbox { children: [ inputbar, message ]; }' -show
 				bind = SUPER SHIFT, C, exec, hyprpicker -a
 			'';
 		};
