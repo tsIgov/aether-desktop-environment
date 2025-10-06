@@ -21,11 +21,7 @@ Reconfigure Firefox
 ## OS
 Remove some desktop files
 Auto login and remove SDDM
-Package as an OS
-- /etc/os-release
-- /etc/issue
-- neofetch / fastfetch
-- plymouth
+fastfetch logo
 
 ## Appearance
 - wiremix theme
