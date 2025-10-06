@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# Ensure the script is run as root
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root." >&2
+    exit 1
+fi
+
+# Redirect all interactive prompts to the TTY
+TTY=$(tty)
+
+echo "==== Linux Partition Preparation Script ===="
+
+# List available disks
+echo "Available disks:"
+lsblk -d -o NAME,SIZE,MODEL | grep -v "loop"
+
+# Ask user to select a disk
+echo
+read -rp "Enter the disk to prepare (e.g., /dev/sda): " DISK
+
+if [[ ! -b "$DISK" ]]; then
+    echo "Invalid disk. Exiting." >&2
+    exit 1
+fi
+
+# Warn user
+echo "WARNING: All data on $DISK will be destroyed!"
+read -rp "Are you sure you want to continue? (yes/no): " CONFIRM
+if [[ "$CONFIRM" != "yes" ]]; then
+    echo "Aborting."
+    exit 0
+fi
+
+# Show current partition table
+echo "Current partition table for $DISK:"
+lsblk "$DISK"
+
+# Launch fdisk in TTY for partitioning
+echo "Launching fdisk for $DISK..."
+fdisk "$DISK" < "$TTY"
+
+# Inform the user
+echo "Partitioning completed. Updated partition table:"
+lsblk "$DISK"
+
+# Ask which partitions to format
+echo
+read -rp "Enter the partitions to format (space-separated, e.g., /dev/sda1 /dev/sda2): " PARTS
+
+for PART in $PARTS; do
+    if [[ ! -b "$PART" ]]; then
+        echo "Skipping invalid partition: $PART"
+        continue
+    fi
+    read -rp "Format $PART as ext4? (yes/no): " FORMAT_CONFIRM
+    if [[ "$FORMAT_CONFIRM" == "yes" ]]; then
+        mkfs.ext4 "$PART"
+        echo "$PART formatted as ext4."
+    else
+        echo "Skipping $PART."
+    fi
+done
+
+# Summary
+echo "==== Partition Preparation Complete ===="
+lsblk "$DISK"
