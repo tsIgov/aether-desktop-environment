@@ -35,7 +35,7 @@ update() {
 
 	cd "$AETHER_CONFIG_LOCATION"
 	nix flake update "${inputs[@]}"
-	sudo nixos-rebuild switch --flake .#aether-os
+	sudo nixos-rebuild switch --flake .#aether-os  --quiet
 }
 
 
@@ -44,7 +44,7 @@ apply() {
 	sudo -v
 
 	cd "$AETHER_CONFIG_LOCATION"
-	sudo nixos-rebuild switch --flake .#aether-os
+	sudo nixos-rebuild switch --flake .#aether-os --quiet
 }
 
 

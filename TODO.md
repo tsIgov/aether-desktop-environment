@@ -21,7 +21,6 @@ Reconfigure Firefox
 ## OS
 Remove some desktop files
 Auto login and remove SDDM
-fastfetch logo
 
 ## Appearance
 - wiremix theme
