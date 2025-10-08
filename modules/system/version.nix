@@ -35,7 +35,7 @@ in
 			PRETTY_NAME = "${distroName} ${release} (${codeName})";
 			CPE_NAME = "cpe:/o:${vendorId}:${distroId}:${release}";
 			LOGO = "aether-logo";
-			HOME_URL =  "https://github.com/tsIgov/aethe";
+			HOME_URL =  "https://github.com/tsIgov/aether";
 			#   ANSI_COLOR = optionalString isNixos "0;38;2;126;186;228";
 			#   IMAGE_ID = optionalString (config.system.image.id != null) config.system.image.id;
 			#   IMAGE_VERSION = optionalString (config.system.image.version != null) config.system.image.version;
@@ -44,7 +44,7 @@ in
 			#   DEFAULT_HOSTNAME = config.system.nixos.distroId;
 		}));
 
-		"issue".text = lib.mkForce "<<< Welcome to ${distroName} ${codeName} >>>";
+		"issue".text = lib.mkForce "<<< Welcome to ${distroName} ${codeName} >>>\n";
 	};
 
 	system.nixos.label = codeName;

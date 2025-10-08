@@ -27,9 +27,9 @@ in
 					AutoConnect = true;
 				};
 			};
-			wireless.iwd.enable = true;
 
-			# networkmanager.enable = true;
+			networkmanager.wifi.backend = "iwd";
+			networkmanager.enable = true;
 		};
 
 		hm = {

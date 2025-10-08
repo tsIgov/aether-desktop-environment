@@ -18,6 +18,8 @@ Pinning items in walker clipboard. Remove clipse
 Common places in Nemo sidebar
 Reconfigure Firefox
 
+aether rollback
+
 ## OS
 Remove some desktop files
 Auto login and remove SDDM

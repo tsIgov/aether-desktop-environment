@@ -7,17 +7,9 @@
 
  	# Packages needed inside the ISO
 	environment.systemPackages = with pkgs; [
-		nano
-		dialog
-		parted
-		cryptsetup
-		lvm2
-		btrfs-progs
-		networkmanager
-		wpa_supplicant
-		iw
-		curl
-		openssl
+		gum
+		iputils # ping
+		util-linux # cfdisk
 	];
 
 	boot = {
@@ -58,8 +50,8 @@
 
 	services = {
 		getty = {
-			autologinUser = lib.mkForce "aether";
-			greetingLine = "<<< Welcome to AetherOS >>>";
+			autologinUser = lib.mkForce "root";
+			greetingLine = "<<< Welcome to AetherOS >>>\n";
 			helpLine = "";
 		};
 	};
