@@ -1,68 +1,242 @@
 #!/bin/sh
 set -euo pipefail
 
-RED='\033[0;31m'
-VIOLET='\033[0;35m'
+ERROR_COLOR='\033[0;31m'
+ACCENT_COLOR='\033[0;35m'
 RESET_COLOR='\033[0m'
 
+GUM_SEPARATOR="---------"
 
+gum_wrapper() {
+	local result=""
+	local args=("$@")
+	local stdin_data=""
+	local status
 
-check_internet() {
-	internet=false;
-	while [[ $internet == false ]];
-	do
-		clear
-		echo -e "${VIOLET}<<< Setup internet >>>${RESET_COLOR}"
-		gum spin --spinner meter --title "Checking internet connection..." -- ping -c 4 -W 10 github.com
-		if [[ $? -eq 0 ]]; then
-			internet=true;
+    if [ ! -t 0 ]; then
+        stdin_data=$(cat -)
+    fi
+
+	echo > /dev/tty
+
+	while [[ "$result" == "" || "$result" =~ ^"$GUM_SEPARATOR" ]]; do
+		if result=$(echo -e "$stdin_data" | gum "${args[@]}"); then
+			if [[ ( ! "$result" =~ ^"$GUM_SEPARATOR") && "$result" != "" ]]; then
+				break
+			fi
 		else
-			echo -e "${RED}Could not get response form github.com.${RESET_COLOR}"
-			echo -en "Press any key to configure your WiFi connection..."
-			read -rsn1
-			impala
+
+			local status=$?
+			if [[ $status -ne 1 ]]; then
+				return $status
+			else
+				printf "\033[1A\033[2K" > /dev/tty
+				result=""
+			fi
 		fi
 	done
-	unset internet
+
+	echo $result
 }
 
-partitioning() {
-	clear
-	echo -e "${VIOLET}<<< Setup disk >>>${RESET_COLOR}"
-	disk=$(lsblk -ndAo NAME,SIZE,MODEL | gum choose --header "Choose a disk:")
-	disk=$(echo $disk | awk '{print $1;}')
-	disk="/dev/$disk"
-	sudo cfdisk $disk
+choose_unallocated_space() {
+	local csv=$(echo -e "Device,Start sector,End sector,Number of sectors,Size")
+	local devices=$(lsblk -ndAo NAME)
 
-
-	RESULT=$(echo -e "Device,Start sector,End sector,Number of sectors,Size MB,Size GB")
-	DEVICES=$(lsblk -ndAo NAME)
-	for DEVICE in $DEVICES; do
-		SECTOR_SIZE=$(cat /sys/block/$(basename "$DEVICE")/queue/hw_sector_size)
-		PARTS=$(sudo parted -m "/dev/$DEVICE" unit s print free | awk -F: -v ss="$SECTOR_SIZE" -v dv="$DEVICE" '
+	for device in $devices; do
+		local sector_size=$(get_sector_size_bytes "$device")
+		local data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v ss="$sector_size" -v dv="$device" '
 			$1 ~ /^[0-9]+$/ && $5 == "free;" {
 				start = substr($2, 1, length($2)-1)
 				end   = substr($3, 1, length($3)-1)
 				num   = substr($4, 1, length($4)-1)
 				size_bytes = num * ss
-				size_mb = size_bytes / 1024 / 1024
-				size_gb = size_bytes / 1024 / 1024 / 1024
-				printf "%s,%d,%d,%d,%.2f MB,%.3f\n", dv, start, end, num, size_mb, size_gb
+				size_mib = size_bytes / 1024 / 1024
+				printf "%s,%d,%d,%d,%.2f MiB\n", dv, start, end, num, size_mib
 			}')
-		RESULT="$RESULT\n$PARTS"
+		csv="$csv\n$data"
 	done
-	echo -e "$RESULT" | gum table -r 1
+
+	csv="$csv\n$GUM_SEPARATOR,,,,\nBack,,,,"
+
+	echo -e "$csv" | gum_wrapper table
 }
 
-main() {
-	check_internet
-	partitioning
+get_ram_bytes() {
+	awk '/MemTotal/ {print $2 * 1024}' /proc/meminfo
 }
 
-main
+get_sector_size_bytes() {
+	cat /sys/block/$(basename "$1")/queue/hw_sector_size
+}
 
+welcome() {
+	clear
+
+	echo -e "${ACCENT_COLOR}<<< Welcome to AetherOS >>>${RESET_COLOR}"
+	echo -e "This wizzard will guide you through the installation."
+
+	local result
+	result=$(gum_wrapper choose "Continue" "Exit")
+
+	case "$result" in
+		"Continue")
+			setup_internet
+			exit
+			;;
+		"Exit")
+			clear
+			exit
+			;;
+	esac
+}
+
+setup_internet() {
+	local result
+	local title="${ACCENT_COLOR}<<< Setup internet connection >>>${RESET_COLOR}"
+	local subtitle="The installer requires internet connection to so you need to set it up."
+
+	clear
+	echo -e "$title"
+	echo -e "$subtitle"
+
+	result=$(gum_wrapper choose "Continue" "Back")
+	case "$result" in
+		"Continue")
+			nmtui
+			while ! gum spin --spinner meter --title "Checking internet connection..." -- ping -c 4 -W 10 github.com; do
+				clear
+				echo -e "$title"
+				echo -e "${ERROR_COLOR}Could not get response form github.com.${RESET_COLOR}"
+				result=$(gum_wrapper choose "Retry" "Back")
+
+				case "$result" in
+					"Retry")
+						clear
+						echo -e "$title"
+						echo -e "$subtitle"
+						;;
+					"Back")
+						clear
+						echo -e "$title"
+						echo -e "$subtitle"
+						nmtui
+					;;
+				esac
+			done
+			setup_disk
+			exit
+			;;
+		"Back")
+			welcome
+			exit
+			;;
+	esac
+}
+
+setup_disk() {
+	local title="${ACCENT_COLOR}<<< Setup disk >>>${RESET_COLOR}"
+	local subtitle="Select a disk to unallocate space for AetherOS and then continue."
+
+	clear
+	echo -e "$title"
+	echo -e "$subtitle"
+
+	local disks=$(lsblk -ndAo NAME,SIZE,MODEL)
+	local result=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue\nBack" | gum_wrapper choose --header "Choose a disk:")
+
+	case "$result" in
+		"Continue")
+			setup_swap
+			exit
+		;;
+		"Back")
+			setup_internet
+			exit
+		;;
+		*)
+			local disk=$(echo $result | awk '{print $1;}')
+			disk="/dev/$disk"
+			sudo cfdisk $disk
+			setup_disk
+			exit
+		;;
+	esac
+}
+
+setup_swap() {
+	local title="${ACCENT_COLOR}<<< Setup swap >>>${RESET_COLOR}"
+
+	clear
+	echo -e "$title"
+
+	if swapon --show | grep -q '^'; then
+		echo -e "You already have a swap space enabled."
+
+		local result=$(gum_wrapper choose "Continue" "Back")
+		case "$result" in
+		"Continue")
+			allocate_space
+			exit
+		;;
+		"Back")
+			setup_disk
+			exit
+		;;
+		esac
+	else
+		echo -e "You don't have a swap space enabled. Do you want to create a swap disk?"
+		local result=$(gum_wrapper choose "Yes" "No" "Back" )
+		case "$result" in
+			"Yes")
+			;;
+			"No")
+				allocate_space
+				exit
+			;;
+			"Back")
+				setup_disk
+				exit
+			;;
+		esac
+
+		clear
+		echo -e "$title"
+		echo -e "Choose unallocated space to create your swap disk into."
+
+		result=$(choose_unallocated_space)
+		local disk=$(echo "$result" | awk -F',' '{print $1}')
+		case "$disk" in
+			"Back")
+				setup_disk
+				exit
+			;;
+		esac
+
+		local start_sector=$(echo "$result" | awk -F',' '{print $2}')
+		local sector_count=$(echo "$result" | awk -F',' '{print $4}')
+		local sector_size_bytes=$(get_sector_size_bytes "$disk")
+		local ram_bytes=$(get_ram_bytes)
+		local ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
+		#local size=$(choose_partition_size $ram)
+
+		# bytes in parted are denoted with B, sectors with s
+		# start and end are the distance from the start of the disk
+		# end is inclusive
+	fi
+}
+
+allocate_space() {
+	exit
+}
+
+
+# welcome
+setup_swap
 
 exit 0
+
+
 
 
 
