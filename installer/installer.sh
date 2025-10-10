@@ -1,11 +1,34 @@
 #!/bin/sh
-set -euo pipefail
+strict_mode(){
+    set -T # inherit DEBUG and RETURN trap for functions
+    set -C # prevent file overwrite by > &> <>
+    set -E # inherit -e
+    set -e # exit immediately on errors
+    set -u # exit on not assigned variables
+    set -o pipefail # exit on pipe failure
+}
+strict_mode
 
 ERROR_COLOR='\033[0;31m'
 ACCENT_COLOR='\033[0;35m'
 RESET_COLOR='\033[0m'
 
+MIN_SWAP_SIZE_GIB=1
+MIN_PART_SIZE_GIB=50
+
 GUM_SEPARATOR="---------"
+
+keep_sudo() {
+	sudo -v
+
+	# Keep the sudo timestamp updated until the script finishes
+	# (runs in the background)
+	while true; do
+	sudo -n true
+	sleep 60
+	kill -0 "$$" || exit
+	done 2>/dev/null &
+}
 
 gum_wrapper() {
 	local result=""
@@ -25,7 +48,6 @@ gum_wrapper() {
 				break
 			fi
 		else
-
 			local status=$?
 			if [[ $status -ne 1 ]]; then
 				return $status
@@ -51,8 +73,8 @@ choose_unallocated_space() {
 				end   = substr($3, 1, length($3)-1)
 				num   = substr($4, 1, length($4)-1)
 				size_bytes = num * ss
-				size_mib = size_bytes / 1024 / 1024
-				printf "%s,%d,%d,%d,%.2f MiB\n", dv, start, end, num, size_mib
+				size_mib = size_bytes / 1024 / 1024 /1024
+				printf "%s,%d,%d,%d,%.2f GiB\n", dv, start, end, num, size_mib
 			}')
 		csv="$csv\n$data"
 	done
@@ -70,17 +92,134 @@ get_sector_size_bytes() {
 	cat /sys/block/$(basename "$1")/queue/hw_sector_size
 }
 
+min_int() {
+	echo $(( $1 < $2 ? $1 : $2 ))
+}
+
+max_int() {
+	echo $(( $1 > $2 ? $1 : $2 ))
+}
+
+ceil() {
+  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) + (n > 0) }'
+}
+
+floor() {
+  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) - (n < 0) }'
+}
+
+sectors_to_gib() {
+	local sectors sector_size
+	sectors=$1
+	sector_size=$2
+
+	awk "BEGIN {
+		res = $sector_size * $sectors / 1024 / 1024 / 1024
+  		printf \"%.2f\", res
+	}"
+}
+
+gib_to_sectors() {
+	local gib sector_size
+	gib=$1
+	sector_size=$2
+
+	awk "BEGIN {
+		res = $gib * 1024 * 1024 * 1024 / $sector_size
+  		printf \"%d\", res
+	}"
+}
+
+choose_allocation_size() {
+	local result title
+	local min_size_sectors default_size_sectors max_size_sectors sector_size_bytes
+	local min_size_gib default_size_gib max_size_gib
+
+	local invalid_number_message="${ERROR_COLOR}Invalid value (must be a valid number in the specified range).${RESET_COLOR}"
+
+	min_size_sectors=$1
+	default_size_sectors=$2
+	max_size_sectors=$3
+	sector_size_bytes=$4
+	title="$5"
+
+	default_size_sectors=$(min_int $default_size_sectors $max_size_sectors)
+	default_size_sectors=$(max_int $default_size_sectors $min_size_sectors)
+
+	min_size_gib=$(sectors_to_gib $min_size_sectors $sector_size_bytes)
+	default_size_gib=$(sectors_to_gib $default_size_sectors $sector_size_bytes)
+	max_size_gib=$(sectors_to_gib $max_size_sectors $sector_size_bytes)
+
+	local subtitle="Choose a size between ${min_size_gib} GiB and ${max_size_gib} GiB (write the number only).\nType 0 to go back."
+
+	if [[ $min_size_sectors -gt $max_size_sectors ]]; then
+		clear > /dev/tty
+		echo -e "$title" > /dev/tty
+		echo -e "${ERROR_COLOR}The selected unallocated space is less than the required minimum of $min_size_gib GiB ${RESET_COLOR}" > /dev/tty
+
+		result=$(gum_wrapper choose "Back")
+		echo 0
+		return
+	else
+		clear > /dev/tty
+		echo -e "$title" > /dev/tty
+		echo -e  "$subtitle" > /dev/tty
+
+		while true; do
+			result=$(gum_wrapper input --placeholder "Size in GiB" --value "$default_size_gib" )
+
+			if [[ "$result" == "0" ]]; then
+				echo 0
+				return
+			fi
+
+			local number_regex='^-?[0-9]*.?[0-9]+$'
+			if [[ ! $result =~ $number_regex ]]; then
+				clear > /dev/tty
+				echo -e "$title" > /dev/tty
+				echo -e "$subtitle" > /dev/tty
+				echo -e "$invalid_number_message" > /dev/tty
+				continue
+			fi
+
+			result=$(awk "BEGIN { printf \"%.2f\", $result }")
+
+			if awk "BEGIN {exit !($result < $min_size_gib || $result > $max_size_gib)}"; then
+				clear > /dev/tty
+				echo -e "$title" > /dev/tty
+				echo -e "$subtitle" > /dev/tty
+				echo -e "$invalid_number_message" > /dev/tty
+				continue
+			fi
+
+			if [[ "$result" == "$max_size_gib" ]]; then
+				echo $max_size_sectors
+				return
+			fi
+
+			result=$(gib_to_sectors $result $sector_size_bytes)
+			echo "$result"
+			return
+		done
+	fi
+}
+
+
+# ================================
+
 welcome() {
+	local option
+
 	clear
 
 	echo -e "${ACCENT_COLOR}<<< Welcome to AetherOS >>>${RESET_COLOR}"
 	echo -e "This wizzard will guide you through the installation."
 
-	local result
-	result=$(gum_wrapper choose "Continue" "Exit")
+	option=$(gum_wrapper choose "Continue" "Exit")
 
-	case "$result" in
+	case "$option" in
 		"Continue")
+			keep_sudo
 			setup_internet
 			exit
 			;;
@@ -92,7 +231,7 @@ welcome() {
 }
 
 setup_internet() {
-	local result
+	local option
 	local title="${ACCENT_COLOR}<<< Setup internet connection >>>${RESET_COLOR}"
 	local subtitle="The installer requires internet connection to so you need to set it up."
 
@@ -100,17 +239,17 @@ setup_internet() {
 	echo -e "$title"
 	echo -e "$subtitle"
 
-	result=$(gum_wrapper choose "Continue" "Back")
-	case "$result" in
+	option=$(gum_wrapper choose "Continue" "Back")
+	case "$option" in
 		"Continue")
 			nmtui
 			while ! gum spin --spinner meter --title "Checking internet connection..." -- ping -c 4 -W 10 github.com; do
 				clear
 				echo -e "$title"
 				echo -e "${ERROR_COLOR}Could not get response form github.com.${RESET_COLOR}"
-				result=$(gum_wrapper choose "Retry" "Back")
+				option=$(gum_wrapper choose "Retry" "Back")
 
-				case "$result" in
+				case "$option" in
 					"Retry")
 						clear
 						echo -e "$title"
@@ -137,15 +276,17 @@ setup_internet() {
 setup_disk() {
 	local title="${ACCENT_COLOR}<<< Setup disk >>>${RESET_COLOR}"
 	local subtitle="Select a disk to unallocate space for AetherOS and then continue."
+	local disks
+	local option
 
 	clear
 	echo -e "$title"
 	echo -e "$subtitle"
 
-	local disks=$(lsblk -ndAo NAME,SIZE,MODEL)
-	local result=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue\nBack" | gum_wrapper choose --header "Choose a disk:")
+	disks=$(lsblk -ndAo NAME,SIZE,MODEL)
+	option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue\nBack" | gum_wrapper choose --header "Choose a disk:")
 
-	case "$result" in
+	case "$option" in
 		"Continue")
 			setup_swap
 			exit
@@ -155,7 +296,7 @@ setup_disk() {
 			exit
 		;;
 		*)
-			local disk=$(echo $result | awk '{print $1;}')
+			local disk=$(echo $option | awk '{print $1;}')
 			disk="/dev/$disk"
 			sudo cfdisk $disk
 			setup_disk
@@ -166,15 +307,17 @@ setup_disk() {
 
 setup_swap() {
 	local title="${ACCENT_COLOR}<<< Setup swap >>>${RESET_COLOR}"
+	local option chosen_size_sectors=0
+	local disk start_sector sector_count sector_size_bytes ram_bytes ram_sectors min_swap
 
 	clear
 	echo -e "$title"
 
-	if swapon --show | grep -q '^'; then
+	if swapon --show | grep -q '^' && false; then
 		echo -e "You already have a swap space enabled."
 
-		local result=$(gum_wrapper choose "Continue" "Back")
-		case "$result" in
+		option=$(gum_wrapper choose "Continue" "Back")
+		case "$option" in
 		"Continue")
 			allocate_space
 			exit
@@ -186,8 +329,8 @@ setup_swap() {
 		esac
 	else
 		echo -e "You don't have a swap space enabled. Do you want to create a swap disk?"
-		local result=$(gum_wrapper choose "Yes" "No" "Back" )
-		case "$result" in
+		option=$(gum_wrapper choose "Yes" "No" "Back" )
+		case "$option" in
 			"Yes")
 			;;
 			"No")
@@ -200,25 +343,40 @@ setup_swap() {
 			;;
 		esac
 
-		clear
-		echo -e "$title"
-		echo -e "Choose unallocated space to create your swap disk into."
+		while [[ $chosen_size_sectors == "0" ]]; do
+			clear
+			echo -e "$title"
+			echo -e "Choose unallocated space to create your swap disk."
 
-		result=$(choose_unallocated_space)
-		local disk=$(echo "$result" | awk -F',' '{print $1}')
-		case "$disk" in
-			"Back")
-				setup_disk
-				exit
-			;;
-		esac
+			option=$(choose_unallocated_space)
+			disk=$(echo "$option" | awk -F',' '{print $1}')
+			case "$disk" in
+				"Back")
+					setup_disk
+					exit
+				;;
+			esac
 
-		local start_sector=$(echo "$result" | awk -F',' '{print $2}')
-		local sector_count=$(echo "$result" | awk -F',' '{print $4}')
-		local sector_size_bytes=$(get_sector_size_bytes "$disk")
-		local ram_bytes=$(get_ram_bytes)
-		local ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
-		#local size=$(choose_partition_size $ram)
+
+			start_sector=$(echo "$option" | awk -F',' '{print $2}')
+			sector_count=$(echo "$option" | awk -F',' '{print $4}')
+
+			sector_size_bytes=$(get_sector_size_bytes "$disk")
+
+			ram_bytes=$(get_ram_bytes)
+			ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
+
+			min_swap=$(awk "BEGIN {print $MIN_SWAP_SIZE_GIB * 1024 * 1024 * 1024 / $sector_size_bytes}")
+			min_swap=$(ceil $min_swap)
+
+			chosen_size_sectors=$(choose_allocation_size $min_swap $ram_sectors $sector_count $sector_size_bytes "$title")
+		done
+
+		sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_sector"s $(( $start_sector + $chosen_size_sectors - 1 ))s
+		local new_part
+		new_part=$(lsblk -nrpo NAME,TYPE "/dev/$disk" | awk '$2=="part" {print $1}' | tail -n1)
+		sudo mkswap "/dev/$new_part"
+		sudo swapon "/dev/$new_part"
 
 		# bytes in parted are denoted with B, sectors with s
 		# start and end are the distance from the start of the disk
@@ -229,7 +387,6 @@ setup_swap() {
 allocate_space() {
 	exit
 }
-
 
 # welcome
 setup_swap
