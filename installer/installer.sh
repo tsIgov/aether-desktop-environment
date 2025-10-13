@@ -204,6 +204,21 @@ choose_allocation_size() {
 	fi
 }
 
+make_swap() {
+	local disk="$1" start_sector="$2" size_sectors="$3"
+	local new_part
+
+	sudo umount /dev/$disk* &>/dev/null || true
+
+	sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_sector"s $(( $start_sector + $size_sectors - 1 ))s
+	new_part=$(lsblk -nrpo NAME,TYPE "/dev/$disk" | awk '$2=="part" {print $1}' | tail -n1)
+
+	sudo swapoff $new_part &>/dev/null || true
+	sudo wipefs -a $new_part &>/dev/null || true
+	sudo mkswap "$new_part"
+	sudo swapon "$new_part"
+}
+
 
 # ================================
 
@@ -309,16 +324,22 @@ setup_swap() {
 	local title="${ACCENT_COLOR}<<< Setup swap >>>${RESET_COLOR}"
 	local option chosen_size_sectors=0
 	local disk start_sector sector_count sector_size_bytes ram_bytes ram_sectors min_swap
+	local swap_question
 
 	clear
 	echo -e "$title"
 
-	if swapon --show | grep -q '^' && false; then
-		echo -e "You already have a swap space enabled."
+	if swapon --show | grep -q '^'; then
+		echo -e "You already have a swap space enabled. Set up swap anyways?"
+	else
+		echo -e "You don't have a swap space enabled. Do you want to create a swap disk?"
+	fi
 
-		option=$(gum_wrapper choose "Continue" "Back")
-		case "$option" in
-		"Continue")
+	option=$(gum_wrapper choose "Yes" "No" "Back" )
+	case "$option" in
+		"Yes")
+		;;
+		"No")
 			allocate_space
 			exit
 		;;
@@ -326,61 +347,43 @@ setup_swap() {
 			setup_disk
 			exit
 		;;
-		esac
-	else
-		echo -e "You don't have a swap space enabled. Do you want to create a swap disk?"
-		option=$(gum_wrapper choose "Yes" "No" "Back" )
-		case "$option" in
-			"Yes")
-			;;
-			"No")
-				allocate_space
-				exit
-			;;
+	esac
+
+	while [[ $chosen_size_sectors == "0" ]]; do
+		clear
+		echo -e "$title"
+		echo -e "Choose unallocated space to create your swap disk."
+
+		option=$(choose_unallocated_space)
+		disk=$(echo "$option" | awk -F',' '{print $1}')
+		case "$disk" in
 			"Back")
 				setup_disk
 				exit
 			;;
 		esac
 
-		while [[ $chosen_size_sectors == "0" ]]; do
-			clear
-			echo -e "$title"
-			echo -e "Choose unallocated space to create your swap disk."
 
-			option=$(choose_unallocated_space)
-			disk=$(echo "$option" | awk -F',' '{print $1}')
-			case "$disk" in
-				"Back")
-					setup_disk
-					exit
-				;;
-			esac
+		start_sector=$(echo "$option" | awk -F',' '{print $2}')
+		sector_count=$(echo "$option" | awk -F',' '{print $4}')
 
+		sector_size_bytes=$(get_sector_size_bytes "$disk")
 
-			start_sector=$(echo "$option" | awk -F',' '{print $2}')
-			sector_count=$(echo "$option" | awk -F',' '{print $4}')
+		ram_bytes=$(get_ram_bytes)
+		ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
 
-			sector_size_bytes=$(get_sector_size_bytes "$disk")
+		min_swap=$(awk "BEGIN {print $MIN_SWAP_SIZE_GIB * 1024 * 1024 * 1024 / $sector_size_bytes}")
+		min_swap=$(ceil $min_swap)
 
-			ram_bytes=$(get_ram_bytes)
-			ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
+		chosen_size_sectors=$(choose_allocation_size $min_swap $ram_sectors $sector_count $sector_size_bytes "$title")
+	done
 
-			min_swap=$(awk "BEGIN {print $MIN_SWAP_SIZE_GIB * 1024 * 1024 * 1024 / $sector_size_bytes}")
-			min_swap=$(ceil $min_swap)
-
-			chosen_size_sectors=$(choose_allocation_size $min_swap $ram_sectors $sector_count $sector_size_bytes "$title")
-		done
-
-		sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_sector"s $(( $start_sector + $chosen_size_sectors - 1 ))s
-		local new_part
-		new_part=$(lsblk -nrpo NAME,TYPE "/dev/$disk" | awk '$2=="part" {print $1}' | tail -n1)
-		sudo mkswap "/dev/$new_part"
-		sudo swapon "/dev/$new_part"
-
-		# bytes in parted are denoted with B, sectors with s
-		# start and end are the distance from the start of the disk
-		# end is inclusive
+	local error=""
+	if ! error=$(make_swap $disk $start_sector $chosen_size_sectors); then
+	clear
+		echo -e "$title"
+		echo -e "${ERROR_COLOR}Failed to create swap.${RESET_COLOR}"
+		echo -e "$error"
 	fi
 }
 
