@@ -10,6 +10,8 @@
 		gum
 		iputils # ping
 		util-linux # cfdisk
+		parted
+		cryptsetup
 	];
 
 	boot = {

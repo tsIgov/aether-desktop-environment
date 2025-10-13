@@ -9,14 +9,7 @@ strict_mode(){
 }
 strict_mode
 
-ERROR_COLOR='\033[0;31m'
-ACCENT_COLOR='\033[0;35m'
-RESET_COLOR='\033[0m'
 
-MIN_SWAP_SIZE_GIB=1
-MIN_PART_SIZE_GIB=50
-
-GUM_SEPARATOR="---------"
 
 keep_sudo() {
 	sudo -v
@@ -29,6 +22,53 @@ keep_sudo() {
 	kill -0 "$$" || exit
 	done 2>/dev/null &
 }
+
+screen() {
+	local accent_color='\033[0;35m'
+	local error_color='\033[0;31m'
+	local reset_color='\033[0m'
+
+	clear > /dev/tty
+	echo -e "${accent_color}<<< $1 >>>${reset_color}" > /dev/tty
+
+	if [[ $# -gt 1 && -n "$2" ]]; then
+		echo -e "$2" > /dev/tty
+	fi
+
+	if [[ $# -gt 2 && -n "$3" ]]; then
+		echo -e "${error_color}$3${reset_color}" > /dev/tty
+	fi
+}
+
+
+
+# ================================
+# Math
+# ================================
+
+min_int() {
+	echo $(( $1 < $2 ? $1 : $2 ))
+}
+
+max_int() {
+	echo $(( $1 > $2 ? $1 : $2 ))
+}
+
+ceil() {
+  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) + (n > 0) }'
+}
+
+floor() {
+  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) - (n < 0) }'
+}
+
+
+
+# ================================
+# Gum
+# ================================
+
+GUM_SEPARATOR="---------"
 
 gum_wrapper() {
 	local result=""
@@ -66,8 +106,9 @@ choose_unallocated_space() {
 	local devices=$(lsblk -ndAo NAME)
 
 	for device in $devices; do
-		local sector_size=$(get_sector_size_bytes "$device")
-		local data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v ss="$sector_size" -v dv="$device" '
+		local sector_size data
+		sector_size=$(get_sector_size_bytes "$device")
+		data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v ss="$sector_size" -v dv="$device" '
 			$1 ~ /^[0-9]+$/ && $5 == "free;" {
 				start = substr($2, 1, length($2)-1)
 				end   = substr($3, 1, length($3)-1)
@@ -84,28 +125,110 @@ choose_unallocated_space() {
 	echo -e "$csv" | gum_wrapper table
 }
 
+choose_allocation_size() {
+	local result title
+	local min_size_sectors default_size_sectors max_size_sectors sector_size_bytes
+	local min_size_gib default_size_gib max_size_gib
+
+	local invalid_number_message="Invalid value (must be a valid number in the specified range)."
+
+	min_size_sectors=$1
+	default_size_sectors=$2
+	max_size_sectors=$3
+	sector_size_bytes=$4
+	title="$5"
+
+	default_size_sectors=$(min_int $default_size_sectors $max_size_sectors)
+	default_size_sectors=$(max_int $default_size_sectors $min_size_sectors)
+
+	min_size_gib=$(sectors_to_gib $min_size_sectors $sector_size_bytes)
+	default_size_gib=$(sectors_to_gib $default_size_sectors $sector_size_bytes)
+	max_size_gib=$(sectors_to_gib $max_size_sectors $sector_size_bytes)
+
+	local subtitle="Choose a size between ${min_size_gib} GiB and ${max_size_gib} GiB (write the number only).\nType 0 to go back."
+
+	if [[ $min_size_sectors -gt $max_size_sectors ]]; then
+		screen "$title" "" "The selected unallocated space is less than the required minimum of $min_size_gib GiB."
+		result=$(gum_wrapper choose "Back")
+		echo 0
+		return
+	fi
+
+	screen "$title" "$subtitle"
+
+	while true; do
+		result=$(gum_wrapper input --placeholder "Size in GiB" --value "$default_size_gib" )
+
+		if [[ "$result" == "0" ]]; then
+			echo 0
+			return
+		fi
+
+		local number_regex='^-?[0-9]*.?[0-9]+$'
+		if [[ ! $result =~ $number_regex ]]; then
+			screen "$title" "$subtitle" "$invalid_number_message"
+			continue
+		fi
+
+		result=$(awk "BEGIN { printf \"%.2f\", $result }")
+
+		if awk "BEGIN {exit !($result < $min_size_gib || $result > $max_size_gib)}"; then
+			screen "$title" "$subtitle" "$invalid_number_message"
+			continue
+		fi
+
+		if [[ "$result" == "$max_size_gib" ]]; then
+			echo $max_size_sectors
+			return
+		fi
+
+		result=$(gib_to_sectors $result $sector_size_bytes)
+		echo "$result"
+		return
+	done
+}
+
+choose_password() {
+	local title="$1" subtitle="$2"
+	local password="" password_repeat="" option
+
+	while [[ -z "$password" || -z "$password_repeat" || "$password" != "$password_repeat" ]]; do
+		screen "$title" "$subtitle"
+		password=$(gum_wrapper input --password --placeholder "Type your password...")
+		screen "$title" "$subtitle"
+		password_repeat=$(gum_wrapper input --password --placeholder "Repeat your password...")
+
+		if [[ "$password" == "$password_repeat" ]]; then
+			echo "$password"
+			return
+		fi
+
+		screen "$title" "$subtitle" "Passwords do not match."
+		option=$(gum_wrapper choose "Try again" "Back")
+		case "$option" in
+			"Try again")
+				continue
+				;;
+			"Back")
+				return
+				;;
+		esac
+
+	done
+}
+
+
+
+# ================================
+# Disk utils
+# ================================
+
 get_ram_bytes() {
 	awk '/MemTotal/ {print $2 * 1024}' /proc/meminfo
 }
 
 get_sector_size_bytes() {
 	cat /sys/block/$(basename "$1")/queue/hw_sector_size
-}
-
-min_int() {
-	echo $(( $1 < $2 ? $1 : $2 ))
-}
-
-max_int() {
-	echo $(( $1 > $2 ? $1 : $2 ))
-}
-
-ceil() {
-  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) + (n > 0) }'
-}
-
-floor() {
-  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) - (n < 0) }'
 }
 
 sectors_to_gib() {
@@ -130,80 +253,6 @@ gib_to_sectors() {
 	}"
 }
 
-choose_allocation_size() {
-	local result title
-	local min_size_sectors default_size_sectors max_size_sectors sector_size_bytes
-	local min_size_gib default_size_gib max_size_gib
-
-	local invalid_number_message="${ERROR_COLOR}Invalid value (must be a valid number in the specified range).${RESET_COLOR}"
-
-	min_size_sectors=$1
-	default_size_sectors=$2
-	max_size_sectors=$3
-	sector_size_bytes=$4
-	title="$5"
-
-	default_size_sectors=$(min_int $default_size_sectors $max_size_sectors)
-	default_size_sectors=$(max_int $default_size_sectors $min_size_sectors)
-
-	min_size_gib=$(sectors_to_gib $min_size_sectors $sector_size_bytes)
-	default_size_gib=$(sectors_to_gib $default_size_sectors $sector_size_bytes)
-	max_size_gib=$(sectors_to_gib $max_size_sectors $sector_size_bytes)
-
-	local subtitle="Choose a size between ${min_size_gib} GiB and ${max_size_gib} GiB (write the number only).\nType 0 to go back."
-
-	if [[ $min_size_sectors -gt $max_size_sectors ]]; then
-		clear > /dev/tty
-		echo -e "$title" > /dev/tty
-		echo -e "${ERROR_COLOR}The selected unallocated space is less than the required minimum of $min_size_gib GiB ${RESET_COLOR}" > /dev/tty
-
-		result=$(gum_wrapper choose "Back")
-		echo 0
-		return
-	else
-		clear > /dev/tty
-		echo -e "$title" > /dev/tty
-		echo -e  "$subtitle" > /dev/tty
-
-		while true; do
-			result=$(gum_wrapper input --placeholder "Size in GiB" --value "$default_size_gib" )
-
-			if [[ "$result" == "0" ]]; then
-				echo 0
-				return
-			fi
-
-			local number_regex='^-?[0-9]*.?[0-9]+$'
-			if [[ ! $result =~ $number_regex ]]; then
-				clear > /dev/tty
-				echo -e "$title" > /dev/tty
-				echo -e "$subtitle" > /dev/tty
-				echo -e "$invalid_number_message" > /dev/tty
-				continue
-			fi
-
-			result=$(awk "BEGIN { printf \"%.2f\", $result }")
-
-			if awk "BEGIN {exit !($result < $min_size_gib || $result > $max_size_gib)}"; then
-				clear > /dev/tty
-				echo -e "$title" > /dev/tty
-				echo -e "$subtitle" > /dev/tty
-				echo -e "$invalid_number_message" > /dev/tty
-				continue
-			fi
-
-			if [[ "$result" == "$max_size_gib" ]]; then
-				echo $max_size_sectors
-				return
-			fi
-
-			result=$(gib_to_sectors $result $sector_size_bytes)
-			echo "$result"
-			return
-		done
-	fi
-}
-
 make_swap() {
 	local disk="$1" start_sector="$2" size_sectors="$3"
 	local new_part
@@ -219,23 +268,55 @@ make_swap() {
 	sudo swapon "$new_part"
 }
 
+partition_disk() {
+	local disk=$1 start_sector=$2 size=$3 encryption_password="$4"
+	local sector_size boot_size_sectors
+	local efi_part_num root_part_num
+
+	sector_size=$(get_sector_size_bytes $disk)
+
+	boot_size_sectors=$(gib_to_sectors "0.5" $sector_size)
+	efi_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
+	sudo parted -s "/dev/$disk" mkpart primary fat32 "$start_sector"s $(( $start_sector + $boot_size_sectors - 1 ))s
+	sudo parted -s "/dev/$disk" set $efi_part_num esp on
+	sudo parted -s "/dev/$disk" set $efi_part_num boot on
+
+	root_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
+	size=$(( $size - $boot_size_sectors ))
+	start_sector=$(( $start_sector + $boot_size_sectors ))
+	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_sector"s $(( $start_sector + $size - 1 ))s
+
+	exit
+
+	# local efi_part="/dev/$disk$efi_part_num"
+	# local root_part="/dev/$disk$root_part_num"
+
+	# mkfs.vfat -n EFI "$efi_part"
+	# echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 "$root_part"
+	# echo -n "$encryption_password" | sudo cryptsetup open "$root_part" cryptroot
+	# mkfs.ext4 -L nixos /dev/mapper/cryptroot
+
+	# mount /dev/mapper/cryptroot /mnt
+	# mkdir -p /mnt/boot
+	# mount "$efi_part" /mnt/boot
+}
+
+
 
 # ================================
+# Screens
+# ================================
 
-welcome() {
+welcome_screen() {
 	local option
 
-	clear
-
-	echo -e "${ACCENT_COLOR}<<< Welcome to AetherOS >>>${RESET_COLOR}"
-	echo -e "This wizzard will guide you through the installation."
+	screen "Welcome to AetherOS" "This wizzard will guide you through the installation."
 
 	option=$(gum_wrapper choose "Continue" "Exit")
-
 	case "$option" in
 		"Continue")
 			keep_sudo
-			setup_internet
+			setup_internet_screen
 			exit
 			;;
 		"Exit")
@@ -245,124 +326,115 @@ welcome() {
 	esac
 }
 
-setup_internet() {
+setup_internet_screen() {
 	local option
-	local title="${ACCENT_COLOR}<<< Setup internet connection >>>${RESET_COLOR}"
+	local title="Setup internet connection"
 	local subtitle="The installer requires internet connection to so you need to set it up."
 
-	clear
-	echo -e "$title"
-	echo -e "$subtitle"
+	screen "$title" "$subtitle"
 
 	option=$(gum_wrapper choose "Continue" "Back")
 	case "$option" in
 		"Continue")
 			nmtui
 			while ! gum spin --spinner meter --title "Checking internet connection..." -- ping -c 4 -W 10 github.com; do
-				clear
-				echo -e "$title"
-				echo -e "${ERROR_COLOR}Could not get response form github.com.${RESET_COLOR}"
-				option=$(gum_wrapper choose "Retry" "Back")
+				screen "$title" "" "Could not get response form github.com."
 
+				option=$(gum_wrapper choose "Retry" "Back")
 				case "$option" in
 					"Retry")
-						clear
-						echo -e "$title"
-						echo -e "$subtitle"
+						screen "$title" "$subtitle"
 						;;
 					"Back")
-						clear
-						echo -e "$title"
-						echo -e "$subtitle"
+						screen "$title" "$subtitle"
 						nmtui
 					;;
 				esac
 			done
-			setup_disk
+			setup_disk_screen
 			exit
 			;;
 		"Back")
-			welcome
+			welcome_screen
 			exit
 			;;
 	esac
 }
 
-setup_disk() {
-	local title="${ACCENT_COLOR}<<< Setup disk >>>${RESET_COLOR}"
-	local subtitle="Select a disk to unallocate space for AetherOS and then continue."
-	local disks
-	local option
+setup_disk_screen() {
+	local title="Setup disk" subtitle="Select a disk to unallocate space for AetherOS and then continue."
+	local disks disk option
 
-	clear
-	echo -e "$title"
-	echo -e "$subtitle"
+	screen "$title" "$subtitle"
 
 	disks=$(lsblk -ndAo NAME,SIZE,MODEL)
-	option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue\nBack" | gum_wrapper choose --header "Choose a disk:")
 
+	option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue\nBack" | gum_wrapper choose --header "Choose a disk:")
 	case "$option" in
 		"Continue")
-			setup_swap
+			setup_swap_screen
 			exit
 		;;
 		"Back")
-			setup_internet
+			setup_internet_screen
 			exit
 		;;
 		*)
-			local disk=$(echo $option | awk '{print $1;}')
+			disk=$(echo $option | awk '{print $1;}')
 			disk="/dev/$disk"
 			sudo cfdisk $disk
-			setup_disk
+			setup_disk_screen
 			exit
 		;;
 	esac
 }
 
-setup_swap() {
-	local title="${ACCENT_COLOR}<<< Setup swap >>>${RESET_COLOR}"
-	local option chosen_size_sectors=0
-	local disk start_sector sector_count sector_size_bytes ram_bytes ram_sectors min_swap
-	local swap_question
-
-	clear
-	echo -e "$title"
+setup_swap_screen() {
+	local title="Setup swap" option
 
 	if swapon --show | grep -q '^'; then
-		echo -e "You already have a swap space enabled. Set up swap anyways?"
+		screen "$title" "You already have a swap space enabled. Set up swap anyways?"
 	else
-		echo -e "You don't have a swap space enabled. Do you want to create a swap disk?"
+		screen "$title" "You don't have a swap space enabled. Do you want to create a swap disk?"
 	fi
 
 	option=$(gum_wrapper choose "Yes" "No" "Back" )
 	case "$option" in
 		"Yes")
+			allocate_swap_space_screen
+			exit
 		;;
 		"No")
-			allocate_space
+			allocate_space_screen
 			exit
 		;;
 		"Back")
-			setup_disk
+			setup_disk_screen
 			exit
 		;;
 	esac
+}
+
+allocate_swap_space_screen() {
+	local min_swap_size_gib=1
+
+	local title="Setup swap"
+	local option
+	local disk start_sector chosen_size_sectors=0
 
 	while [[ $chosen_size_sectors == "0" ]]; do
-		clear
-		echo -e "$title"
-		echo -e "Choose unallocated space to create your swap disk."
+		screen "$title" "Choose unallocated space to create your swap disk."
 
 		option=$(choose_unallocated_space)
 		disk=$(echo "$option" | awk -F',' '{print $1}')
 		case "$disk" in
 			"Back")
-				setup_disk
+				setup_swap_screen
 				exit
 			;;
 		esac
 
+		local sector_count sector_size_bytes ram_bytes ram_sectors min_swap
 
 		start_sector=$(echo "$option" | awk -F',' '{print $2}')
 		sector_count=$(echo "$option" | awk -F',' '{print $4}')
@@ -372,28 +444,86 @@ setup_swap() {
 		ram_bytes=$(get_ram_bytes)
 		ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
 
-		min_swap=$(awk "BEGIN {print $MIN_SWAP_SIZE_GIB * 1024 * 1024 * 1024 / $sector_size_bytes}")
+		min_swap=$(awk "BEGIN {print $min_swap_size_gib * 1024 * 1024 * 1024 / $sector_size_bytes}")
 		min_swap=$(ceil $min_swap)
 
 		chosen_size_sectors=$(choose_allocation_size $min_swap $ram_sectors $sector_count $sector_size_bytes "$title")
 	done
 
-	local error=""
+	local error
 	if ! error=$(make_swap $disk $start_sector $chosen_size_sectors); then
-	clear
-		echo -e "$title"
-		echo -e "${ERROR_COLOR}Failed to create swap.${RESET_COLOR}"
+		screen "$title" "" "Failed to create swap."
 		echo -e "$error"
-	fi
-}
 
-allocate_space() {
+		option=$(gum_wrapper choose "Back" )
+		setup_swap_screen
+		exit
+	fi
+
+	allocate_space_screen
 	exit
 }
 
-# welcome
-setup_swap
+allocate_space_screen() {
+	local min_part_size_gib=1
 
+	local title="Allocate space"
+	local disk start_sector chosen_size_sectors=0
+
+	while [[ $chosen_size_sectors == "0" ]]; do
+		screen "$title" "Choose unallocated space for AetherOS."
+
+		option=$(choose_unallocated_space)
+		disk=$(echo "$option" | awk -F',' '{print $1}')
+		case "$disk" in
+			"Back")
+				setup_swap_screen
+				exit
+			;;
+		esac
+
+		local sector_count sector_size_bytes min_size_sectors
+
+		start_sector=$(echo "$option" | awk -F',' '{print $2}')
+		sector_count=$(echo "$option" | awk -F',' '{print $4}')
+
+		sector_size_bytes=$(get_sector_size_bytes "$disk")
+
+		min_size_sectors=$(awk "BEGIN {print $min_part_size_gib * 1024 * 1024 * 1024 / $sector_size_bytes}")
+		min_size_sectors=$(ceil $min_size_sectors)
+
+		chosen_size_sectors=$(choose_allocation_size $min_size_sectors $sector_count $sector_count $sector_size_bytes "$title")
+	done
+
+	local encryption_password
+	encryption_password=$(choose_password "$title" "Choose a password for disk encryption.")
+	if [[ -z "$encryption_password" ]]; then
+		allocate_space_screen
+		exit
+	fi
+
+	local error
+	if ! error=$(partition_disk $disk $start_sector $chosen_size_sectors $encryption_password); then
+		screen "$title" "" "Failed to partition disk."
+		echo -e "$error"
+
+		option=$(gum_wrapper choose "Back" )
+		allocate_space_screen
+		exit
+	fi
+}
+
+
+
+
+
+
+# ================================
+# Main
+# ================================
+
+allocate_space_screen
+#allocate_space
 exit 0
 
 
@@ -419,98 +549,11 @@ exit 0
 # fi
 
 
-test=$(sudo parted -m "$DEVICE" unit s print free | awk -F: -v ss="$SECTOR_SIZE" '
-$1 ~ /^[0-9]+$/ && $5 == "free;" {
-    start = substr($2, 1, length($2)-1)
-    end   = substr($3, 1, length($3)-1)
-    num   = substr($4, 1, length($4)-1)
-    size_bytes = num * ss
-    size_mb = size_bytes / 1024 / 1024
-    size_gb = size_bytes / 1024 / 1024 / 1024
-    printf "%-15d,%-15d,%-15d,%-15.2f,%-15.3f\n", start, end, num, size_mb, size_gb
-}')
-echo -e "Start sector,End sector,Number of sectors,Size MB,Size GB\n$test" | gum table
-
-#qmain
-exit 0
-
-if swapon --show | grep -q '^'; then
-    echo "✅ Swap is enabled:"
-    swapon --show
-else
-    echo "❌ No swap is enabled."
-fi
-
-lsblk -d -o NAME | tail -n+2
-
-
-
-
-
-
-clear
-echo "=== Network setup ==="
-dialog --backtitle "NixOS custom installer" --title "Networking" --yesno "Would you like to configure networking (Wi-Fi / manual) with nmtui?" 8 60
-if [ $? -eq 0 ]; then
-  clear
-  #nmtui
-fi
-
-# verify connectivity
-clear
-echo "Checking network connectivity..."
-if ! ping -c 1 -W 10 google.com >/dev/null 2>&1; then
-  dialog --backtitle "NixOS custom installer" --title "No internet" --msgbox "No internet connection detected. Open nmtui to configure network." 8 60
-  exec /bin/sh
-fi
-dialog --backtitle "NixOS custom installer" --msgbox "Network appears up." 6 50
-
-# Select disk
-DISK_CHOICE=$(lsblk -ndo NAME,SIZE,MODEL | sed 's/  */|/g' | awk -F'|' '{ printf "%s %s\n", $1, $2 }' )
-# Build menu list
-MENU=()
-while read -r line; do
-  name=$(echo "$line" | awk '{print $1}')
-  size=$(echo "$line" | awk '{print $2}')
-  MENU+=("$name" "$size")
-done <<EOF
-$DISK_CHOICE
-EOF
-
-# dialog menu requires at least one item
-if [ ${#MENU[@]} -eq 0 ]; then
-  dialog --msgbox "No disks found. Exiting." 6 40
-  exit 1
-fi
-
-# Display menu (max 10 options displayed)
-CHOICE=$(dialog --backtitle "NixOS custom installer" --title "Select target disk" --menu "Choose disk to install onto (all data will be erased):" 20 70 10 "${MENU[@]}" 2> /tmp/.dlg && cat /tmp/.dlg)
-if [ -z "$CHOICE" ]; then
-  dialog --msgbox "No disk chosen. Exiting." 6 40
-  exit 1
-fi
-
-DISK="/dev/$CHOICE"
-clear
-dialog --backtitle "NixOS custom installer" --title "Confirm" --yesno "All data on $DISK will be destroyed. Continue?" 8 60
-if [ $? -ne 0 ]; then
-  dialog --msgbox "Aborted by user." 6 40
-  exit 1
-fi
 
 # Prompt for hostname, username, password (password will be used for LUKS too)
 HOSTNAME=$(dlg_input "Hostname" "Enter the hostname for the installed system:")
 USERNAME=$(dlg_input "Username" "Enter the username to create:")
 
-# Get password twice
-PASSWORD1=$(dlg_password "Password" "Enter password (this will be used for LUKS and the user):")
-PASSWORD2=$(dlg_password "Password" "Confirm password:")
-if [ "$PASSWORD1" != "$PASSWORD2" ]; then
-  dialog --msgbox "Passwords do not match. Restart the installer." 6 40
-  exit 1
-fi
-PASSWORD="$PASSWORD1"
-unset PASSWORD1 PASSWORD2
 
 # Wipe and partition the disk: EFI (1) + LUKS root (2)
 clear
@@ -521,7 +564,7 @@ wipefs -a "$DISK" || true
 parted --script "$DISK" mklabel gpt
 parted --script "$DISK" mkpart primary fat32 1MiB 512MiB
 parted --script "$DISK" set 1 esp on
-parted --script "$DISK" mkpart primary 512MiB 100%
+parted --script "$DISK" mkpart primary ext4 512MiB 100%
 
 EFI_PART="${DISK}1"
 ROOT_PART="${DISK}2"
@@ -542,6 +585,16 @@ mkfs.ext4 -L nixos /dev/mapper/cryptroot
 mount /dev/mapper/cryptroot /mnt
 mkdir -p /mnt/boot
 mount "$EFI_PART" /mnt/boot
+
+
+
+
+
+
+
+
+
+
 
 # Prepare /mnt/etc/nixos (copy templates from ISO)
 mkdir -p /mnt/etc/nixos
