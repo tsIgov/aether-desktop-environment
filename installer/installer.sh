@@ -54,14 +54,6 @@ max_int() {
 	echo $(( $1 > $2 ? $1 : $2 ))
 }
 
-ceil() {
-  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) + (n > 0) }'
-}
-
-floor() {
-  awk -v n="$1" 'BEGIN { print (n == int(n)) ? n : int(n) - (n < 0) }'
-}
-
 
 
 # ================================
@@ -102,53 +94,52 @@ gum_wrapper() {
 }
 
 choose_unallocated_space() {
-	local csv=$(echo -e "Device,Start sector,End sector,Number of sectors,Size")
+	local csv=$(echo -e "Device,Start (MiB),End (MiB),Size (MiB)")
 	local devices=$(lsblk -ndAo NAME)
 
 	for device in $devices; do
-		local sector_size data
-		sector_size=$(get_sector_size_bytes "$device")
-		data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v ss="$sector_size" -v dv="$device" '
+		local data
+		data=$(sudo parted -m "/dev/$device" unit MiB print free | awk -F: -v dv="$device" '
 			$1 ~ /^[0-9]+$/ && $5 == "free;" {
-				start = substr($2, 1, length($2)-1)
-				end   = substr($3, 1, length($3)-1)
-				num   = substr($4, 1, length($4)-1)
-				size_bytes = num * ss
-				size_mib = size_bytes / 1024 / 1024 /1024
-				printf "%s,%d,%d,%d,%.2f GiB\n", dv, start, end, num, size_mib
+				start = substr($2, 1, length($2)-3)
+				start_tmp = int(start)
+				if (start_tmp < start) start_tmp++
+				start = start_tmp
+
+				end = substr($3, 1, length($3)-3)
+				end = int(end)
+
+				size = end - start
+				if (size >= 10) {
+					printf "%s,%d,%d,%d\n", dv, start, end, size
+				}
 			}')
 		csv="$csv\n$data"
 	done
 
-	csv="$csv\n$GUM_SEPARATOR,,,,\nBack,,,,"
+	csv="$csv\n$GUM_SEPARATOR,,,\nBack,,,"
 
 	echo -e "$csv" | gum_wrapper table
 }
 
 choose_allocation_size() {
 	local result title
-	local min_size_sectors default_size_sectors max_size_sectors sector_size_bytes
-	local min_size_gib default_size_gib max_size_gib
+	local min_size_mib default_size_mib max_size_mib
 
 	local invalid_number_message="Invalid value (must be a valid number in the specified range)."
 
-	min_size_sectors=$1
-	default_size_sectors=$2
-	max_size_sectors=$3
-	sector_size_bytes=$4
-	title="$5"
+	min_size_mib=$1
+	default_size_mib=$2
+	max_size_mib=$3
+	title="$4"
 
-	default_size_sectors=$(min_int $default_size_sectors $max_size_sectors)
-	default_size_sectors=$(max_int $default_size_sectors $min_size_sectors)
+	default_size_mib=$(min_int $default_size_mib $max_size_mib)
+	default_size_mib=$(max_int $default_size_mib $min_size_mib)
 
-	min_size_gib=$(sectors_to_gib $min_size_sectors $sector_size_bytes)
-	default_size_gib=$(sectors_to_gib $default_size_sectors $sector_size_bytes)
-	max_size_gib=$(sectors_to_gib $max_size_sectors $sector_size_bytes)
+	local subtitle="Choose a size between ${min_size_mib} MiB and ${max_size_mib} MiB (write the number only).\nType 0 to go back."
 
-	local subtitle="Choose a size between ${min_size_gib} GiB and ${max_size_gib} GiB (write the number only).\nType 0 to go back."
-
-	if [[ $min_size_sectors -gt $max_size_sectors ]]; then
-		screen "$title" "" "The selected unallocated space is less than the required minimum of $min_size_gib GiB."
+	if [[ $min_size_mib -gt $max_size_mib ]]; then
+		screen "$title" "" "The selected unallocated space is less than the required minimum of $min_size_mib MiB."
 		result=$(gum_wrapper choose "Back")
 		echo 0
 		return
@@ -157,32 +148,26 @@ choose_allocation_size() {
 	screen "$title" "$subtitle"
 
 	while true; do
-		result=$(gum_wrapper input --placeholder "Size in GiB" --value "$default_size_gib" )
+		result=$(gum_wrapper input --placeholder "Size in MiB" --value "$default_size_mib" )
 
 		if [[ "$result" == "0" ]]; then
 			echo 0
 			return
 		fi
 
-		local number_regex='^-?[0-9]*.?[0-9]+$'
+		local number_regex='^[1-9]?[0-9]*$'
 		if [[ ! $result =~ $number_regex ]]; then
 			screen "$title" "$subtitle" "$invalid_number_message"
 			continue
 		fi
 
-		result=$(awk "BEGIN { printf \"%.2f\", $result }")
+		result=$(awk "BEGIN { printf \"%d\", $result }")
 
-		if awk "BEGIN {exit !($result < $min_size_gib || $result > $max_size_gib)}"; then
+		if awk "BEGIN {exit !($result < $min_size_mib || $result > $max_size_mib)}"; then
 			screen "$title" "$subtitle" "$invalid_number_message"
 			continue
 		fi
 
-		if [[ "$result" == "$max_size_gib" ]]; then
-			echo $max_size_sectors
-			return
-		fi
-
-		result=$(gib_to_sectors $result $sector_size_bytes)
 		echo "$result"
 		return
 	done
@@ -223,82 +208,62 @@ choose_password() {
 # Disk utils
 # ================================
 
-get_ram_bytes() {
-	awk '/MemTotal/ {print $2 * 1024}' /proc/meminfo
+get_ram_mib() {
+	awk '/MemTotal/ {printf "%d", $2 / 1024}' /proc/meminfo
 }
 
-get_sector_size_bytes() {
-	cat /sys/block/$(basename "$1")/queue/hw_sector_size
-}
-
-sectors_to_gib() {
-	local sectors sector_size
-	sectors=$1
-	sector_size=$2
-
-	awk "BEGIN {
-		res = $sector_size * $sectors / 1024 / 1024 / 1024
-  		printf \"%.2f\", res
-	}"
-}
-
-gib_to_sectors() {
-	local gib sector_size
-	gib=$1
-	sector_size=$2
-
-	awk "BEGIN {
-		res = $gib * 1024 * 1024 * 1024 / $sector_size
-  		printf \"%d\", res
-	}"
-}
 
 make_swap() {
-	local disk="$1" start_sector="$2" size_sectors="$3"
+	local disk="$1" start_mib="$2" size_mib="$3"
 	local new_part
 
 	sudo umount /dev/$disk* &>/dev/null || true
 
-	sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_sector"s $(( $start_sector + $size_sectors - 1 ))s
+	sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_mib"MiB $(( $start_mib + $size_mib - 1 ))MiB
 	new_part=$(lsblk -nrpo NAME,TYPE "/dev/$disk" | awk '$2=="part" {print $1}' | tail -n1)
 
 	sudo swapoff $new_part &>/dev/null || true
-	sudo wipefs -a $new_part &>/dev/null || true
+	sudo wipefs -af $new_part &>/dev/null || true
 	sudo mkswap "$new_part"
 	sudo swapon "$new_part"
 }
 
 partition_disk() {
-	local disk=$1 start_sector=$2 size=$3 encryption_password="$4"
-	local sector_size boot_size_sectors
+	local disk=$1 start_mib=$2 size_mib=$3 encryption_password="$4"
+	local boot_size_mib=512
 	local efi_part_num root_part_num
 
-	sector_size=$(get_sector_size_bytes $disk)
-
-	boot_size_sectors=$(gib_to_sectors "0.5" $sector_size)
 	efi_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
-	sudo parted -s "/dev/$disk" mkpart primary fat32 "$start_sector"s $(( $start_sector + $boot_size_sectors - 1 ))s
+	sudo parted -s "/dev/$disk" mkpart primary fat32 "$start_mib"MiB $(( $start_mib + $boot_size_mib - 1 ))MiB
+	local efi_part="/dev/$disk$efi_part_num"
+	sudo wipefs -fa "$efi_part"
 	sudo parted -s "/dev/$disk" set $efi_part_num esp on
 	sudo parted -s "/dev/$disk" set $efi_part_num boot on
 
 	root_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
-	size=$(( $size - $boot_size_sectors ))
-	start_sector=$(( $start_sector + $boot_size_sectors ))
-	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_sector"s $(( $start_sector + $size - 1 ))s
+	size_mib=$(( $size_mib - $boot_size_mib ))
+	start_mib=$(( $start_mib + $boot_size_mib ))
+	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_mib"MiB $(( $start_mib + $size_mib - 1 ))MiB
+	local root_part="/dev/$disk$root_part_num"
+	sudo wipefs -fa "$root_part"
+
+	sudo umount "/dev/$disk*" &>/dev/null || true
 
 	exit
 
-	# local efi_part="/dev/$disk$efi_part_num"
-	# local root_part="/dev/$disk$root_part_num"
 
-	# mkfs.vfat -n EFI "$efi_part"
+	# sudo mkfs.vfat -n EFI "$efi_part"
+
+	# sudo cryptsetup close luks-2df5bf24-b44b-40b8-891d-7387d801e1e4
+	# systemctl --user stop udiskie.service
 	# echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 "$root_part"
 	# echo -n "$encryption_password" | sudo cryptsetup open "$root_part" cryptroot
-	# mkfs.ext4 -L nixos /dev/mapper/cryptroot
+	# sudo mkfs.ext4 -L nixos /dev/mapper/cryptroot
 
-	# mount /dev/mapper/cryptroot /mnt
-	# mkdir -p /mnt/boot
-	# mount "$efi_part" /mnt/boot
+	# sudo mkdir -p /mnt
+	# sudo mount /dev/mapper/cryptroot /mnt
+	# sudo mkdir -p /mnt/boot
+	# sudo mount "$efi_part" /mnt/boot
 }
 
 
@@ -416,13 +381,13 @@ setup_swap_screen() {
 }
 
 allocate_swap_space_screen() {
-	local min_swap_size_gib=1
+	local min_swap_mib=1024
 
 	local title="Setup swap"
 	local option
-	local disk start_sector chosen_size_sectors=0
+	local disk start_mib chosen_size_mib=0
 
-	while [[ $chosen_size_sectors == "0" ]]; do
+	while [[ $chosen_size_mib == "0" ]]; do
 		screen "$title" "Choose unallocated space to create your swap disk."
 
 		option=$(choose_unallocated_space)
@@ -434,24 +399,18 @@ allocate_swap_space_screen() {
 			;;
 		esac
 
-		local sector_count sector_size_bytes ram_bytes ram_sectors min_swap
+		local size_mib ram_mib
 
-		start_sector=$(echo "$option" | awk -F',' '{print $2}')
-		sector_count=$(echo "$option" | awk -F',' '{print $4}')
+		start_mib=$(echo "$option" | awk -F',' '{print $2}')
+		size_mib=$(echo "$option" | awk -F',' '{print $4}')
 
-		sector_size_bytes=$(get_sector_size_bytes "$disk")
+		ram_mib=$(get_ram_mib)
 
-		ram_bytes=$(get_ram_bytes)
-		ram_sectors=$(( ($sector_size_bytes + $ram_bytes - 1) / $sector_size_bytes ))
-
-		min_swap=$(awk "BEGIN {print $min_swap_size_gib * 1024 * 1024 * 1024 / $sector_size_bytes}")
-		min_swap=$(ceil $min_swap)
-
-		chosen_size_sectors=$(choose_allocation_size $min_swap $ram_sectors $sector_count $sector_size_bytes "$title")
+		chosen_size_mib=$(choose_allocation_size $min_swap_mib $ram_mib $size_mib "$title")
 	done
 
 	local error
-	if ! error=$(make_swap $disk $start_sector $chosen_size_sectors); then
+	if ! error=$(make_swap $disk $start_mib $chosen_size_mib); then
 		screen "$title" "" "Failed to create swap."
 		echo -e "$error"
 
@@ -465,12 +424,12 @@ allocate_swap_space_screen() {
 }
 
 allocate_space_screen() {
-	local min_part_size_gib=1
+	local min_size_mib=1024
 
 	local title="Allocate space"
-	local disk start_sector chosen_size_sectors=0
+	local disk start_mib chosen_size_mib=0
 
-	while [[ $chosen_size_sectors == "0" ]]; do
+	while [[ $chosen_size_mib == "0" ]]; do
 		screen "$title" "Choose unallocated space for AetherOS."
 
 		option=$(choose_unallocated_space)
@@ -482,17 +441,12 @@ allocate_space_screen() {
 			;;
 		esac
 
-		local sector_count sector_size_bytes min_size_sectors
+		local size_mib
 
-		start_sector=$(echo "$option" | awk -F',' '{print $2}')
-		sector_count=$(echo "$option" | awk -F',' '{print $4}')
+		start_mib=$(echo "$option" | awk -F',' '{print $2}')
+		size_mib=$(echo "$option" | awk -F',' '{print $4}')
 
-		sector_size_bytes=$(get_sector_size_bytes "$disk")
-
-		min_size_sectors=$(awk "BEGIN {print $min_part_size_gib * 1024 * 1024 * 1024 / $sector_size_bytes}")
-		min_size_sectors=$(ceil $min_size_sectors)
-
-		chosen_size_sectors=$(choose_allocation_size $min_size_sectors $sector_count $sector_count $sector_size_bytes "$title")
+		chosen_size_mib=$(choose_allocation_size $min_size_mib $size_mib $size_mib "$title")
 	done
 
 	local encryption_password
@@ -503,7 +457,7 @@ allocate_space_screen() {
 	fi
 
 	local error
-	if ! error=$(partition_disk $disk $start_sector $chosen_size_sectors $encryption_password); then
+	if ! error=$(partition_disk $disk $start_mib $chosen_size_mib $encryption_password); then
 		screen "$title" "" "Failed to partition disk."
 		echo -e "$error"
 
@@ -582,8 +536,8 @@ printf '%s' "$PASSWORD" | cryptsetup open "$ROOT_PART" cryptroot --key-file=-
 mkfs.ext4 -L nixos /dev/mapper/cryptroot
 
 # Mount
-mount /dev/mapper/cryptroot /mnt
 mkdir -p /mnt/boot
+mount /dev/mapper/cryptroot /mnt
 mount "$EFI_PART" /mnt/boot
 
 
