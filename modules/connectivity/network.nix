@@ -18,6 +18,12 @@ in
 		];
 
 		networking = {
+			firewall = {
+				enable = true;
+				allowedTCPPorts = [
+					53317 # Local Send
+				];
+			};
 			hostName = cfg.hostname;
 			wireless.iwd.settings = {
 				IPv6 = {

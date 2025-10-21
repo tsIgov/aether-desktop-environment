@@ -19,6 +19,7 @@ Common places in Nemo sidebar
 Reconfigure Firefox
 
 aether rollback
+Firewall
 
 ## OS
 Remove some desktop files
