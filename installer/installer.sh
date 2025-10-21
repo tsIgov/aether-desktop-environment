@@ -202,6 +202,10 @@ choose_password() {
 	done
 }
 
+gum_spin() {
+	gum spin --spinner meter --title "$1" -- $2
+}
+
 
 
 # ================================
@@ -243,6 +247,7 @@ partition_disk() {
 	root_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
 	size_mib=$(( $size_mib - $boot_size_mib ))
 	start_mib=$(( $start_mib + $boot_size_mib ))
+
 	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_mib"MiB $(( $start_mib + $size_mib - 1 ))MiB
 	local root_part="/dev/$disk$root_part_num"
 	sudo wipefs -fa "$root_part"
@@ -302,7 +307,7 @@ setup_internet_screen() {
 	case "$option" in
 		"Continue")
 			nmtui
-			while ! gum spin --spinner meter --title "Checking internet connection..." -- ping -c 4 -W 10 github.com; do
+			while ! gum_spin "Checking internet connection..." "ping -c 4 -W 10 github.com"; do
 				screen "$title" "" "Could not get response form github.com."
 
 				option=$(gum_wrapper choose "Retry" "Back")
@@ -475,7 +480,6 @@ allocate_space_screen() {
 # ================================
 # Main
 # ================================
-
 allocate_space_screen
 #allocate_space
 exit 0
