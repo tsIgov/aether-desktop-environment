@@ -94,22 +94,22 @@ gum_wrapper() {
 }
 
 choose_unallocated_space() {
-	local csv=$(echo -e "Device,Start (MiB),End (MiB),Size (MiB)")
+	local csv=$(echo -e "Device,Start sector,End sector,Size (MiB)")
 	local devices=$(lsblk -ndAo NAME)
 
+
 	for device in $devices; do
-		local data
-		data=$(sudo parted -m "/dev/$device" unit MiB print free | awk -F: -v dv="$device" '
+		local data sectors_per_mib
+		sectors_per_mib=$(get_sectors_per_mib $device)
+		data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v dv="$device" -v spm="$sectors_per_mib" '
 			$1 ~ /^[0-9]+$/ && $5 == "free;" {
-				start = substr($2, 1, length($2)-3)
-				start_tmp = int(start)
-				if (start_tmp < start) start_tmp++
-				start = start_tmp
+				start = substr($2, 1, length($2)-1)
+				start = int((start + spm - 1) / spm) * spm
 
-				end = substr($3, 1, length($3)-3)
-				end = int(end)
+				end = substr($3, 1, length($3)-1)
+				end = int(end / spm) * spm
 
-				size = end - start
+				size = (end - start + 1) / spm
 				if (size >= 10) {
 					printf "%s,%d,%d,%d\n", dv, start, end, size
 				}
@@ -216,14 +216,20 @@ get_ram_mib() {
 	awk '/MemTotal/ {printf "%d", $2 / 1024}' /proc/meminfo
 }
 
+get_sectors_per_mib() {
+	local bytes_per_sector
+	bytes_per_sector=$(cat /sys/block/$(basename "$1")/queue/hw_sector_size)
+	awk -v bps=$bytes_per_sector 'BEGIN {printf "%d", 1024 * 1024 / bps}'
+}
+
 
 make_swap() {
-	local disk="$1" start_mib="$2" size_mib="$3"
+	local disk="$1" start_s="$2" size_mib="$3" sectors_per_mib="$4"
 	local new_part
 
 	sudo umount /dev/$disk* &>/dev/null || true
 
-	sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_mib"MiB $(( $start_mib + $size_mib - 1 ))MiB
+	sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_s"s $(( $start_s + $size_mib * $sectors_per_mib - 1 ))s
 	new_part=$(lsblk -nrpo NAME,TYPE "/dev/$disk" | awk '$2=="part" {print $1}' | tail -n1)
 
 	sudo swapoff $new_part &>/dev/null || true
@@ -233,23 +239,24 @@ make_swap() {
 }
 
 partition_disk() {
-	local disk=$1 start_mib=$2 size_mib=$3 encryption_password="$4"
+	local disk=$1 start_s=$2 size_mib=$3 sectors_per_mib=$4 encryption_password="$5"
 	local boot_size_mib=512
 	local efi_part_num root_part_num
 
 	efi_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
-	sudo parted -s "/dev/$disk" mkpart primary fat32 "$start_mib"MiB $(( $start_mib + $boot_size_mib - 1 ))MiB
+	root_part_num=$(( $efi_part_num + 1 ))
 	local efi_part="/dev/$disk$efi_part_num"
+	local root_part="/dev/$disk$root_part_num"
+
+	sudo parted -s "/dev/$disk" mkpart primary fat32 "$start_s"s $(( $start_s + $boot_size_mib * $sectors_per_mib - 1 ))s
 	sudo wipefs -fa "$efi_part"
 	sudo parted -s "/dev/$disk" set $efi_part_num esp on
 	sudo parted -s "/dev/$disk" set $efi_part_num boot on
 
-	root_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
 	size_mib=$(( $size_mib - $boot_size_mib ))
-	start_mib=$(( $start_mib + $boot_size_mib ))
+	start_s=$(( $start_s + $boot_size_mib * $sectors_per_mib ))
 
-	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_mib"MiB $(( $start_mib + $size_mib - 1 ))MiB
-	local root_part="/dev/$disk$root_part_num"
+	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_s"s $(( $start_s + $size_mib * $sectors_per_mib - 1 ))s
 	sudo wipefs -fa "$root_part"
 
 	sudo umount "/dev/$disk*" &>/dev/null || true
@@ -299,9 +306,27 @@ welcome_screen() {
 setup_internet_screen() {
 	local option
 	local title="Setup internet connection"
-	local subtitle="The installer requires internet connection to so you need to set it up."
 
-	screen "$title" "$subtitle"
+	screen "$title" ""
+
+	if gum_spin "Checking internet connection..." "ping -c 4 -W 10 github.com"; then
+		setup_disk_screen
+	else
+		screen "$title" "" "Could not get response form github.com."
+
+		option=$(gum_wrapper choose "Retry" "Configure")
+		case "$option" in
+			"Retry")
+				setup_internet_screen
+				exit
+				;;
+			"Configure")
+				nmtui
+				setup_internet_screen
+				exit
+			;;
+		esac
+	fi
 
 	option=$(gum_wrapper choose "Continue" "Back")
 	case "$option" in
@@ -346,7 +371,7 @@ setup_disk_screen() {
 			exit
 		;;
 		"Back")
-			setup_internet_screen
+			welcome_screen
 			exit
 		;;
 		*)
@@ -390,7 +415,7 @@ allocate_swap_space_screen() {
 
 	local title="Setup swap"
 	local option
-	local disk start_mib chosen_size_mib=0
+	local disk start_s chosen_size_mib=0
 
 	while [[ $chosen_size_mib == "0" ]]; do
 		screen "$title" "Choose unallocated space to create your swap disk."
@@ -404,9 +429,10 @@ allocate_swap_space_screen() {
 			;;
 		esac
 
-		local size_mib ram_mib
+		local size_mib ram_mib sectors_per_mib
+		sectors_per_mib=$(get_sectors_per_mib $disk)
 
-		start_mib=$(echo "$option" | awk -F',' '{print $2}')
+		start_s=$(echo "$option" | awk -F',' '{print $2}')
 		size_mib=$(echo "$option" | awk -F',' '{print $4}')
 
 		ram_mib=$(get_ram_mib)
@@ -415,7 +441,7 @@ allocate_swap_space_screen() {
 	done
 
 	local error
-	if ! error=$(make_swap $disk $start_mib $chosen_size_mib); then
+	if ! error=$(make_swap $disk $start_s $chosen_size_mib $sectors_per_mib); then
 		screen "$title" "" "Failed to create swap."
 		echo -e "$error"
 
@@ -432,7 +458,7 @@ allocate_space_screen() {
 	local min_size_mib=1024
 
 	local title="Allocate space"
-	local disk start_mib chosen_size_mib=0
+	local disk start_s chosen_size_mib=0
 
 	while [[ $chosen_size_mib == "0" ]]; do
 		screen "$title" "Choose unallocated space for AetherOS."
@@ -446,9 +472,10 @@ allocate_space_screen() {
 			;;
 		esac
 
-		local size_mib
+		local size_mib sectors_per_mib
+		sectors_per_mib=$(get_sectors_per_mib $disk)
 
-		start_mib=$(echo "$option" | awk -F',' '{print $2}')
+		start_s=$(echo "$option" | awk -F',' '{print $2}')
 		size_mib=$(echo "$option" | awk -F',' '{print $4}')
 
 		chosen_size_mib=$(choose_allocation_size $min_size_mib $size_mib $size_mib "$title")
@@ -462,7 +489,7 @@ allocate_space_screen() {
 	fi
 
 	local error
-	if ! error=$(partition_disk $disk $start_mib $chosen_size_mib $encryption_password); then
+	if ! error=$(partition_disk $disk $start_s $chosen_size_mib $sectors_per_mib $encryption_password); then
 		screen "$title" "" "Failed to partition disk."
 		echo -e "$error"
 
@@ -480,6 +507,9 @@ allocate_space_screen() {
 # ================================
 # Main
 # ================================
+
+#welcome_screen
+#allocate_swap_space_screen
 allocate_space_screen
 #allocate_space
 exit 0
