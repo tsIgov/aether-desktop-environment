@@ -117,7 +117,7 @@ choose_unallocated_space() {
 		csv="$csv\n$data"
 	done
 
-	csv="$csv\n$GUM_SEPARATOR,,,\nBack,,,"
+	csv="$csv\n$GUM_SEPARATOR,,,\nManage disks,,,\nBack,,,"
 
 	echo -e "$csv" | gum_wrapper table
 }
@@ -310,7 +310,7 @@ setup_internet_screen() {
 	screen "$title" ""
 
 	if gum_spin "Checking internet connection..." "ping -c 4 -W 10 github.com"; then
-		setup_disk_screen
+		setup_swap_screen
 	else
 		screen "$title" "" "Could not get response form github.com."
 
@@ -346,41 +346,13 @@ setup_internet_screen() {
 					;;
 				esac
 			done
-			setup_disk_screen
-			exit
-			;;
-		"Back")
-			welcome_screen
-			exit
-			;;
-	esac
-}
-
-setup_disk_screen() {
-	local title="Setup disk" subtitle="Select a disk to unallocate space for AetherOS and then continue."
-	local disks disk option
-
-	screen "$title" "$subtitle"
-
-	disks=$(lsblk -ndAo NAME,SIZE,MODEL)
-
-	option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue\nBack" | gum_wrapper choose --header "Choose a disk:")
-	case "$option" in
-		"Continue")
 			setup_swap_screen
 			exit
-		;;
+			;;
 		"Back")
 			welcome_screen
 			exit
-		;;
-		*)
-			disk=$(echo $option | awk '{print $1;}')
-			disk="/dev/$disk"
-			sudo cfdisk $disk
-			setup_disk_screen
-			exit
-		;;
+			;;
 	esac
 }
 
@@ -404,10 +376,32 @@ setup_swap_screen() {
 			exit
 		;;
 		"Back")
-			setup_disk_screen
+			welcome_screen
 			exit
 		;;
 	esac
+}
+
+setup_disk_screen() {
+	local title="Select disk" subtitle="Select a disk to manage."
+	local disks disk option
+	while true; do
+		screen "$title" "$subtitle"
+
+		disks=$(lsblk -ndAo NAME,SIZE,MODEL)
+
+		option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue" | gum_wrapper choose --header "Choose a disk:")
+		case "$option" in
+			"Continue")
+				return
+			;;
+			*)
+				disk=$(echo $option | awk '{print $1;}')
+				disk="/dev/$disk"
+				sudo cfdisk $disk
+			;;
+		esac
+	done
 }
 
 allocate_swap_space_screen() {
@@ -423,6 +417,11 @@ allocate_swap_space_screen() {
 		option=$(choose_unallocated_space)
 		disk=$(echo "$option" | awk -F',' '{print $1}')
 		case "$disk" in
+			"Manage disks")
+				setup_disk_screen
+				allocate_swap_space_screen
+				exit
+			;;
 			"Back")
 				setup_swap_screen
 				exit
@@ -466,6 +465,11 @@ allocate_space_screen() {
 		option=$(choose_unallocated_space)
 		disk=$(echo "$option" | awk -F',' '{print $1}')
 		case "$disk" in
+			"Manage disks")
+				setup_disk_screen
+				allocate_space_screen
+				exit
+			;;
 			"Back")
 				setup_swap_screen
 				exit
@@ -508,9 +512,9 @@ allocate_space_screen() {
 # Main
 # ================================
 
-#welcome_screen
+welcome_screen
 #allocate_swap_space_screen
-allocate_space_screen
+#allocate_space_screen
 #allocate_space
 exit 0
 
