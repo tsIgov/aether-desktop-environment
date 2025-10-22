@@ -9,6 +9,8 @@ strict_mode(){
 }
 strict_mode
 
+SCRIPT_PATH="$(readlink -f "$0")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 
 
 keep_sudo() {
@@ -17,9 +19,9 @@ keep_sudo() {
 	# Keep the sudo timestamp updated until the script finishes
 	# (runs in the background)
 	while true; do
-	sudo -n true
-	sleep 60
-	kill -0 "$$" || exit
+		sudo -n true
+		sleep 60
+		kill -0 "$$" || exit
 	done 2>/dev/null &
 }
 
@@ -91,6 +93,13 @@ gum_wrapper() {
 	done
 
 	echo $result
+}
+
+gum_spin() {
+	local title=$1 scriptName=$2
+	shift 2
+	sudo -v
+	gum spin --spinner meter --title="$title" --show-output -- sudo bash -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
 }
 
 choose_unallocated_space() {
@@ -202,11 +211,6 @@ choose_password() {
 	done
 }
 
-gum_spin() {
-	gum spin --spinner meter --title "$1" -- $2
-}
-
-
 
 # ================================
 # Disk utils
@@ -220,62 +224,6 @@ get_sectors_per_mib() {
 	local bytes_per_sector
 	bytes_per_sector=$(cat /sys/block/$(basename "$1")/queue/hw_sector_size)
 	awk -v bps=$bytes_per_sector 'BEGIN {printf "%d", 1024 * 1024 / bps}'
-}
-
-
-make_swap() {
-	local disk="$1" start_s="$2" size_mib="$3" sectors_per_mib="$4"
-	local new_part
-
-	sudo umount /dev/$disk* &>/dev/null || true
-
-	sudo parted -s "/dev/$disk" mkpart primary linux-swap "$start_s"s $(( $start_s + $size_mib * $sectors_per_mib - 1 ))s
-	new_part=$(lsblk -nrpo NAME,TYPE "/dev/$disk" | awk '$2=="part" {print $1}' | tail -n1)
-
-	sudo swapoff $new_part &>/dev/null || true
-	sudo wipefs -af $new_part &>/dev/null || true
-	sudo mkswap "$new_part"
-	sudo swapon "$new_part"
-}
-
-partition_disk() {
-	local disk=$1 start_s=$2 size_mib=$3 sectors_per_mib=$4 encryption_password="$5"
-	local boot_size_mib=512
-	local efi_part_num root_part_num
-
-	efi_part_num=$(sudo parted -m "/dev/$disk" print | awk -F: 'END {print $1+1}')
-	root_part_num=$(( $efi_part_num + 1 ))
-	local efi_part="/dev/$disk$efi_part_num"
-	local root_part="/dev/$disk$root_part_num"
-
-	sudo parted -s "/dev/$disk" mkpart primary fat32 "$start_s"s $(( $start_s + $boot_size_mib * $sectors_per_mib - 1 ))s
-	sudo wipefs -fa "$efi_part"
-	sudo parted -s "/dev/$disk" set $efi_part_num esp on
-	sudo parted -s "/dev/$disk" set $efi_part_num boot on
-
-	size_mib=$(( $size_mib - $boot_size_mib ))
-	start_s=$(( $start_s + $boot_size_mib * $sectors_per_mib ))
-
-	sudo parted -s "/dev/$disk" mkpart primary ext4 "$start_s"s $(( $start_s + $size_mib * $sectors_per_mib - 1 ))s
-	sudo wipefs -fa "$root_part"
-
-	sudo umount "/dev/$disk*" &>/dev/null || true
-
-	exit
-
-
-	# sudo mkfs.vfat -n EFI "$efi_part"
-
-	# sudo cryptsetup close luks-2df5bf24-b44b-40b8-891d-7387d801e1e4
-	# systemctl --user stop udiskie.service
-	# echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 "$root_part"
-	# echo -n "$encryption_password" | sudo cryptsetup open "$root_part" cryptroot
-	# sudo mkfs.ext4 -L nixos /dev/mapper/cryptroot
-
-	# sudo mkdir -p /mnt
-	# sudo mount /dev/mapper/cryptroot /mnt
-	# sudo mkdir -p /mnt/boot
-	# sudo mount "$efi_part" /mnt/boot
 }
 
 
@@ -304,55 +252,33 @@ welcome_screen() {
 }
 
 setup_internet_screen() {
-	local option
+	local option error
 	local title="Setup internet connection"
 
 	screen "$title" ""
 
-	if gum_spin "Checking internet connection..." "ping -c 4 -W 10 github.com"; then
+	if error=$(gum_spin "Checking internet connection..." "check-internet.sh"); then
 		setup_swap_screen
-	else
-		screen "$title" "" "Could not get response form github.com."
-
-		option=$(gum_wrapper choose "Retry" "Configure")
-		case "$option" in
-			"Retry")
-				setup_internet_screen
-				exit
-				;;
-			"Configure")
-				nmtui
-				setup_internet_screen
-				exit
-			;;
-		esac
+		exit
 	fi
 
-	option=$(gum_wrapper choose "Continue" "Back")
-	case "$option" in
-		"Continue")
-			nmtui
-			while ! gum_spin "Checking internet connection..." "ping -c 4 -W 10 github.com"; do
-				screen "$title" "" "Could not get response form github.com."
+	screen "$title" "" "$error"
 
-				option=$(gum_wrapper choose "Retry" "Back")
-				case "$option" in
-					"Retry")
-						screen "$title" "$subtitle"
-						;;
-					"Back")
-						screen "$title" "$subtitle"
-						nmtui
-					;;
-				esac
-			done
-			setup_swap_screen
+	option=$(gum_wrapper choose "Retry" "Configure" "Back")
+	case "$option" in
+		"Retry")
+			setup_internet_screen
 			exit
 			;;
+		"Configure")
+			nmtui
+			setup_internet_screen
+			exit
+		;;
 		"Back")
 			welcome_screen
 			exit
-			;;
+		;;
 	esac
 }
 
@@ -380,28 +306,6 @@ setup_swap_screen() {
 			exit
 		;;
 	esac
-}
-
-setup_disk_screen() {
-	local title="Select disk" subtitle="Select a disk to manage."
-	local disks disk option
-	while true; do
-		screen "$title" "$subtitle"
-
-		disks=$(lsblk -ndAo NAME,SIZE,MODEL)
-
-		option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue" | gum_wrapper choose --header "Choose a disk:")
-		case "$option" in
-			"Continue")
-				return
-			;;
-			*)
-				disk=$(echo $option | awk '{print $1;}')
-				disk="/dev/$disk"
-				sudo cfdisk $disk
-			;;
-		esac
-	done
 }
 
 allocate_swap_space_screen() {
@@ -440,7 +344,7 @@ allocate_swap_space_screen() {
 	done
 
 	local error
-	if ! error=$(make_swap $disk $start_s $chosen_size_mib $sectors_per_mib); then
+	if ! error=$(gum_spin "Making swap..." "make-swap.sh" $disk $start_s $chosen_size_mib $sectors_per_mib); then
 		screen "$title" "" "Failed to create swap."
 		echo -e "$error"
 
@@ -493,7 +397,9 @@ allocate_space_screen() {
 	fi
 
 	local error
-	if ! error=$(partition_disk $disk $start_s $chosen_size_mib $sectors_per_mib $encryption_password); then
+	screen "$title"
+	if ! error=$(gum_spin "Preparing disk..." "partition-disk.sh" $disk $start_s $chosen_size_mib $sectors_per_mib $encryption_password); then
+		exit
 		screen "$title" "" "Failed to partition disk."
 		echo -e "$error"
 
@@ -501,6 +407,35 @@ allocate_space_screen() {
 		allocate_space_screen
 		exit
 	fi
+
+	configure_os_screen
+	exit
+}
+
+setup_disk_screen() {
+	local title="Select disk" subtitle="Select a disk to manage."
+	local disks disk option
+	while true; do
+		screen "$title" "$subtitle"
+
+		disks=$(lsblk -ndAo NAME,SIZE,MODEL)
+
+		option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue" | gum_wrapper choose --header "Choose a disk:")
+		case "$option" in
+			"Continue")
+				return
+			;;
+			*)
+				disk=$(echo $option | awk '{print $1;}')
+				disk="/dev/$disk"
+				sudo cfdisk $disk
+			;;
+		esac
+	done
+}
+
+configure_os_screen() {
+	screen "Configure" ""
 }
 
 
@@ -512,10 +447,14 @@ allocate_space_screen() {
 # Main
 # ================================
 
-welcome_screen
+# systemctl --user stop udiskie.service
+
+#welcome_screen
+
+keep_sudo
 #allocate_swap_space_screen
 #allocate_space_screen
-#allocate_space
+configure_os_screen
 exit 0
 
 
@@ -542,41 +481,7 @@ exit 0
 
 
 
-# Prompt for hostname, username, password (password will be used for LUKS too)
-HOSTNAME=$(dlg_input "Hostname" "Enter the hostname for the installed system:")
-USERNAME=$(dlg_input "Username" "Enter the username to create:")
 
-
-# Wipe and partition the disk: EFI (1) + LUKS root (2)
-clear
-echo "Wiping $DISK..."
-wipefs -a "$DISK" || true
-
-# Create GPT with parted (very basic)
-parted --script "$DISK" mklabel gpt
-parted --script "$DISK" mkpart primary fat32 1MiB 512MiB
-parted --script "$DISK" set 1 esp on
-parted --script "$DISK" mkpart primary ext4 512MiB 100%
-
-EFI_PART="${DISK}1"
-ROOT_PART="${DISK}2"
-
-# Format EFI
-mkfs.vfat -n EFI "$EFI_PART"
-
-# Setup LUKS using the same password (read passphrase from stdin)
-# use --batch-mode and --key-file=- to avoid interactive prompt
-printf '%s' "$PASSWORD" | cryptsetup luksFormat --type luks2 "$ROOT_PART" --key-file=- --batch-mode
-# open the container
-printf '%s' "$PASSWORD" | cryptsetup open "$ROOT_PART" cryptroot --key-file=-
-
-# Make filesystem inside LUKS (adjust to your preferred fs)
-mkfs.ext4 -L nixos /dev/mapper/cryptroot
-
-# Mount
-mkdir -p /mnt/boot
-mount /dev/mapper/cryptroot /mnt
-mount "$EFI_PART" /mnt/boot
 
 
 

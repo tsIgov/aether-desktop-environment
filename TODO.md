@@ -20,6 +20,7 @@ Reconfigure Firefox
 
 aether rollback
 Firewall
+Win + F doesn't revert full screen but maximizes instead
 
 ## OS
 Remove some desktop files
