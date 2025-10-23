@@ -33,5 +33,11 @@
 	{
 		lib = aetherLib;
 		aetherConfig = import ./default.nix { inherit aether pkgs internal home-module; };
+		templates = rec {
+			installer = {
+				path = ./templates/installer;
+				description = "A trivial template that does nothing much.";
+			};
+		};
 	};
 }
