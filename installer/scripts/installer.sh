@@ -42,6 +42,12 @@ screen() {
 	fi
 }
 
+run() {
+	local scriptName=$1
+	shift 1
+	sudo sh -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
+}
+
 
 
 # ================================
@@ -99,7 +105,7 @@ gum_spin() {
 	local title=$1 scriptName=$2
 	shift 2
 	sudo -v
-	gum spin --spinner meter --title="$title" --show-output -- sudo bash -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
+	gum spin --spinner meter --title="$title" --show-output -- sudo sh -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
 }
 
 choose_unallocated_space() {
@@ -398,16 +404,12 @@ allocate_space_screen() {
 
 	local error
 	screen "$title"
-	if ! error=$(gum_spin "Preparing disk..." "partition-disk.sh" $disk $start_s $chosen_size_mib $sectors_per_mib $encryption_password); then
-		exit
-		screen "$title" "" "Failed to partition disk."
-		echo -e "$error"
+	if ! run "partition-disk.sh" $disk $start_s $chosen_size_mib $sectors_per_mib $encryption_password; then
 
 		option=$(gum_wrapper choose "Back" )
 		allocate_space_screen
 		exit
 	fi
-
 	configure_os_screen
 	exit
 }
@@ -453,8 +455,8 @@ configure_os_screen() {
 
 keep_sudo
 #allocate_swap_space_screen
-#allocate_space_screen
-configure_os_screen
+allocate_space_screen
+#configure_os_screen
 exit 0
 
 

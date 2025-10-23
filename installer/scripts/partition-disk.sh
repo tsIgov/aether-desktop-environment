@@ -9,29 +9,14 @@ strict_mode(){
 }
 strict_mode
 
-unmnt() {
-	local disk=$1
+reset() {
 	sudo umount /mnt/boot &>/dev/null || true
 	sudo umount /mnt &>/dev/null || true
 	sudo rm -rf /mnt &>/dev/null || true
-	sudo umount "/dev/$disk*" &>/dev/null || true
-}
 
-close_crypt() {
-	local disk=$1
-	local efi_name="$disk$efi_part_num"
-	local root_name="$disk$root_part_num"
-
-	local crypts
-	crypts=$(lsblk --fs -J | jq -r ".blockdevices[]
-		| select(.name == \"$disk\")
-		| .children[]
-		| select(.children != null and .fstype == \"crypto_LUKS\")
-		| .children[].name")
-
-	for crypt in $crypts; do
-		sudo cryptsetup close "$crypt" &>/dev/null || true
-	done
+	sudo swapoff /dev/disk/by-label/AetherOS-swap &>/dev/null || true
+	sudo vgchange -an lvmroot &>/dev/null || true
+	sudo cryptsetup close cryptroot &>/dev/null || true
 }
 
 disk=$1
@@ -54,9 +39,7 @@ efi_part="/dev/$disk$efi_part_num"
 root_part_num=$(( $efi_part_num + 1 ))
 root_part="/dev/$disk$root_part_num"
 
-unmnt $disk
-close_crypt $disk
-sudo swapoff /dev/$disk* &>/dev/null || true
+reset
 
 sudo parted -s "/dev/$disk" mkpart primary fat32 "$boot_start_s"s "$boot_end_s"s
 sudo parted -s "/dev/$disk" mkpart primary ext4 "$root_start_s"s "$root_end_s"s
@@ -67,14 +50,20 @@ sudo wipefs -fa "$root_part" &>/dev/null || true
 sudo parted -s "/dev/$disk" set $efi_part_num esp on
 sudo parted -s "/dev/$disk" set $efi_part_num boot on
 
-sudo mkfs.vfat -n EFI "$efi_part"
-
-echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 "$root_part"
+sudo mkfs.fat -F 32 "$efi_part" -n "aether-boot"
+echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 --label="AetherOS-encrypted" "$root_part"
 echo -n "$encryption_password" | sudo cryptsetup open "$root_part" cryptroot
-sudo mkfs.ext4 -L aetheros /dev/mapper/cryptroot
+sudo pvcreate /dev/mapper/cryptroot
+sudo vgcreate lvmroot /dev/mapper/cryptroot
+sudo lvcreate --size 128M lvmroot --name swap
 
-sudo mkdir -p /mnt
-sudo mount /dev/mapper/cryptroot /mnt
+sudo lvcreate -l 100%FREE lvmroot --name root
+sudo mkfs.ext4 -L "AetherOS-root" /dev/mapper/lvmroot-root
+sudo mkswap -L "AetherOS-swap" /dev/mapper/lvmroot-swap
 
-sudo mkdir -p /mnt/boot
+sudo mkdir /mnt
+sudo mount /dev/disk/by-label/AetherOS-root /mnt
+sudo mkdir /mnt/boot
 sudo mount "$efi_part" /mnt/boot
+sudo swapon /dev/disk/by-label/AetherOS-swap
+
