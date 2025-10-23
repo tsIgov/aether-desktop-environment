@@ -13,6 +13,24 @@ SCRIPT_PATH="$(readlink -f "$0")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 
 
+BOOT_SIZE_MIB=512
+MIN_SWAP_SIZE_MIB=512 #1024
+MIN_ROOT_SIZE_MIB=512 #204800
+
+DISK=""
+SECTORS_PER_MIB=""
+START_SECTOR=""
+TOTAL_SIZE_MIB=""
+SWAP_SIZE_MIB=""
+
+ENCRYPTION_PASSWORD=""
+ROOT_PASSWORD=""
+USER_PASSWORD=""
+
+HOSTNAME=""
+USERNAME=""
+
+
 keep_sudo() {
 	sudo -v
 
@@ -248,7 +266,7 @@ welcome_screen() {
 		"Continue")
 			keep_sudo
 			setup_internet_screen
-			exit
+			return
 			;;
 		"Exit")
 			clear
@@ -264,7 +282,7 @@ setup_internet_screen() {
 	screen "$title" ""
 
 	if error=$(gum_spin "Checking internet connection..." "check-internet.sh"); then
-		setup_swap_screen
+		setup_disk_screen
 		exit
 	fi
 
@@ -288,133 +306,94 @@ setup_internet_screen() {
 	esac
 }
 
+setup_disk_screen() {
+	local min_size_mib=$(( $MIN_ROOT_SIZE_MIB + $BOOT_SIZE_MIB ))
+	local title="Setup disk"
+
+	screen "$title" "Choose unallocated space for AetherOS."
+
+	option=$(choose_unallocated_space)
+	DISK=$(echo "$option" | awk -F',' '{print $1}')
+	case "$DISK" in
+		"Manage disks")
+			manage_disks_screen
+			setup_disk_screen
+			return
+		;;
+		"Back")
+			welcome_screen
+			return
+		;;
+	esac
+
+	local size_mib
+	SECTORS_PER_MIB=$(get_sectors_per_mib $DISK)
+
+	START_SECTOR=$(echo "$option" | awk -F',' '{print $2}')
+	size_mib=$(echo "$option" | awk -F',' '{print $4}')
+
+	TOTAL_SIZE_MIB=$(choose_allocation_size $min_size_mib $size_mib $size_mib "$title")
+	if [[ $TOTAL_SIZE_MIB == 0 ]]; then
+		setup_disk_screen
+		return
+	fi
+
+	setup_swap_screen
+	return
+}
+
 setup_swap_screen() {
 	local title="Setup swap" option
-
-	if swapon --show | grep -q '^'; then
-		screen "$title" "You already have a swap space enabled. Set up swap anyways?"
-	else
-		screen "$title" "You don't have a swap space enabled. Do you want to create a swap disk?"
-	fi
+	screen "$title" "Do you want to reserve some of this space for swap?"
 
 	option=$(gum_wrapper choose "Yes" "No" "Back" )
 	case "$option" in
 		"Yes")
-			allocate_swap_space_screen
-			exit
+			choose_swap_size_screen
+			return
 		;;
 		"No")
-			allocate_space_screen
-			exit
+			setup_encryption_screen
+			return
 		;;
 		"Back")
-			welcome_screen
-			exit
+			setup_disk_screen
+			return
 		;;
 	esac
 }
 
-allocate_swap_space_screen() {
-	local min_swap_mib=1024
-
+choose_swap_size_screen() {
 	local title="Setup swap"
-	local option
-	local disk start_s chosen_size_mib=0
 
-	while [[ $chosen_size_mib == "0" ]]; do
-		screen "$title" "Choose unallocated space to create your swap disk."
+	local max_size_mib ram_mib
+	max_size_mib=$(( $TOTAL_SIZE_MIB - $BOOT_SIZE_MIB - $MIN_ROOT_SIZE_MIB ))
+	ram_mib=$(get_ram_mib)
 
-		option=$(choose_unallocated_space)
-		disk=$(echo "$option" | awk -F',' '{print $1}')
-		case "$disk" in
-			"Manage disks")
-				setup_disk_screen
-				allocate_swap_space_screen
-				exit
-			;;
-			"Back")
-				setup_swap_screen
-				exit
-			;;
-		esac
 
-		local size_mib ram_mib sectors_per_mib
-		sectors_per_mib=$(get_sectors_per_mib $disk)
-
-		start_s=$(echo "$option" | awk -F',' '{print $2}')
-		size_mib=$(echo "$option" | awk -F',' '{print $4}')
-
-		ram_mib=$(get_ram_mib)
-
-		chosen_size_mib=$(choose_allocation_size $min_swap_mib $ram_mib $size_mib "$title")
-	done
-
-	local error
-	if ! error=$(gum_spin "Making swap..." "make-swap.sh" $disk $start_s $chosen_size_mib $sectors_per_mib); then
-		screen "$title" "" "Failed to create swap."
-		echo -e "$error"
-
-		option=$(gum_wrapper choose "Back" )
+	SWAP_SIZE_MIB=$(choose_allocation_size $MIN_SWAP_SIZE_MIB $ram_mib $max_size_mib "$title")
+	if [[ $SWAP_SIZE_MIB == 0 ]]; then
 		setup_swap_screen
-		exit
+		return
 	fi
 
-	allocate_space_screen
-	exit
+	setup_encryption_screen
+	return
 }
 
-allocate_space_screen() {
-	local min_size_mib=1024
-
-	local title="Allocate space"
-	local disk start_s chosen_size_mib=0
-
-	while [[ $chosen_size_mib == "0" ]]; do
-		screen "$title" "Choose unallocated space for AetherOS."
-
-		option=$(choose_unallocated_space)
-		disk=$(echo "$option" | awk -F',' '{print $1}')
-		case "$disk" in
-			"Manage disks")
-				setup_disk_screen
-				allocate_space_screen
-				exit
-			;;
-			"Back")
-				setup_swap_screen
-				exit
-			;;
-		esac
-
-		local size_mib sectors_per_mib
-		sectors_per_mib=$(get_sectors_per_mib $disk)
-
-		start_s=$(echo "$option" | awk -F',' '{print $2}')
-		size_mib=$(echo "$option" | awk -F',' '{print $4}')
-
-		chosen_size_mib=$(choose_allocation_size $min_size_mib $size_mib $size_mib "$title")
-	done
-
-	local encryption_password
-	encryption_password=$(choose_password "$title" "Choose a password for disk encryption.")
-	if [[ -z "$encryption_password" ]]; then
-		allocate_space_screen
-		exit
+setup_encryption_screen() {
+	local title="Disk encryption"
+	ENCRYPTION_PASSWORD=$(choose_password "$title" "Choose a password for disk encryption.")
+	if [[ -z "$ENCRYPTION_PASSWORD" ]]; then
+		setup_swap_screen
+		return
 	fi
 
-	local error
-	screen "$title"
-	if ! run "partition-disk.sh" $disk $start_s $chosen_size_mib $sectors_per_mib $encryption_password; then
-
-		option=$(gum_wrapper choose "Back" )
-		allocate_space_screen
-		exit
-	fi
 	configure_os_screen
-	exit
+	return
 }
 
-setup_disk_screen() {
+manage_disks_screen() {
 	local title="Select disk" subtitle="Select a disk to manage."
 	local disks disk option
 	while true; do
@@ -438,9 +417,39 @@ setup_disk_screen() {
 
 configure_os_screen() {
 	screen "Configure" ""
+	install
+}
+
+fail_screen() {
+	local title="Installation failed" option
+	echo -e "\033[0;31m\n<<< $title >>>\033[0m" > /dev/tty
+
+	option=$(gum_wrapper choose "Start again" "Exit" )
+	case "$option" in
+		"Start again")
+			welcome_screen
+			return
+		;;
+		"Exit")
+			clear
+			exit
+		;;
+	esac
 }
 
 
+
+# ================================
+# Installation
+# ================================
+
+install() {
+	screen "Setting up disk"
+	if ! run "partition-disk.sh" $DISK $START_SECTOR $TOTAL_SIZE_MIB $SWAP_SIZE_MIB $BOOT_SIZE_MIB $SECTORS_PER_MIB $ENCRYPTION_PASSWORD; then
+		fail_screen
+		exit
+	fi
+}
 
 
 
@@ -454,9 +463,7 @@ configure_os_screen() {
 #welcome_screen
 
 keep_sudo
-#allocate_swap_space_screen
-allocate_space_screen
-#configure_os_screen
+setup_disk_screen
 exit 0
 
 

@@ -22,10 +22,11 @@ reset() {
 disk=$1
 start_s=$2
 total_size_mib=$3
-sectors_per_mib=$4
-encryption_password="$5"
+swap_size_mib=$4
+boot_size_mib=$5
+sectors_per_mib=$6
+encryption_password="$7"
 
-boot_size_mib=512
 boot_start_s=$start_s
 boot_end_s=$(( $boot_start_s + $boot_size_mib * $sectors_per_mib - 1 ))
 
@@ -55,7 +56,7 @@ echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 --label
 echo -n "$encryption_password" | sudo cryptsetup open "$root_part" cryptroot
 sudo pvcreate /dev/mapper/cryptroot
 sudo vgcreate lvmroot /dev/mapper/cryptroot
-sudo lvcreate --size 128M lvmroot --name swap
+sudo lvcreate --size ${swap_size_mib}M lvmroot --name swap
 
 sudo lvcreate -l 100%FREE lvmroot --name root
 sudo mkfs.ext4 -L "AetherOS-root" /dev/mapper/lvmroot-root
