@@ -589,3 +589,25 @@ cryptsetup close cryptroot || true
 
 dialog --backtitle "NixOS installer" --title "Done" --msgbox "Installation complete. Reboot now." 7 50
 reboot
+
+
+
+# nix-shell -p libxkbcommon yq
+#xkbcli list | yq -r '.layouts[] | "\(.layout),\(.variant),\(.description)"'
+
+
+# # hex-to-rgb.nix
+# { hex }:
+
+# let
+#   # Helper function: convert two hex digits to an integer
+#   fromHex = h: builtins.fromJSON ("0x" + h);
+
+#   # Ensure the input is uppercase and strip a leading "#", if present
+#   cleanHex = builtins.replaceStrings ["#"] [""] (builtins.toUpper hex);
+
+#   r = fromHex (builtins.substring 0 2 cleanHex);
+#   g = fromHex (builtins.substring 2 2 cleanHex);
+#   b = fromHex (builtins.substring 4 2 cleanHex);
+# in
+# "${toString r}, ${toString g}, ${toString b}"

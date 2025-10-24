@@ -6,6 +6,7 @@ in
 	hm = {
 		programs.starship = {
 			enable = true;
+			enableInteractive = false;
 			settings = {
 				format = lib.concatStrings [
 					"$shell"

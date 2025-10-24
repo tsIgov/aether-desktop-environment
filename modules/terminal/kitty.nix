@@ -67,8 +67,8 @@ in
 				color14 = "#${palette.sapphire}";
 
 				# white
-				color7 = "#${palette.rosewater}";
-				color15 = "#${palette.flamingo}";
+				color7 = "#${palette.text}";
+				color15 = "#${palette.subtext0}";
 			};
 
 			keybindings = {

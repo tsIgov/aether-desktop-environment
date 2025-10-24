@@ -1,5 +1,5 @@
 lib:
 {
-	appearance = import ./appearance;
+	appearance = import ./appearance { inherit lib; };
 	moduleUtils = import ./moduleUtils { inherit lib; };
 }

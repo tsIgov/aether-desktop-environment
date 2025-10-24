@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 let
 	inherit (lib) mkOption;
 	inherit (lib.types) listOf str;
@@ -22,6 +22,7 @@ in
 				extraGroups = [ "wheel" "networkmanager" ] ++ cfg.extraGroups;
 				isNormalUser = true;
 				isSystemUser = false;
+				shell = pkgs.fish;
 			};
 		};
 	};
