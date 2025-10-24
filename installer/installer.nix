@@ -12,6 +12,8 @@
 		util-linux # cfdisk
 		parted
 		cryptsetup
+		yq
+		libxkbcommon # check kb layouts
 	];
 
 	boot = {
