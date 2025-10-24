@@ -2,7 +2,7 @@
 {
 	aether.input = {
 		mouse = {
-			sensitivity = 0.4;
+			sensitivity = 0.0;
 		};
 		keyboard = {
 			layouts = [

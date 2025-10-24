@@ -13,6 +13,7 @@
 						position = "auto";
 						scale = "auto";
 						extraArgs = "";
+					}
 					{
 						name = "eDP-1";
 						enabled = false;
