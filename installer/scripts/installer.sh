@@ -1,5 +1,5 @@
 #!/bin/sh
-strict_mode(){
+strict_mode() {
     set -T # inherit DEBUG and RETURN trap for functions
     set -C # prevent file overwrite by > &> <>
     set -E # inherit -e
@@ -8,28 +8,6 @@ strict_mode(){
     set -o pipefail # exit on pipe failure
 }
 strict_mode
-
-SCRIPT_PATH="$(readlink -f "$0")"
-SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
-
-
-BOOT_SIZE_MIB=512
-MIN_SWAP_SIZE_MIB=512 #1024
-MIN_ROOT_SIZE_MIB=512 #204800
-
-DISK=""
-SECTORS_PER_MIB=""
-START_SECTOR=""
-TOTAL_SIZE_MIB=""
-SWAP_SIZE_MIB=""
-
-ENCRYPTION_PASSWORD=""
-ROOT_PASSWORD=""
-USER_PASSWORD=""
-
-HOSTNAME=""
-USERNAME=""
-
 
 keep_sudo() {
 	sudo -v
@@ -41,6 +19,79 @@ keep_sudo() {
 		sleep 60
 		kill -0 "$$" || exit
 	done 2>/dev/null &
+}
+keep_sudo
+
+SCRIPT_PATH="$(readlink -f "$0")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+
+config_gum() {
+	export GUM_CHOOSE_SHOW_HELP=0
+	export GUM_TABLE_SHOW_HELP=0
+	export GUM_CONFIRM_SHOW_HELP=0
+	export GUM_INPUT_SHOW_HELP=0
+
+	export GUM_TABLE_HIDE_COUNT=1
+	export GUM_TABLE_SELECTED_FOREGROUND="#a6e3a1"
+
+	export GUM_CONFIRM_PROMPT_FOREGROUND="#cdd6f4"
+	export GUM_CONFIRM_SELECTED_FOREGROUND="#11111b"
+	export GUM_CONFIRM_SELECTED_BACKGROUND="#cba6f7"
+	export GUM_CONFIRM_UNSELECTED_FOREGROUND="#cdd6f4"
+	export GUM_CONFIRM_UNSELECTED_BACKGROUND="#313244"
+
+	export GUM_CHOOSE_CURSOR_FOREGROUND="#a6e3a1"
+	export GUM_CHOOSE_ITEM_FOREGROUND="#cdd6f4"
+	export GUM_CHOOSE_SELECTED_FOREGROUND="#a6e3a1"
+
+	export GUM_INPUT_PLACEHOLDER_FOREGROUND="#a6adc8"
+	export GUM_INPUT_PROMPT_FOREGROUND="#cdd6f4"
+	export GUM_INPUT_CURSOR_FOREGROUND="#cdd6f4"
+}
+config_gum
+
+
+
+reset_values() {
+	INTERNET=""
+
+	DISK=""
+	START_SECTOR=""
+	FREE_SPACE_MIB=""
+	SECTORS_PER_MIB=""
+	BOOT_SIZE=""
+	SWAP_SIZE=""
+	ROOT_SIZE=""
+	ENCRYPTION_PASSWORD=""
+
+	HOSTNAME=""
+	ROOT_PASSWORD=""
+	USERNAME=""
+	USER_PASSWORD=""
+
+	check_internet_connection
+}
+
+
+
+# ================================
+# Helpers
+# ================================
+
+min_int() {
+	echo $(( $1 < $2 ? $1 : $2 ))
+}
+
+max_int() {
+	echo $(( $1 > $2 ? $1 : $2 ))
+}
+
+mask_password() {
+	if [[ $# -gt 0 ]]; then
+		echo "*******"
+	else
+		echo ""
+	fi
 }
 
 screen() {
@@ -58,101 +109,34 @@ screen() {
 	if [[ $# -gt 2 && -n "$3" ]]; then
 		echo -e "${error_color}$3${reset_color}" > /dev/tty
 	fi
-}
-
-run() {
-	local scriptName=$1
-	shift 1
-	sudo sh -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
-}
-
-
-
-# ================================
-# Math
-# ================================
-
-min_int() {
-	echo $(( $1 < $2 ? $1 : $2 ))
-}
-
-max_int() {
-	echo $(( $1 > $2 ? $1 : $2 ))
-}
-
-
-
-# ================================
-# Gum
-# ================================
-
-GUM_SEPARATOR="---------"
-
-gum_wrapper() {
-	local result=""
-	local args=("$@")
-	local stdin_data=""
-	local status
-
-    if [ ! -t 0 ]; then
-        stdin_data=$(cat -)
-    fi
 
 	echo > /dev/tty
-
-	while [[ "$result" == "" || "$result" =~ ^"$GUM_SEPARATOR" ]]; do
-		if result=$(echo -e "$stdin_data" | gum "${args[@]}"); then
-			if [[ ( ! "$result" =~ ^"$GUM_SEPARATOR") && "$result" != "" ]]; then
-				break
-			fi
-		else
-			local status=$?
-			if [[ $status -ne 1 ]]; then
-				return $status
-			else
-				printf "\033[1A\033[2K" > /dev/tty
-				result=""
-			fi
-		fi
-	done
-
-	echo $result
 }
 
-gum_spin() {
-	local title=$1 scriptName=$2
-	shift 2
-	sudo -v
-	gum spin --spinner meter --title="$title" --show-output -- sudo sh -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
+error_message() {
+	local error_color='\033[0;31m'
+	local reset_color='\033[0m'
+	echo -e "${error_color}$1${reset_color}\n" > /dev/tty
 }
 
-choose_unallocated_space() {
-	local csv=$(echo -e "Device,Start sector,End sector,Size (MiB)")
-	local devices=$(lsblk -ndAo NAME)
+check_internet_connection() {
+	local site_to_ping="github.com"
+	if ! ping -c 1 -W 10 "$site_to_ping" &>/dev/null; then
+		INTERNET="Not connected"
+		return
+	fi
 
+	INTERNET="Connected"
+}
 
-	for device in $devices; do
-		local data sectors_per_mib
-		sectors_per_mib=$(get_sectors_per_mib $device)
-		data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v dv="$device" -v spm="$sectors_per_mib" '
-			$1 ~ /^[0-9]+$/ && $5 == "free;" {
-				start = substr($2, 1, length($2)-1)
-				start = int((start + spm - 1) / spm) * spm
+get_sectors_per_mib() {
+	local bytes_per_sector
+	bytes_per_sector=$(cat /sys/block/$(basename "$1")/queue/hw_sector_size)
+	awk -v bps=$bytes_per_sector 'BEGIN {printf "%d", 1024 * 1024 / bps}'
+}
 
-				end = substr($3, 1, length($3)-1)
-				end = int(end / spm) * spm
-
-				size = (end - start + 1) / spm
-				if (size >= 10) {
-					printf "%s,%d,%d,%d\n", dv, start, end, size
-				}
-			}')
-		csv="$csv\n$data"
-	done
-
-	csv="$csv\n$GUM_SEPARATOR,,,\nManage disks,,,\nBack,,,"
-
-	echo -e "$csv" | gum_wrapper table
+get_ram_mib() {
+	awk '/MemTotal/ {printf "%d", $2 / 1024}' /proc/meminfo
 }
 
 choose_allocation_size() {
@@ -169,32 +153,28 @@ choose_allocation_size() {
 	default_size_mib=$(min_int $default_size_mib $max_size_mib)
 	default_size_mib=$(max_int $default_size_mib $min_size_mib)
 
-	local subtitle="Choose a size between ${min_size_mib} MiB and ${max_size_mib} MiB (write the number only).\nType 0 to go back."
+	local subtitle="Choose a size between ${min_size_mib} MiB and ${max_size_mib} MiB (write the number only)."
 
 	if [[ $min_size_mib -gt $max_size_mib ]]; then
-		screen "$title" "" "The selected unallocated space is less than the required minimum of $min_size_mib MiB."
-		result=$(gum_wrapper choose "Back")
-		echo 0
+		screen "$title" "" "The remaining unallocated space is less than the required minimum of $min_size_mib MiB."
+		result=$(gum choose "Back" --header "" || true)
 		return
 	fi
 
 	screen "$title" "$subtitle"
 
 	while true; do
-		result=$(gum_wrapper input --placeholder "Size in MiB" --value "$default_size_mib" )
+		result=$(gum input --placeholder "Size in MiB" --value "$default_size_mib" || true )
 
-		if [[ "$result" == "0" ]]; then
-			echo 0
+		local number_regex='^[1-9]?[0-9]*$'
+		if [[ $result == "" ]]; then
 			return
 		fi
 
-		local number_regex='^[1-9]?[0-9]*$'
 		if [[ ! $result =~ $number_regex ]]; then
 			screen "$title" "$subtitle" "$invalid_number_message"
 			continue
 		fi
-
-		result=$(awk "BEGIN { printf \"%d\", $result }")
 
 		if awk "BEGIN {exit !($result < $min_size_mib || $result > $max_size_mib)}"; then
 			screen "$title" "$subtitle" "$invalid_number_message"
@@ -206,15 +186,70 @@ choose_allocation_size() {
 	done
 }
 
+remaining_space() {
+	local boot=$BOOT_SIZE swap=$SWAP_SIZE root=$ROOT_SIZE
+
+	if [[ $boot == "" ]]; then boot=0; fi
+	if [[ $swap == "" ]]; then swap=0; fi
+	if [[ $root == "" ]]; then root=0; fi
+
+	case "$1" in
+		"boot") boot=0;;
+		"swap") swap=0;;
+		"root") root=0;;
+	esac
+
+	local result
+	result=$(( $FREE_SPACE_MIB - $boot - $swap - $root ))
+
+	result=$(max_int 0 $result)
+	echo $result
+}
+
+is_valid_hostname() {
+	local hostname="$1"
+
+	# Must not exceed 253 characters
+	[[ ${#hostname} -le 253 ]] || return 1
+
+	# Regex for valid hostname
+	local regex='^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)(\.([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?))*$'
+
+	[[ $hostname =~ $regex ]]
+}
+
+is_valid_username() {
+	local username="$1"
+
+	# Length check (1-32 chars)
+	if [[ ${#username} -lt 1 || ${#username} -gt 32 ]]; then
+		return 1
+	fi
+
+	# Pattern check
+	if [[ "$username" =~ ^[a-z_][a-z0-9_-]*$ ]]; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 choose_password() {
 	local title="$1" subtitle="$2"
 	local password="" password_repeat="" option
 
 	while [[ -z "$password" || -z "$password_repeat" || "$password" != "$password_repeat" ]]; do
 		screen "$title" "$subtitle"
-		password=$(gum_wrapper input --password --placeholder "Type your password...")
-		screen "$title" "$subtitle"
-		password_repeat=$(gum_wrapper input --password --placeholder "Repeat your password...")
+
+		password=$(gum input --password --placeholder "Type your password..." || true)
+		if [[ $password == "" ]]; then
+			return
+		fi
+
+		password_repeat=$(gum input --password --placeholder "Repeat your password..." || true)
+		if [[ $password_repeat == "" ]]; then
+			return
+		fi
 
 		if [[ "$password" == "$password_repeat" ]]; then
 			echo "$password"
@@ -222,190 +257,107 @@ choose_password() {
 		fi
 
 		screen "$title" "$subtitle" "Passwords do not match."
-		option=$(gum_wrapper choose "Try again" "Back")
+		option=$(gum choose "Try again" --header "" || true)
 		case "$option" in
-			"Try again")
-				continue
-				;;
-			"Back")
-				return
-				;;
+			"Try again") continue;;
+			*) return;;
 		esac
-
 	done
 }
 
-
-# ================================
-# Disk utils
-# ================================
-
-get_ram_mib() {
-	awk '/MemTotal/ {printf "%d", $2 / 1024}' /proc/meminfo
-}
-
-get_sectors_per_mib() {
-	local bytes_per_sector
-	bytes_per_sector=$(cat /sys/block/$(basename "$1")/queue/hw_sector_size)
-	awk -v bps=$bytes_per_sector 'BEGIN {printf "%d", 1024 * 1024 / bps}'
+run() {
+	local scriptName=$1
+	shift 1
+	sudo sh -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
 }
 
 
 
 # ================================
-# Screens
+# Menu
 # ================================
 
-welcome_screen() {
-	local option
+menu() {
+	local devider="---------------,," arrow="->"
+	local option=""
 
-	screen "Welcome to AetherOS" "This wizzard will guide you through the installation."
+	while true; do
 
-	option=$(gum_wrapper choose "Continue" "Exit")
-	case "$option" in
-		"Continue")
-			keep_sudo
-			setup_internet_screen
-			return
-			;;
-		"Exit")
-			clear
-			exit
-			;;
-	esac
+		screen "Welcome to AetherOS" "This wizzard will guide you through the installation.\nSet your preferences and choose the install button."
+
+		local options=",,\n" allocated_space_label="" swap_size_label="" root_size_label="" boot_size_label=""
+
+		if [[ $DISK != "" ]]; then
+			allocated_space_label="/dev/${DISK} (${FREE_SPACE_MIB} MiB)"
+		fi
+		if [[ $BOOT_SIZE != "" ]]; then
+			boot_size_label="${BOOT_SIZE} MiB"
+		fi
+		if [[ $SWAP_SIZE != "" ]]; then
+			swap_size_label="${SWAP_SIZE} MiB"
+		fi
+		if [[ $ROOT_SIZE != "" ]]; then
+			root_size_label="${ROOT_SIZE} MiB"
+		fi
+
+
+		options="${options}Internet,${arrow},${INTERNET}\n"
+		options="${options}${devider}\n"
+
+		options="${options}Allocated space,${arrow},${allocated_space_label}\n"
+		if [[ $DISK != "" ]]; then
+			options="${options}Boot size,${arrow},${boot_size_label}\n"
+			options="${options}Swap size,${arrow},${swap_size_label}\n"
+			options="${options}Root size,${arrow},${root_size_label}\n"
+			options="${options}Encryption password,${arrow},$(mask_password $ENCRYPTION_PASSWORD)\n"
+		fi
+		options="${options}${devider}\n"
+
+		options="${options}Hostname,${arrow},${HOSTNAME}\n"
+		options="${options}Root password,${arrow},$(mask_password $ROOT_PASSWORD)\n"
+		options="${options}Username,${arrow},${USERNAME}\n"
+		options="${options}User password,${arrow},$(mask_password $USER_PASSWORD)\n"
+		options="${options}${devider}\n"
+
+		options="${options}Install,,\n"
+		options="${options}Quit,,\n"
+
+		option=$(echo -e "$options" | gum table -r 1)
+		case "$option" in
+			"Internet") internet;;
+			"Allocated space") allocated_space;;
+			"Boot size") boot_size;;
+			"Swap size") swap_size;;
+			"Root size") root_size;;
+			"Encryption password") encryption_password;;
+			"Root password") root_password;;
+			"User password") user_password;;
+			"Hostname") host_name;;
+			"Username") user_name;;
+			"Install") install;;
+			"Quit") quit;;
+		esac
+	done
 }
 
-setup_internet_screen() {
-	local option error
-	local title="Setup internet connection"
-
-	screen "$title" ""
-
-	if error=$(gum_spin "Checking internet connection..." "check-internet.sh"); then
-		setup_disk_screen
-		exit
-	fi
-
-	screen "$title" "" "$error"
-
-	option=$(gum_wrapper choose "Retry" "Configure" "Back")
-	case "$option" in
-		"Retry")
-			setup_internet_screen
-			exit
-			;;
-		"Configure")
-			nmtui
-			setup_internet_screen
-			exit
-		;;
-		"Back")
-			welcome_screen
-			exit
-		;;
-	esac
+internet() {
+	nmtui
+	check_internet_connection
 }
 
-setup_disk_screen() {
-	local min_size_mib=$(( $MIN_ROOT_SIZE_MIB + $BOOT_SIZE_MIB ))
-	local title="Setup disk"
-
-	screen "$title" "Choose unallocated space for AetherOS."
-
-	option=$(choose_unallocated_space)
-	DISK=$(echo "$option" | awk -F',' '{print $1}')
-	case "$DISK" in
-		"Manage disks")
-			manage_disks_screen
-			setup_disk_screen
-			return
-		;;
-		"Back")
-			welcome_screen
-			return
-		;;
-	esac
-
-	local size_mib
-	SECTORS_PER_MIB=$(get_sectors_per_mib $DISK)
-
-	START_SECTOR=$(echo "$option" | awk -F',' '{print $2}')
-	size_mib=$(echo "$option" | awk -F',' '{print $4}')
-
-	TOTAL_SIZE_MIB=$(choose_allocation_size $min_size_mib $size_mib $size_mib "$title")
-	if [[ $TOTAL_SIZE_MIB == 0 ]]; then
-		setup_disk_screen
-		return
-	fi
-
-	setup_swap_screen
-	return
-}
-
-setup_swap_screen() {
-	local title="Setup swap" option
-	screen "$title" "Do you want to reserve some of this space for swap?"
-
-	option=$(gum_wrapper choose "Yes" "No" "Back" )
-	case "$option" in
-		"Yes")
-			choose_swap_size_screen
-			return
-		;;
-		"No")
-			setup_encryption_screen
-			return
-		;;
-		"Back")
-			setup_disk_screen
-			return
-		;;
-	esac
-}
-
-choose_swap_size_screen() {
-	local title="Setup swap"
-
-	local max_size_mib ram_mib
-	max_size_mib=$(( $TOTAL_SIZE_MIB - $BOOT_SIZE_MIB - $MIN_ROOT_SIZE_MIB ))
-	ram_mib=$(get_ram_mib)
-
-
-	SWAP_SIZE_MIB=$(choose_allocation_size $MIN_SWAP_SIZE_MIB $ram_mib $max_size_mib "$title")
-	if [[ $SWAP_SIZE_MIB == 0 ]]; then
-		setup_swap_screen
-		return
-	fi
-
-	setup_encryption_screen
-	return
-}
-
-setup_encryption_screen() {
-	local title="Disk encryption"
-	ENCRYPTION_PASSWORD=$(choose_password "$title" "Choose a password for disk encryption.")
-	if [[ -z "$ENCRYPTION_PASSWORD" ]]; then
-		setup_swap_screen
-		return
-	fi
-
-	configure_os_screen
-	return
-}
-
-manage_disks_screen() {
-	local title="Select disk" subtitle="Select a disk to manage."
+manage_disks() {
+	local title="Manage disks" subtitle="Select a disk to manage." divider="---------------"
 	local disks disk option
 	while true; do
 		screen "$title" "$subtitle"
 
 		disks=$(lsblk -ndAo NAME,SIZE,MODEL)
 
-		option=$(echo -e "$disks\n${GUM_SEPARATOR}\nContinue" | gum_wrapper choose --header "Choose a disk:")
+		option=$(echo -e "$disks\n$divider\nContinue" | gum choose --header "" || true)
 		case "$option" in
-			"Continue")
-				return
-			;;
+			"") return;;
+			"Continue") return;;
+			"$divider") ;;
 			*)
 				disk=$(echo $option | awk '{print $1;}')
 				disk="/dev/$disk"
@@ -415,199 +367,245 @@ manage_disks_screen() {
 	done
 }
 
-configure_os_screen() {
-	screen "Configure" ""
-	install
+allocated_space() {
+	local divider="---------------" option
+
+	while true; do
+		screen "Allocate space" "Choose an unallocated space to use for AetherOS"
+		local csv=$(echo -e "Device,Start sector,End sector,Size (MiB)")
+		local devices=$(lsblk -ndAo NAME)
+
+		for device in $devices; do
+			local data sectors_per_mib
+			sectors_per_mib=$(get_sectors_per_mib $device)
+			data=$(sudo parted -m "/dev/$device" unit s print free | awk -F: -v dv="$device" -v spm="$sectors_per_mib" '
+				$1 ~ /^[0-9]+$/ && $5 == "free;" {
+					start = substr($2, 1, length($2)-1)
+					start = int((start + spm - 1) / spm) * spm
+
+					end = substr($3, 1, length($3)-1)
+					end = int(end / spm) * spm
+
+					size = (end - start + 1) / spm
+					if (size >= 10) {
+						printf "%s,%d,%d,%d\n", dv, start, end, size
+					}
+				}')
+			csv="$csv\n$data"
+		done
+
+		csv="$csv\n$divider,,,\nManage disks,,,\nBack,,,"
+		option=$(echo -e "$csv" | gum table || true)
+		case "$option" in
+			"") return;;
+			"Back,,,") return;;
+			"Manage disks,,,") manage_disks;;
+			"$divider,,,") ;;
+			*)
+				DISK=$(echo "$option" | awk -F',' '{print $1}')
+				START_SECTOR=$(echo "$option" | awk -F',' '{print $2}')
+				FREE_SPACE_MIB=$(echo "$option" | awk -F',' '{print $4}')
+				SECTORS_PER_MIB=$(get_sectors_per_mib $DISK)
+				BOOT_SIZE=""
+				SWAP_SIZE=""
+				ROOT_SIZE=""
+				ENCRYPTION_PASSWORD=""
+				return
+			;;
+		esac
+	done
 }
 
-fail_screen() {
-	local title="Installation failed" option
-	echo -e "\033[0;31m\n<<< $title >>>\033[0m" > /dev/tty
+boot_size() {
+	local title="Boot size" result
 
-	option=$(gum_wrapper choose "Start again" "Exit" )
-	case "$option" in
-		"Start again")
-			welcome_screen
+	local max_size_mib min_size_mib=256 default_size_mib=512
+	max_size_mib=$(remaining_space "boot")
+
+	result=$(choose_allocation_size $min_size_mib $default_size_mib $max_size_mib "$title")
+	if [[ $result != "" ]]; then
+		BOOT_SIZE=$result
+	fi
+}
+
+swap_size() {
+	local title="Swap size" result
+
+	local max_size_mib min_size_mib=0 ram_mib
+	max_size_mib=$(remaining_space "swap")
+	ram_mib=$(get_ram_mib)
+
+	result=$(choose_allocation_size $min_size_mib $ram_mib $max_size_mib "$title")
+	if [[ $result != "" ]]; then
+		SWAP_SIZE=$result
+	fi
+}
+
+root_size() {
+	local title="Root size" result
+
+	local max_size_mib min_size_mib=1 #102400
+	max_size_mib=$(remaining_space "root")
+
+	result=$(choose_allocation_size $min_size_mib $max_size_mib $max_size_mib "$title")
+	if [[ $result != "" ]]; then
+		ROOT_SIZE=$result
+	fi
+}
+
+encryption_password() {
+	ENCRYPTION_PASSWORD=$(choose_password "Encryption password" "Choose a password that will be used for disk encryption.")
+}
+
+root_password() {
+	ROOT_PASSWORD=$(choose_password "Root password" "Choose a password for the root user.")
+}
+
+user_password() {
+	USER_PASSWORD=$(choose_password "User password" "Choose a password for your user.")
+}
+
+host_name() {
+	local title="Hostname" subtitle="Pick a name for the machine." result
+	screen "$title" "$subtitle"
+
+	while true; do
+		result=$(gum input --placeholder="Hostname" --value="$HOSTNAME" || true)
+
+		if [[ $result == "" ]]; then
 			return
-		;;
-		"Exit")
-			clear
-			exit
-		;;
-	esac
+		fi
+
+		if ( ! is_valid_hostname "$result" ); then
+			screen "$title" "$subtitle" "Invalid hostname"
+			continue
+		fi
+
+		HOSTNAME="$result"
+		return
+	done
 }
 
+user_name() {
+	local title="Username" subtitle="Must be between 1 and 32 characters long. Must start with a lowercase letter or an underscore. The rest may only include lowercase letters, digits, underscores, or dashes."
+	local result
+	screen "$title" "$subtitle"
 
+	while true; do
+		result=$(gum input --placeholder="Username" --value="$USERNAME" || true)
 
-# ================================
-# Installation
-# ================================
+		if [[ $result == "" ]]; then
+			return
+		fi
 
-install() {
-	screen "Setting up disk"
-	if ! run "partition-disk.sh" $DISK $START_SECTOR $TOTAL_SIZE_MIB $SWAP_SIZE_MIB $BOOT_SIZE_MIB $SECTORS_PER_MIB $ENCRYPTION_PASSWORD; then
-		fail_screen
+		if ( ! is_valid_username "$result" ); then
+			screen "$title" "$subtitle" "Invalid username"
+			continue
+		fi
+
+		USERNAME="$result"
+		return
+	done
+}
+
+quit() {
+	local result
+	clear
+	if $(gum confirm "Are you sure you want to exit the installer?" --default=no); then
 		exit
 	fi
 }
 
 
 
+# ================================
+# Install
+# ================================
+check_config() {
+
+	local title="Installing AetherOS"
+
+	if [[ -z "$DISK" || -z "$START_SECTOR" || -z "$SECTORS_PER_MIB" || -z "$BOOT_SIZE" || -z "$SWAP_SIZE" || -z "$ROOT_SIZE" || -z "$ENCRYPTION_PASSWORD" || -z "$HOSTNAME" || -z "$ROOT_PASSWORD" || -z "$USERNAME" || -z "$USER_PASSWORD"  ]]; then
+		screen "$title" "" "Some of the options are not set."
+		gum choose "Back" --header "" || true
+		return 1
+	fi
+
+	check_internet_connection
+	if [[ "$INTERNET" == "Not connected" ]]; then
+		screen "$title" "" "Not connected to the internet."
+		gum choose "Back" --header "" || true
+		return 1
+	fi
+}
+
+install() {
+	local option
+
+	if (! check_config); then
+		return
+	fi
+
+	if (! $(gum confirm "We are ready to install AetherOS." --affirmative="Continue" --negative="Back")); then
+		return
+	fi
+
+	screen "Preparing disk"
+	if ! run "partition-disk.sh" $DISK $START_SECTOR $ROOT_SIZE $SWAP_SIZE $BOOT_SIZE $SECTORS_PER_MIB $ENCRYPTION_PASSWORD; then
+		error_message "Instalation failed."
+		gum choose "Start over" --header "" || true
+		reset_values
+		return
+	fi
+
+	screen "Preparing installer"
+	if ! run "prepare-config.sh" "$HOSTNAME" "$ROOT_PASSWORD" "$USERNAME" "$USER_PASSWORD"; then
+		error_message "Instalation failed."
+		gum choose "Start over" --header "" || true
+		reset_values
+		return
+	fi
+
+	while true; do
+		screen "Installing AetherOS"
+		if ! run "install-os.sh" "$HOSTNAME" "$ROOT_PASSWORD" "$USERNAME" "$USER_PASSWORD"; then
+			error_message "Instalation failed."
+			option=$(echo -e "Retry\nStart over" | gum choose --header "" || true)
+			case "$option" in
+				"Try again") continue;;
+				*)
+					reset_values
+					return
+				;;
+			esac
+		fi
+		break
+	done
+
+	screen "Post-install configuration"
+	run "post-install.sh" | true
+
+	screen "Installation successful" "Reboot now?"
+	option=$(echo -e "Reboot\nExit" | gum choose --header "" || true)
+	case "$option" in
+		"Reboot")
+			clear
+			reboot
+			exit
+		;;
+		*)
+			clear
+			exit
+		;;
+	esac
+
+}
 
 # ================================
 # Main
 # ================================
 
-# systemctl --user stop udiskie.service
-
-#welcome_screen
-
-keep_sudo
-setup_disk_screen
-exit 0
+reset_values
+menu
 
 
-
-
-
-# is_valid_hostname() {
-#     local hostname="$1"
-
-#     # Must not exceed 253 characters
-#     [[ ${#hostname} -le 253 ]] || return 1
-
-#     # Regex for valid hostname
-#     local regex='^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)(\.([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?))*$'
-
-#     [[ $hostname =~ $regex ]]
-# }
-
-# if is_valid_hostname "asd@f"; then
-#     echo "✅ is a valid hostname"
-# else
-#     echo "❌ is NOT a valid hostname"
-# fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Prepare /mnt/etc/nixos (copy templates from ISO)
-mkdir -p /mnt/etc/nixos
-if [ -d /etc/nixos ] ; then
-  cp -r /etc/nixos/* /mnt/etc/nixos/ 2>/dev/null || true
-fi
-
-# Let user edit predefined files (if any). If no files exist, create a minimal configuration.nix
-if ! ls /mnt/etc/nixos/*.nix >/dev/null 2>&1; then
-  cat > /mnt/etc/nixos/configuration.nix <<'EOF'
-{ config, pkgs, ... }:
-{
-  imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
-  networking.hostName = "nixos";
-  time.timeZone = "UTC";
-  environment.systemPackages = with pkgs; [ vim ];
-  services.openssh.enable = true;
-}
-EOF
-fi
-
-# Allow user to edit files with nano
-for f in /mnt/etc/nixos/*.nix; do
-  dialog --backtitle "NixOS custom installer" --title "Edit" --yesno "Would you like to edit $(basename "$f")?" 7 60
-  if [ $? -eq 0 ]; then
-    nano "$f"
-  fi
-done
-
-# Generate hashed password for NixOS config (SHA-512)
-# openssl passwd -6 generates an SHA-512 crypt hash
-HASHED_PASS=$(openssl passwd -6 "$PASSWORD")
-
-# Append / merge our settings into configuration.nix
-# We'll create a small file that the user config can import, to avoid clobbering edits
-cat > /mnt/etc/nixos/installer-generated.nix <<EOF
-{ config, pkgs, ... }:
-{
-  networking.hostName = "${HOSTNAME}";
-
-  users.users.${USERNAME} = {
-    isNormalUser = true;
-    initialHashedPassword = "${HASHED_PASS}";
-    extraGroups = [ "wheel" ];
-  };
-
-  # EFI + systemd-boot on UEFI
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Tell bootinit about the LUKS root device so the installed system can unlock it
-  boot.initrd.luks.devices = {
-    cryptroot = {
-      device = "${ROOT_PART}";
-      # If you used LVM under LUKS, set preLVM = true;
-    };
-  };
-}
-EOF
-
-# Ensure the main configuration imports installer-generated.nix
-MAIN_CFG=/mnt/etc/nixos/configuration.nix
-if ! grep -q 'installer-generated.nix' "$MAIN_CFG"; then
-  cat >> "$MAIN_CFG" <<'EOF'
-
-# Include the installer-generated configuration (hostname, users, LUKS)
-((import ./installer-generated.nix) {})
-EOF
-fi
-
-# Install NixOS
-clear
-dialog --backtitle "NixOS installer" --title "Proceed" --yesno "Ready to run nixos-install and install the system to $DISK? (This will run as root and may take time.)" 8 60
-if [ $? -ne 0 ]; then
-  dialog --msgbox "Install aborted." 6 40
-  exit 1
-fi
-
-nixos-generate-config --root /mnt # TODO copy the hardware config file
-
-# Run nixos-install; this will read the configuration under /mnt/etc/nixos
-nixos-install --root /mnt --no-root-passwd
-
-# After install, close LUKS and offer reboot
-cryptsetup close cryptroot || true
-
-dialog --backtitle "NixOS installer" --title "Done" --msgbox "Installation complete. Reboot now." 7 50
-reboot
-
-
-
-# nix-shell -p libxkbcommon yq
-#xkbcli list | yq -r '.layouts[] | "\(.layout),\(.variant),\(.description)"'
-
-
-# # hex-to-rgb.nix
-# { hex }:
-
-# let
-#   # Helper function: convert two hex digits to an integer
-#   fromHex = h: builtins.fromJSON ("0x" + h);
-
-#   # Ensure the input is uppercase and strip a leading "#", if present
-#   cleanHex = builtins.replaceStrings ["#"] [""] (builtins.toUpper hex);
-
-#   r = fromHex (builtins.substring 0 2 cleanHex);
-#   g = fromHex (builtins.substring 2 2 cleanHex);
-#   b = fromHex (builtins.substring 4 2 cleanHex);
-# in
-# "${toString r}, ${toString g}, ${toString b}"

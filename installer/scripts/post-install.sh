@@ -9,9 +9,8 @@ strict_mode(){
 }
 strict_mode
 
-SITE_TO_PING="github.com"
 
-if ! ping -c 4 -W 10 "$SITE_TO_PING" &>/dev/null; then
-	echo "Could not get response form $SITE_TO_PING."
-	exit 1
-fi
+# copy sample config
+# chown it
+# remove temp files
+cryptsetup close cryptroot || true

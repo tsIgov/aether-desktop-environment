@@ -21,7 +21,7 @@ reset() {
 
 disk=$1
 start_s=$2
-total_size_mib=$3
+root_size_mib=$3
 swap_size_mib=$4
 boot_size_mib=$5
 sectors_per_mib=$6
@@ -30,7 +30,6 @@ encryption_password="$7"
 boot_start_s=$start_s
 boot_end_s=$(( $boot_start_s + $boot_size_mib * $sectors_per_mib - 1 ))
 
-root_size_mib=$(( $total_size_mib - $boot_size_mib ))
 root_start_s=$(( $boot_start_s + $boot_size_mib * $sectors_per_mib ))
 root_end_s=$(( $root_start_s + $root_size_mib * $sectors_per_mib - 1 ))
 
@@ -56,15 +55,18 @@ echo -n "$encryption_password" | sudo cryptsetup luksFormat --type luks2 --label
 echo -n "$encryption_password" | sudo cryptsetup open "$root_part" cryptroot
 sudo pvcreate /dev/mapper/cryptroot
 sudo vgcreate lvmroot /dev/mapper/cryptroot
-sudo lvcreate --size ${swap_size_mib}M lvmroot --name swap
+
+if [[ $swap_size_mib -gt 0 ]]; then
+	sudo lvcreate --size ${swap_size_mib}M lvmroot --name swap
+	sudo mkswap -L "AetherOS-swap" /dev/mapper/lvmroot-swap
+	sudo swapon /dev/disk/by-label/AetherOS-swap
+fi
 
 sudo lvcreate -l 100%FREE lvmroot --name root
 sudo mkfs.ext4 -L "AetherOS-root" /dev/mapper/lvmroot-root
-sudo mkswap -L "AetherOS-swap" /dev/mapper/lvmroot-swap
 
 sudo mkdir /mnt
 sudo mount /dev/disk/by-label/AetherOS-root /mnt
 sudo mkdir /mnt/boot
 sudo mount "$efi_part" /mnt/boot
-sudo swapon /dev/disk/by-label/AetherOS-swap
 
