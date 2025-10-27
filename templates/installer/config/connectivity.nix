@@ -1,6 +1,6 @@
 { ... }:
 {
 	aether.connectivity = {
-		hostname = "aether-os";
+		hostname = "{HOSTNAME}";
 	};
 }
