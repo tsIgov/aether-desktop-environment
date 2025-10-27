@@ -559,7 +559,7 @@ install() {
 	fi
 
 	screen "Preparing installer"
-	if ! run "prepare-config.sh" "$HOSTNAME" "$ROOT_PASSWORD" "$USERNAME" "$USER_PASSWORD"; then
+	if ! run "prepare-config.sh" "$HOSTNAME" "$ROOT_PASSWORD" "$USERNAME" "$USER_PASSWORD" "$SWAP_SIZE"; then
 		error_message "Instalation failed."
 		gum choose "Start over" --header "" || true
 		reset_values
@@ -568,7 +568,7 @@ install() {
 
 	while true; do
 		screen "Installing AetherOS"
-		if ! run "install-os.sh" "$HOSTNAME" "$ROOT_PASSWORD" "$USERNAME" "$USER_PASSWORD"; then
+		if ! run "install-os.sh"; then
 			error_message "Instalation failed."
 			option=$(echo -e "Retry\nStart over" | gum choose --header "" || true)
 			case "$option" in
@@ -583,7 +583,7 @@ install() {
 	done
 
 	screen "Post-install configuration"
-	run "post-install.sh" | true
+	run "post-install.sh" "$USERNAME" | true
 
 	screen "Installation successful" "Reboot now?"
 	option=$(echo -e "Reboot\nExit" | gum choose --header "" || true)

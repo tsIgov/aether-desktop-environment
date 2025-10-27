@@ -9,8 +9,14 @@ strict_mode(){
 }
 strict_mode
 
+USERNAME="$1"
 
-# copy sample config
-# chown it
-# remove temp files
+SOURCE_DIR="/mnt/etc/aether-os"
+TARGET_DIR="/mnt/home/${USERNAME}/.config"
+
+sudo rm "$SOURCE_DIR/modules/initial-passwords.nix"
+
+sudo mkdir -p "$TARGET_DIR"
+sudo mv "$SOURCE_DIR" "$TARGET_DIR/aether"
+
 cryptsetup close cryptroot || true

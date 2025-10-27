@@ -9,75 +9,41 @@ strict_mode(){
 }
 strict_mode
 
-
-
-# Prepare /mnt/etc/nixos (copy templates from ISO)
-mkdir -p /mnt/etc/nixos
-if [ -d /etc/nixos ] ; then
-  cp -r /etc/nixos/* /mnt/etc/nixos/ 2>/dev/null || true
-fi
-
-# Let user edit predefined files (if any). If no files exist, create a minimal configuration.nix
-if ! ls /mnt/etc/nixos/*.nix >/dev/null 2>&1; then
-  cat > /mnt/etc/nixos/configuration.nix <<'EOF'
-{ config, pkgs, ... }:
-{
-  imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
-  networking.hostName = "nixos";
-  time.timeZone = "UTC";
-  environment.systemPackages = with pkgs; [ vim ];
-  services.openssh.enable = true;
+sed_escape() {
+	local v="$1"
+	v=${v//\\/\\\\}
+	v="${v//&/\\&}"
+	v="${v//\//\\/}"
+	echo "$v"
 }
-EOF
+
+hostname="$1"
+root_password=$(mkpasswd "$2")
+root_password=$(sed_escape "$root_password")
+
+username="$3"
+user_password=$(mkpasswd "$4")
+user_password=$(sed_escape "$user_password")
+
+
+swap_size="$5"
+
+root_dir="/mnt/etc/aether-os"
+
+sudo mkdir -p "$root_dir"
+sudo nix flake new --refresh -t github:tsIgov/aether-desktop-environment#installer "$root_dir"
+
+
+sudo sed -i "s/{HOSTNAME}/$hostname/g" "$root_dir/config/connectivity.nix"
+sudo sed -i "s/{USERNAME}/$username/g" "$root_dir/config/user.nix"
+
+sudo sed -i "s/{USERNAME}/$username/g" "$root_dir/modules/initial-passwords.nix"
+sudo sed -i "s/{USER_PASSWORD}/$user_password/g" "$root_dir/modules/initial-passwords.nix"
+sudo sed -i "s/{ROOT_PASSWORD}/$root_password/g" "$root_dir/modules/initial-passwords.nix"
+
+
+if [[ $swap_size -gt 0 ]]; then
+	sudo sed -i 's|#||g' "$root_dir/file-system-configuration.nix"
 fi
 
-# Allow user to edit files with nano
-for f in /mnt/etc/nixos/*.nix; do
-  dialog --backtitle "NixOS custom installer" --title "Edit" --yesno "Would you like to edit $(basename "$f")?" 7 60
-  if [ $? -eq 0 ]; then
-    nano "$f"
-  fi
-done
-
-# Generate hashed password for NixOS config (SHA-512)
-# openssl passwd -6 generates an SHA-512 crypt hash
-HASHED_PASS=$(openssl passwd -6 "$PASSWORD")
-
-# Append / merge our settings into configuration.nix
-# We'll create a small file that the user config can import, to avoid clobbering edits
-cat > /mnt/etc/nixos/installer-generated.nix <<EOF
-{ config, pkgs, ... }:
-{
-  networking.hostName = "${HOSTNAME}";
-
-  users.users.${USERNAME} = {
-    isNormalUser = true;
-    initialHashedPassword = "${HASHED_PASS}";
-    extraGroups = [ "wheel" ];
-  };
-
-  # EFI + systemd-boot on UEFI
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Tell bootinit about the LUKS root device so the installed system can unlock it
-  boot.initrd.luks.devices = {
-    cryptroot = {
-      device = "${ROOT_PART}";
-      # If you used LVM under LUKS, set preLVM = true;
-    };
-  };
-}
-EOF
-
-# Ensure the main configuration imports installer-generated.nix
-MAIN_CFG=/mnt/etc/nixos/configuration.nix
-if ! grep -q 'installer-generated.nix' "$MAIN_CFG"; then
-  cat >> "$MAIN_CFG" <<'EOF'
-
-# Include the installer-generated configuration (hostname, users, LUKS)
-((import ./installer-generated.nix) {})
-EOF
-fi
-
-nixos-generate-config --root /mnt # TODO copy the hardware config file
+sudo nixos-generate-config --show-hardware-config --no-filesystems | sudo tee "$root_dir/hardware-configuration.nix" > /dev/null
