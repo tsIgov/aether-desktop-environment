@@ -268,7 +268,7 @@ choose_password() {
 run() {
 	local scriptName=$1
 	shift 1
-	sudo sh -c "source \"$SCRIPT_DIR/$scriptName\" \"\$@\"" _ "$@"
+	sudo sh -c "source \"$SCRIPT_DIR/../lib/$scriptName\" \"\$@\"" _ "$@"
 }
 
 
@@ -444,7 +444,7 @@ swap_size() {
 root_size() {
 	local title="Root size" result
 
-	local max_size_mib min_size_mib=1 #102400
+	local max_size_mib min_size_mib=102400
 	max_size_mib=$(remaining_space "root")
 
 	result=$(choose_allocation_size $min_size_mib $max_size_mib $max_size_mib "$title")

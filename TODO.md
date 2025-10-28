@@ -24,6 +24,12 @@ Win + F doesn't revert full screen but maximizes instead
 
 eza instead of ls
 
+## Float
+class": "code",
+"title": "Choose a folder to clone https://github.com/tsIgov/aether-os.git into",
+"initialClass": "code",
+"initialTitle": "Choose a folder to clone https://github.com/tsIgov/aether-os.git into",
+
 ## OS
 Remove some desktop files
 Auto login and remove SDDM

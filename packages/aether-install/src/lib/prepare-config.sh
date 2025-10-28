@@ -31,7 +31,7 @@ swap_size="$5"
 root_dir="/mnt/etc/aether-os"
 
 sudo mkdir -p "$root_dir"
-sudo nix flake new --refresh -t github:tsIgov/aether-desktop-environment#installer "$root_dir"
+sudo nix flake new --refresh -t github:tsIgov/aether-os#installer "$root_dir"
 
 
 sudo sed -i "s/{HOSTNAME}/$hostname/g" "$root_dir/config/connectivity.nix"
