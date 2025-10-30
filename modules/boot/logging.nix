@@ -2,7 +2,7 @@
 {
 	boot = {
 		initrd.verbose = false;
-		boot.consoleLogLevel = 3;
-		boot.kernelParams = [ "quiet" "udev.log_level=3" ];
+		consoleLogLevel = 3;
+		kernelParams = [ "quiet" "udev.log_level=3" ];
 	};
 }

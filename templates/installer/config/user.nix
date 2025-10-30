@@ -3,7 +3,7 @@
 	aether = {
 		user = {
 			username = "{USERNAME}";
-			description = "";
+			description = "{USERNAME}";
 			extraGroups = [ ];
 		};
 	};
