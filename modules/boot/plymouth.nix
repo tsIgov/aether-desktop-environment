@@ -1,7 +1,6 @@
-{ pkgs, ... }:
+{ ... }:
 {
 	boot = {
-		initrd.verbose = false;
 		plymouth = {
 			enable = true;
 			theme =  "bgrt";
