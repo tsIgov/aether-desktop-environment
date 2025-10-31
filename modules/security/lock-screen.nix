@@ -1,13 +1,8 @@
 { pkgs, aether, config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
-	font = config.aether.appearance.fonts.regular;
-
-	wallpapersPkg = (aether.pkgs.wallpapers.override {
-			flavor = config.aether.appearance.colors.flavor;
-			accent = config.aether.appearance.colors.primary;
-	});
-	wallpaper = "${wallpapersPkg}/${config.aether.appearance.wallpaper}.png";
+	palette = config.aether.theme.color-scheme;
+	font = config.aether.theme.fonts.regular;
+	wallpaper = config.aether.theme.wallpaper.path;
 in
 {
 	environment.systemPackages = with pkgs; [
@@ -29,7 +24,7 @@ in
 				background = [
 					{
 						path = wallpaper;
-						color = "rgb(${palette.base})";
+						color = "rgb(${palette.background0})";
 					}
 				];
 
@@ -48,7 +43,7 @@ in
 				label = [
 					{
 						text = "$LAYOUT";
-						color = "rgb(${palette.text})";
+						color = "rgb(${palette.foreground0})";
 						font_size = 12;
 						font_family = "${font}";
 						position = "-10, -10";
@@ -60,7 +55,7 @@ in
 						text = "cmd[update:1000] [ \"$(echo $(swaync-client -c))\" -eq 0 ] && echo \"\" || echo \"\"";
 						color = "rgb(${palette.primary})";
 						font_size = 40;
-						font_family = "${config.aether.appearance.fonts.icons}";
+						font_family = "${config.aether.theme.fonts.icons}";
 						position = "0, -40";
 						halign = "center";
 						valign = "top";
@@ -74,7 +69,7 @@ in
 
 					{
 						text = "cmd[update:1000] echo \"$(date +\"%A, %B %d\")\"";
-						color = "rgb(${palette.text})";
+						color = "rgb(${palette.foreground0})";
 						font_size = 20;
 						font_family = "${font}";
 						position = "0, 75";
@@ -89,7 +84,7 @@ in
 
 					{
 						text = "$TIME";
-						color = "rgb(${palette.text})";
+						color = "rgb(${palette.foreground0})";
 						font_size = 90;
 						font_family = "${font}";
 						position = "0, 0";
@@ -119,7 +114,7 @@ in
 
 						outer_color = "rgba(00000000)";
 						inner_color = "rgba(00000000)";
-						font_color = "rgb(${palette.text})";
+						font_color = "rgb(${palette.foreground0})";
 						font_family = "${font}";
 
 						fade_on_empty = false;
@@ -132,9 +127,9 @@ in
 						fail_timeout = 3000;
 						fail_transition = 300;
 
-						capslock_color = "rgb(${palette.yellow})";
+						capslock_color = "rgb(${palette.warning})";
 						numlock_color = -1;
-						bothlock_color = "rgb(${palette.yellow})";
+						bothlock_color = "rgb(${palette.warning})";
 						invert_numlock = true;
 
 						swap_font_color = true;

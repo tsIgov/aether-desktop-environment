@@ -1,30 +1,30 @@
 { pkgs, config, aether, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
-	hexToRgb = aether.lib.appearance.hexToRgb;
+	palette = config.aether.theme.color-scheme;
+	hexToRgb = aether.lib.colorUtils.hexToRgb;
 	colors = {
-		background = hexToRgb { hex = palette.base; };
-		foreground = hexToRgb { hex = palette.text; };
+		background = hexToRgb { hex = palette.background0; };
+		foreground = hexToRgb { hex = palette.foreground0; };
 
-		black = hexToRgb { hex = palette.surface1; };
-		light-black = hexToRgb { hex = palette.surface2; };
+		black = hexToRgb { hex = palette.surface0; };
+		light-black = hexToRgb { hex = palette.surface0; };
 
-		white = hexToRgb { hex = palette.text; };
-		light-white = hexToRgb { hex = palette.subtext0; };
+		white = hexToRgb { hex = palette.foreground0; };
+		light-white = hexToRgb { hex = palette.foreground0; };
 
 		red = hexToRgb { hex = palette.red; };
 		green = hexToRgb { hex = palette.green; };
 		yellow = hexToRgb { hex = palette.yellow; };
 		blue = hexToRgb { hex = palette.blue; };
-		magenta = hexToRgb { hex = palette.mauve; };
-		cyan = hexToRgb { hex = palette.sky; };
+		magenta = hexToRgb { hex = palette.magenta; };
+		cyan = hexToRgb { hex = palette.cyan; };
 
-		light-red = hexToRgb { hex = palette.maroon; };
-		light-green = hexToRgb { hex = palette.teal; };
-		light-yellow = hexToRgb { hex = palette.peach; };
-		light-blue = hexToRgb { hex = palette.lavender; };
-		light-magenta = hexToRgb { hex = palette.pink; };
-		light-cyan = hexToRgb { hex = palette.sapphire; };
+		light-red = hexToRgb { hex = palette.red; };
+		light-green = hexToRgb { hex = palette.green; };
+		light-yellow = hexToRgb { hex = palette.yellow; };
+		light-blue = hexToRgb { hex = palette.blue; };
+		light-magenta = hexToRgb { hex = palette.magenta; };
+		light-cyan = hexToRgb { hex = palette.cyan; };
 	};
 in
 {
@@ -32,7 +32,7 @@ in
 
 	services.kmscon = {
 		enable = true;
-		fonts = [ { name = config.aether.appearance.fonts.mono; package = pkgs.nerd-fonts.hack; } ];
+		fonts = [ { name = config.aether.theme.fonts.mono; package = pkgs.nerd-fonts.hack; } ];
 		hwRender = true;
 		autologinUser = config.aether.user.username;
 		extraOptions = "--term xterm-256color";

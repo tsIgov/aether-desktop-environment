@@ -1,6 +1,6 @@
-{ pkgs, config, aether, ... }:
+{ pkgs, config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 	outputDir = "${config.hm.home.homeDirectory}/Pictures/Screenshots";
 in
 {
@@ -20,7 +20,7 @@ in
 			slurp = "${pkgs.slurp}/bin/slurp";
 			grim = "${pkgs.grim}/bin/grim";
 			selectionBorderColor = "#${palette.primary}ff";
-			overlayColor = "#${palette.overlay0}4c";
+			overlayColor = "#${palette.overlay}4c";
 		};
 		mode = "0555";
 	};
@@ -29,37 +29,30 @@ in
 		home.file = {
 			".config/satty/config.toml".source = pkgs.replaceVars ./satty.toml {
 				inherit outputDir;
-				font = config.aether.appearance.fonts.mono;
+				font = config.aether.theme.fonts.mono;
 				colors1 = palette.primary;
 				colors2 = palette.secondary;
-				colors3 = palette.tertiary;
+				colors3 = palette.warning;
 				colors4 = palette.error;
 
-				palette01 = palette.text;
-				palette02 = palette.subtext1;
-				palette03 = palette.subtext0;
-				palette04 = palette.overlay2;
-				palette05 = palette.overlay1;
-				palette06 = palette.overlay0;
+				palette01 = palette.foreground0;
+				palette02 = palette.foreground1;
+				palette03 = palette.foreground2;
+				palette04 = palette.overlay;
 				palette07 = palette.surface2;
 				palette08 = palette.surface1;
 				palette09 = palette.surface0;
-				palette10 = palette.base;
-				palette11 = palette.mantle;
-				palette12 = palette.crust;
-				palette13 = palette.rosewater;
-				palette14 = palette.flamingo;
-				palette15 = palette.pink;
-				palette16 = palette.red;
-				palette17 = palette.maroon;
-				palette18 = palette.peach;
-				palette19 = palette.yellow;
-				palette20 = palette.green;
-				palette21 = palette.teal;
-				palette22 = palette.sky;
-				palette23 = palette.sapphire;
-				palette24 = palette.blue;
-				palette25 = palette.lavender;
+				palette10 = palette.background0;
+				palette11 = palette.background1;
+				palette12 = palette.background2;
+				palette13 = palette.red;
+				palette14 = palette.blue;
+				palette15 = palette.green;
+				palette16 = palette.cyan;
+				palette17 = palette.yellow;
+				palette18 = palette.magenta;
+				palette19 = palette.orange;
+				palette20 = palette.violet;
 			};
 		};
 

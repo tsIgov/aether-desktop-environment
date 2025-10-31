@@ -1,6 +1,6 @@
-{ aether, config, pkgs, ... }:
+{ config, pkgs, ... }:
 let
-	gtkPalette = aether.lib.appearance.getGtkColorDefinitions { inherit config; };
+	gtkPalette = config.aether.theme.gtk-color-scheme;
 in
 {
 	hm = {
@@ -42,8 +42,8 @@ in
 
 		home.file = {
 			".config/waybar/fonts.css".source = pkgs.replaceVars ./fonts.css {
-				fontIcons = config.aether.appearance.fonts.icons;
-				fontMono = config.aether.appearance.fonts.mono;
+				fontIcons = config.aether.theme.fonts.icons;
+				fontMono = config.aether.theme.fonts.mono;
 			};
 			".config/waybar/colors.css".text = gtkPalette;
 		};

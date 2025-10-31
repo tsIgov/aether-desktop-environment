@@ -1,6 +1,0 @@
-[
-	"latte"
-	"frappe"
-	"macchiato"
-	"mocha"
-]

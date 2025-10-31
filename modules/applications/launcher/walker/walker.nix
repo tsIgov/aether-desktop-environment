@@ -1,6 +1,6 @@
 { aether, config, ... }:
 let
-	gtkPalette = aether.lib.appearance.getGtkColorDefinitions { inherit config; };
+	gtkPalette = config.aether.theme.gtk-color-scheme;
 in
 {
 	nix.settings = {

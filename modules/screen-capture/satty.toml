@@ -47,8 +47,6 @@ custom = [
 	"#@palette02@",
 	"#@palette03@",
 	"#@palette04@",
-	"#@palette05@",
-	"#@palette06@",
 	"#@palette07@",
 	"#@palette08@",
 	"#@palette09@",
@@ -63,9 +61,4 @@ custom = [
 	"#@palette18@",
 	"#@palette19@",
 	"#@palette20@",
-	"#@palette21@",
-	"#@palette22@",
-	"#@palette23@",
-	"#@palette24@",
-	"#@palette25@",
 ]

@@ -2,17 +2,13 @@
 	stdenv,
 	inkscape,
 
-	aetherLib,
-	flavor ? "mocha",
-	accent ? "mauve"
+	background-color ? null,
+	foreground-color ? null
 }:
 let
-	name = "aether-wallpapers-${flavor}-${accent}";
+	name = "aether-wallpapers";
 	pname = "aether-wallpapers";
 	version = "1.0";
-
-	foreground-color = aetherLib.appearance.flavors.${flavor}.${accent};
-	background-color = aetherLib.appearance.flavors.${flavor}.base;
 in
 
 stdenv.mkDerivation {

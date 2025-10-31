@@ -1,6 +1,6 @@
-{ aether, config, ... }:
+{ config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	hm = {
@@ -51,9 +51,9 @@ in
 							mode-mon-col = 3;
 							on-scroll = 1;
 							format = {
-								months = "<span color='#${palette.subtext0}'><b>{}</b></span>";
+								months = "<span color='#${palette.foreground1}'><b>{}</b></span>";
 								weekdays = "<span color='#${palette.primary}'><b>{}</b></span>";
-								days = "<span color='#${palette.text}'><b>{}</b></span>";
+								days = "<span color='#${palette.foreground0}'><b>{}</b></span>";
 								today = "<span color='#${palette.secondary}'><b>{}</b></span>";
 							};
 						};

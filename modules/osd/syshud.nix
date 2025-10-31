@@ -1,6 +1,6 @@
-{ aether, config, pkgs, ... }:
+{ config, pkgs, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	hm = {
@@ -16,8 +16,8 @@ in
 
 		home.file = {
 			".config/sys64/hud/style.css".source = pkgs.replaceVars ./syshud.css {
-				colorBackground = "#${palette.mantle}";
-				colorText = "#${palette.text}";
+				colorBackground = "#${palette.background1}";
+				colorText = "#${palette.foreground0}";
 				colorPrimary = "#${palette.primary}";
 			};
 		};

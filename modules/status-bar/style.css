@@ -9,7 +9,7 @@
 }
 
 #waybar {
-	background-color: @mantle;
+	background-color: @background0;
 	color: @text;
 	border: 2px solid @surface0;
 	font-size: 14px;
@@ -29,7 +29,7 @@
 }
 
 .normal {
-	color: @text
+	color: @foreground0
 }
 
 #custom-idle,
@@ -43,7 +43,7 @@
 }
 
 #workspaces button {
-	color: @text;
+	color: @foreground0;
 	padding-right: 4px;
 }
 
@@ -130,13 +130,13 @@
 #custom-keyboard-left,
 #custom-keyboard-right  {
 	color:@surface0;
-	background: @mantle;
+	background: @background1;
 	font-size: 20px;
 }
 
 
 tooltip {
-	background-color: @mantle;
+	background-color: @background1;
 	color: @text;
 	border: 1px solid @surface0;
 	font-size: 13px;
@@ -157,5 +157,5 @@ tooltip {
     min-height: 4px;
     min-width: 80px;
     border-radius: 2px;
-    background-color: @crust;
+    background-color: @background2;
 }

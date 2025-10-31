@@ -1,6 +1,6 @@
-{ lib, config, aether, ... }:
+{ lib, config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	hm = {
@@ -10,11 +10,11 @@ in
 			settings = {
 				format = lib.concatStrings [
 					"$shell"
-					"[](fg:#${palette.surface0} bg:#${palette.base})"
-					"[](fg:#${palette.surface0} bg:#${palette.base})"
+					"[](fg:#${palette.surface0} bg:#${palette.background0})"
+					"[](fg:#${palette.surface0} bg:#${palette.background0})"
 					"$directory"
-					"[](fg:#${palette.surface0} bg:#${palette.base})"
-					"[](fg:#${palette.surface0} bg:#${palette.base})"
+					"[](fg:#${palette.surface0} bg:#${palette.background0})"
+					"[](fg:#${palette.surface0} bg:#${palette.background0})"
 					"$git_branch"
 					"$git_status"
 					"[](fg:#${palette.surface0})"
@@ -22,7 +22,7 @@ in
 				];
 
 				shell = {
-					style = "bold bg:#${palette.surface0} fg:#${palette.text}";
+					style = "bold bg:#${palette.surface0} fg:#${palette.foreground0}";
 					format = "[ $indicator ]($style)";
 					disabled = false;
 				};
@@ -41,7 +41,7 @@ in
 				};
 
 				git_status = {
-					style = "fg:#${palette.tertiary} bg:#${palette.surface0}";
+					style = "fg:#${palette.warning} bg:#${palette.surface0}";
 					format = "[$all_status$ahead_behind ]($style)";
 				};
 

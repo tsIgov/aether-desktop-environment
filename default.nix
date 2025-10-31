@@ -1,4 +1,4 @@
-{ pkgs, aether, internal, home-module }: { specialArgs ? {}, modules ? [] }:
+{ pkgs, aether, home-module }: { specialArgs ? {}, modules ? [] }:
 let
 	specialArgsFinal = specialArgs // { inherit aether; };
 

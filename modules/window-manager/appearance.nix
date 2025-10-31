@@ -1,6 +1,6 @@
-{ config, aether, ... }:
+{ config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	hm = {
@@ -12,8 +12,8 @@ in
 				gaps_workspaces = 0;
 
 				"col.active_border" = "rgb(${palette.primary})";
-				"col.inactive_border" = "rgb(${palette.overlay0})";
-				"col.nogroup_border" = "rgb(${palette.overlay0})";
+				"col.inactive_border" = "rgb(${palette.overlay})";
+				"col.nogroup_border" = "rgb(${palette.overlay})";
 				"col.nogroup_border_active" = "rgb(${palette.primary})";
 			};
 
@@ -40,9 +40,9 @@ in
 
 			group = {
 				"col.border_active" = "rgb(${palette.secondary})";
-				"col.border_inactive" = "rgb(${palette.tertiary})";
+				"col.border_inactive" = "rgb(${palette.surface2})";
 				"col.border_locked_active" = "rgb(${palette.primary})";
-				"col.border_locked_inactive" = "rgb(${palette.overlay0})";
+				"col.border_locked_inactive" = "rgb(${palette.overlay})";
 
 				groupbar = {
 					enabled = true;
@@ -51,9 +51,9 @@ in
 					keep_upper_gap = false;
 
 					"col.active" = "rgb(${palette.secondary})";
-					"col.inactive" = "rgb(${palette.overlay0})";
+					"col.inactive" = "rgb(${palette.overlay})";
 					"col.locked_active" = "rgb(${palette.primary})";
-					"col.locked_inactive" = "rgb(${palette.overlay0})";
+					"col.locked_inactive" = "rgb(${palette.overlay})";
 				};
 			};
 
@@ -61,7 +61,7 @@ in
 				disable_hyprland_logo = true;
 				disable_splash_rendering = true;
 				force_default_wallpaper = 0;
-				background_color = "rgb(${palette.base})";
+				background_color = "rgb(${palette.background0})";
 			};
 		};
 	};

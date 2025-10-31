@@ -3,30 +3,28 @@
 	lib,
 	catppuccin-papirus-folders,
 
-	aetherLib,
 	recolor,
-	flavor ? "mocha",
-	accent ? "mauve"
+	color-scheme ? null
 }:
 let
-	name = "aether-icons-${flavor}-${accent}";
+	name = "aether-icons";
 	pname = "aether-icons";
 	version = "1.0";
-in
 
-lib.checkListOfEnum "${pname}: flavor" aetherLib.appearance.validFlavors [ flavor ]
-lib.checkListOfEnum "${pname}: accent" aetherLib.appearance.validAccents [ accent ]
+	recolorOvrd = recolor.override {
+		inherit color-scheme;
+	};
+in
 
 stdenv.mkDerivation {
 	inherit name pname version;
 
+	src = (catppuccin-papirus-folders.override { flavor = "mocha"; accent = "mauve"; }).overrideAttrs (oldAttrs: { dontFixup = true; });
 
-	src = (catppuccin-papirus-folders.override { inherit flavor accent; }).overrideAttrs (oldAttrs: { dontFixup = true; });
-
-	buildInputs = [ recolor ];
+	buildInputs = [ recolorOvrd ];
 
 	buildPhase = ''
-		${recolor}/bin/aether-recolor share/icons/Papirus $TMPDIR/output
+		${recolorOvrd}/bin/aether-recolor share/icons/Papirus $TMPDIR/output
 	'';
 
 	installPhase = ''

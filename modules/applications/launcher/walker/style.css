@@ -5,7 +5,7 @@
 }
 
 selection {
-	background: alpha(@overlay2, 0.3);
+	background: alpha(@overlay, 0.3);
 }
 
 .normal-icons {	-gtk-icon-size: 16px; }
@@ -19,12 +19,12 @@ scrollbar {
 
 
 .fullscreen {
-	background: alpha(@crust, 0.4);
+	background: alpha(@background2, 0.4);
 }
 
 .box-wrapper {
-	background: @crust;
-	color: @text;
+	background: @background2;
+	color: @foreground0;
   	font-size: 14px;
 	padding: 20px;
 	border-radius: 4px;
@@ -37,25 +37,25 @@ scrollbar {
 }
 
 .input {
-	caret-color: @text;
-	background: @mantle;
+	caret-color: @foreground0;
+	background: @background1;
 	padding: 10px;
 }
 
 .input placeholder {
-	color: @subtext;
+	color: @foreground1;
 }
 .input:focus,
 .input:active {
 }
 
 .content-container {
-	background: @crust;
+	background: @background2;
 	font-weight: bold;
 }
 
 .list {
-	color: @text;
+	color: @foreground0;
 }
 
 child {
@@ -73,7 +73,7 @@ child:selected .item-box {
 
 .item-quick-activation {
   margin-left: 10px;
-  background: @mantle;
+  background: @background1;
   border-radius: 4px;
   padding: 10px;
 }
@@ -100,7 +100,7 @@ child:selected .item-box {
 .keybind-hints {
   font-size: 12px;
   opacity: 0.5;
-  color: @subtext;
+  color: @foreground1;
 }
 
 .preview {

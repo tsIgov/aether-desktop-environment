@@ -1,14 +1,14 @@
-{ config, aether, ... }:
+{ config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	hm = {
 		programs.kitty = {
 			enable = true;
 			font = {
-				name = config.aether.appearance.fonts.mono;
-				size = config.aether.appearance.fonts.size;
+				name = config.aether.theme.fonts.mono;
+				size = config.aether.theme.fonts.size;
 			};
 
 			settings = {
@@ -18,57 +18,57 @@ in
 				confirm_os_window_close = 0;
 				enable_audio_bell = "no";
 
-				foreground ="#${palette.text}";
-				background = "#${palette.base}";
-				selection_foreground = "#${palette.base}";
+				foreground ="#${palette.foreground0}";
+				background = "#${palette.background0}";
+				selection_foreground = "#${palette.background2}";
 				selection_background = "#${palette.primary}";
 
 				cursor = "#${palette.primary}";
-				cursor_text_color = "#${palette.crust}";
+				cursor_text_color = "#${palette.background2}";
 
 				url_color = "#${palette.secondary}";
 				url_style = "straight";
 
-				mark1_foreground = "#${palette.crust}";
+				mark1_foreground = "#${palette.background2}";
 				mark1_background = "#${palette.primary}";
-				mark2_foreground = "#${palette.crust}";
+				mark2_foreground = "#${palette.background2}";
 				mark2_background = "#${palette.secondary}";
-				mark3_foreground = "#${palette.crust}";
-				mark3_background = "#${palette.tertiary}";
+				mark3_foreground = "#${palette.background2}";
+				mark3_background = "#${palette.secondary}";
 
 				# The 16 terminal colors
 
 				# black
-				color0 = "#${palette.surface1}";
-				color8 = "#${palette.surface2}";
+				color0 = "#${palette.surface0}";
+				color8 = "#${palette.surface0}";
 
 				# red
 				color1 = "#${palette.red}";
-				color9 = "#${palette.maroon}";
+				color9 = "#${palette.red}";
 
 				# green
 				color2 = "#${palette.green}";
-				color10 = "#${palette.teal}";
+				color10 = "#${palette.green}";
 
 				# yellow
 				color3 = "#${palette.yellow}";
-				color11 = "#${palette.peach}";
+				color11 = "#${palette.yellow}";
 
 				# blue
 				color4 = "#${palette.blue}";
-				color12 = "#${palette.lavender}";
+				color12 = "#${palette.blue}";
 
 				# magenta
-				color5 = "#${palette.mauve}";
-				color13 = "#${palette.pink}";
+				color5 = "#${palette.magenta}";
+				color13 = "#${palette.magenta}";
 
 				# cyan
-				color6 = "#${palette.sky}";
-				color14 = "#${palette.sapphire}";
+				color6 = "#${palette.cyan}";
+				color14 = "#${palette.cyan}";
 
 				# white
-				color7 = "#${palette.text}";
-				color15 = "#${palette.subtext0}";
+				color7 = "#${palette.foreground0}";
+				color15 = "#${palette.foreground0}";
 			};
 
 			keybindings = {

@@ -1,15 +1,15 @@
-{ pkgs, config, aether, ... }:
+{ pkgs, config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	environment.systemPackages = with pkgs; [
 		(where-is-my-sddm-theme.override {
 			themeConfig.General = {
-				backgroundFill = "#${palette.base}";
-				basicTextColor = "#${palette.subtext0}";
+				backgroundFill = "#${palette.background0}";
+				basicTextColor = "#${palette.foreground1}";
 				passwordCursorColor = "#${palette.primary}";
-				passwordInputBackground = "#${palette.base}";
+				passwordInputBackground = "#${palette.background0}";
 				passwordTextColor = "#${palette.primary}";
 				cursorBlinkAnimation = true;
 				hideCursor = true;

@@ -1,6 +1,6 @@
-{ pkgs, config, aether, ... }:
+{ pkgs, config, ... }:
 let
-	palette = aether.lib.appearance.getPalette { inherit config; };
+	palette = config.aether.theme.color-scheme;
 in
 {
 	hm = {
@@ -9,28 +9,28 @@ in
 				{
 					"useCustomTheme": true,
 					"TitleFore": "#${palette.primary}",
-					"TitleInfo": "#${palette.subtext0}",
-					"NormalTitle": "#${palette.text}",
-					"DimmedTitle": "#${palette.subtext0}",
+					"TitleInfo": "#${palette.foreground1}",
+					"NormalTitle": "#${palette.foreground0}",
+					"DimmedTitle": "#${palette.foreground1}",
 					"SelectedTitle": "#${palette.primary}",
-					"NormalDesc": "#${palette.surface2}",
-					"DimmedDesc": "#${palette.surface2}",
-					"SelectedDesc": "#${palette.surface2}",
+					"NormalDesc": "#${palette.surface0}",
+					"DimmedDesc": "#${palette.surface0}",
+					"SelectedDesc": "#${palette.surface0}",
 					"StatusMsg": "#${palette.secondary}",
 					"PinIndicatorColor": "#${palette.secondary}",
 					"SelectedBorder": "#${palette.primary}",
 					"SelectedDescBorder": "#${palette.primary}",
-					"FilteredMatch": "#${palette.text}",
+					"FilteredMatch": "#${palette.foreground0}",
 					"FilterPrompt": "#${palette.primary}",
 					"FilterInfo": "#${palette.secondary}",
-					"FilterText": "#${palette.text}",
+					"FilterText": "#${palette.foreground0}",
 					"FilterCursor": "#${palette.primary}",
 					"HelpKey": "#${palette.primary}",
-					"HelpDesc": "#${palette.subtext0}",
+					"HelpDesc": "#${palette.foreground1}",
 					"PageActiveDot": "#${palette.primary}",
-					"PageInactiveDot": "#${palette.surface2}",
+					"PageInactiveDot": "#${palette.surface0}",
 					"DividerDot": "#${palette.primary}",
-					"PreviewedText": "#${palette.text}",
+					"PreviewedText": "#${palette.foreground0}",
 					"PreviewBorder": "#${palette.primary}"
 				}
 			'';

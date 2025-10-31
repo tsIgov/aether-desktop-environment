@@ -1,7 +1,4 @@
 { pkgs, config, aether, ... }:
-let
-	palette = aether.lib.appearance.getPalette { inherit config; };
-in
 {
 	environment.systemPackages = with pkgs; [
 		clipse

@@ -1,14 +1,12 @@
-{ stdenv, makeWrapper, lib, aetherLib, python3, flavor ? "mocha", ... }:
+{ stdenv, makeWrapper, lib, python3, color-scheme ? null, ... }:
 let
-	name = "aether-recolor-${flavor}";
+	name = "aether-recolor";
 	pname = "aether-recolor";
 	version = "1.0";
 
 	python = (python3.withPackages (pp: [ pp.tqdm pp.pillow ]));
-	createPlalette = import ./createPalette.nix aetherLib flavor;
+	createPlalette = import ./createPalette.nix color-scheme;
 in
-
-lib.checkListOfEnum "${pname}: flavor" aetherLib.appearance.validFlavors [ flavor ]
 
 stdenv.mkDerivation {
 	inherit name pname version;

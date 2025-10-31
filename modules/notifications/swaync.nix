@@ -1,6 +1,6 @@
-{ config, aether, ... }:
+{ config, ... }:
 let
-	gtkPalette = aether.lib.appearance.getGtkColorDefinitions { inherit config; };
+	gtkPalette = config.aether.theme.gtk-color-scheme;
 in
 {
 	hm = {
@@ -30,7 +30,7 @@ in
 		};
 
 		home.file.".config/swaync/colors.css".text = gtkPalette;
-		home.file.".config/swaync/font.css".text = ''* { font-family: "${config.aether.appearance.fonts.regular}"; }'';
+		home.file.".config/swaync/font.css".text = ''* { font-family: "${config.aether.theme.fonts.regular}"; }'';
 
 		wayland.windowManager.hyprland = {
 			extraConfig = ''

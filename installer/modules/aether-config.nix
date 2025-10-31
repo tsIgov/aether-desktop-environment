@@ -1,9 +1,10 @@
-{ ... }:
+{ aether, ... }:
 {
 	config = {
 		aether.connectivity.hostname = "aether-os";
 		aether.user.username = "aether";
 		aether.user.description = "aether";
+		aether.theme = { inherit (aether.themes.catppuccin { flavor = "mocha"; }) color-scheme fonts; };
 	};
 
 	imports = [
@@ -22,7 +23,8 @@
 		../modules/terminal/starship.nix
 		../modules/terminal/tty.nix
 
-		../modules/appearance/colors.nix
+		../modules/theme/color-scheme.nix
+		../modules/theme/fonts.nix
 	];
 
 }

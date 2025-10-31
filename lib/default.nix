@@ -1,5 +1,5 @@
-lib:
+{ pkgs, lib }:
 {
-	appearance = import ./appearance { inherit lib; };
+	colorUtils = import ./colorUtils { inherit lib; };
 	moduleUtils = import ./moduleUtils { inherit lib; };
 }

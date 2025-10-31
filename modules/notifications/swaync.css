@@ -10,15 +10,15 @@
 
 
 .notification-content .summary {
-  color: @text;
+  color: @foreground0;
 }
 
 .notification-content .time {
-  color: @subtext0;
+  color: @foreground1;
 }
 
 .notification-content .body {
-  color: @text;
+  color: @foreground0;
 }
 
 
@@ -26,9 +26,9 @@
 
 .floating-notifications.background .notification-row .notification-background {
 
-  background-color: @mantle;
+  background-color: @background1;
   margin: 10px;
-  color: @text;
+  color: @foreground0;
 }
 
 .floating-notifications.background .notification-row .notification-background .notification {
@@ -46,14 +46,14 @@
 .control-center {
   border-radius: 2px;
   border: 1px solid @primary;
-  background-color: @mantle;
+  background-color: @background1;
   margin: 10px;
   color: @text;
   padding: 14px;
 }
 
 .control-center .widget-title > label {
-  color: @text;
+  color: @foreground0;
   font-size: 1.3em;
 }
 
@@ -61,7 +61,7 @@
   border-radius: 2px;
   border: 1px solid @surface1;
   background-color: @surface0;
-  color: @text;
+  color: @foreground0;
   padding: 4px;
 }
 
@@ -69,18 +69,18 @@
 .control-center .widget-title button:focus {
   background-color: @surface1;
   border: 1px solid @surface2;
-  color: @text;
+  color: @foreground0;
 }
 
 .control-center .widget-title button:active {
   background-color: @surface2;
   border: 1px solid @surface2;
-  color: @text;
+  color: @foreground0;
 }
 
 .control-center .notification-row .notification-background {
-  color: @text;
-  background-color: @base;
+  color: @foreground0;
+  background-color: @background0;
   border-radius: 2px;
   border: 1px solid @surface0;
   margin-top: 14px;
@@ -144,13 +144,13 @@
 .widget-dnd > switch slider {
   background: @surface1;
   border-radius: 8px;
-  border: 1px solid @overlay0;
+  border: 1px solid @overlay;
 }
 
 
 
 .widget-label > label {
-  color: @text;
+  color: @foreground0;
   font-size: 2rem;
 }
 
@@ -169,7 +169,7 @@
   padding: 2px;
   border-radius: 2px;
   background-color: @primary;
-  color: @base;
+  color: @background0;
   opacity: 0.8;
 }
 
@@ -184,7 +184,7 @@
 
 
 .notification-action {
-  color: @text;
+  color: @foreground0;
   margin: 7px;
   border-radius: 2px;
   border: 1px solid @surface1;

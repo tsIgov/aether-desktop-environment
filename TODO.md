@@ -24,6 +24,8 @@ Win + F doesn't revert full screen but maximizes instead
 
 eza instead of ls
 
+pkgs.nixosOptionsDoc
+
 ## Float
 class": "code",
 "title": "Choose a folder to clone https://github.com/tsIgov/aether-os.git into",

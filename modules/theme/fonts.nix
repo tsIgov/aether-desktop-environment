@@ -1,28 +1,25 @@
 { pkgs, config, lib, ... }:
 let
 	inherit (lib) mkOption;
-	inherit (lib.types) str ints;
+	inherit (lib.types) str ints listOf path;
 
-	cfg = config.aether.appearance.fonts;
+	cfg = config.aether.theme.fonts;
 in
 {
-	options.aether.appearance = {
+	options.aether.theme = {
 		fonts = {
 			size = mkOption { type = ints.positive; default = 11; };
 			regular = mkOption { type = str; default = "Inter"; };
 			mono = mkOption { type = str; default = "Hack Nerd Font Mono"; };
 			emoji = mkOption { type = str; default = "Noto Emoji"; };
 			icons = mkOption { type = str; default = "Hack Nerd Font Propo"; };
+			packages = mkOption { type = listOf path; default = with pkgs; [ inter nerd-fonts.hack noto-fonts-monochrome-emoji ]; };
 		};
 	};
 
 	config = {
 		fonts = {
-			packages = with pkgs; [
-				inter
-				nerd-fonts.hack
-				noto-fonts-monochrome-emoji
-			];
+			packages = cfg.packages;
 			fontconfig = {
 				enable = true;
 				defaultFonts = {
