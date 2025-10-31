@@ -129,8 +129,8 @@
 #custom-system-right,
 #custom-keyboard-left,
 #custom-keyboard-right  {
-	color:@surface0;
-	background: @background1;
+	color: @surface0;
+	background: @background0;
 	font-size: 20px;
 }
 
@@ -144,18 +144,3 @@ tooltip {
 	font-family: Hack Nerd Font Mono;
 }
 
-
-#pulseaudio-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-    box-shadow: none;
-}
-#pulseaudio-slider trough {
-    min-height: 4px;
-    min-width: 80px;
-    border-radius: 2px;
-    background-color: @background2;
-}
