@@ -93,4 +93,10 @@ in
 			color-scheme = color-schemes.${flavor};
 		};
 	};
+
+	plymouth = {
+		package = pkgs.catppuccin-plymouth.override { variant = flavor; };
+		name = "catppuccin-${flavor}";
+		font = "${pkgs.nerd-fonts.hack}/share/fonts/truetype/NerdFonts/Hack/HackNerdFontMono-Regular.ttf";
+	};
 }
